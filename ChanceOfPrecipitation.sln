@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChanceOfPrecipitation", "ChanceOfPrecipitation\ChanceOfPrecipitation\ChanceOfPrecipitation.csproj", "{A4821D90-A32A-4A6D-B7BE-8FF5DE03CC67}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "ChanceOfPrecipitationContent", "ChanceOfPrecipitation\ChanceOfPrecipitationContent\ChanceOfPrecipitationContent.contentproj", "{FD09203B-E55B-4338-8899-01B3D535D60B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A4821D90-A32A-4A6D-B7BE-8FF5DE03CC67}.Debug|x86.ActiveCfg = Debug|x86
+		{A4821D90-A32A-4A6D-B7BE-8FF5DE03CC67}.Debug|x86.Build.0 = Debug|x86
+		{A4821D90-A32A-4A6D-B7BE-8FF5DE03CC67}.Release|x86.ActiveCfg = Release|x86
+		{A4821D90-A32A-4A6D-B7BE-8FF5DE03CC67}.Release|x86.Build.0 = Release|x86
+		{FD09203B-E55B-4338-8899-01B3D535D60B}.Debug|x86.ActiveCfg = Debug|x86
+		{FD09203B-E55B-4338-8899-01B3D535D60B}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
