@@ -7,12 +7,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ChanceOfPrecipitation
 {
-    public abstract class GameObject
-    {
+    public abstract class GameObject {
         public bool toDestroy { get; private set; }
 
-        public void Destroy()
-        {
+        public void Destroy() {
             toDestroy = true;
         }
 

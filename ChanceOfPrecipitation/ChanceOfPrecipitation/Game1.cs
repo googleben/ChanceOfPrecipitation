@@ -14,13 +14,20 @@ namespace ChanceOfPrecipitation {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        private List<GameObject> objects;
+
+        public static Game1 Instance;
+
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            objects = new List<GameObject>();
+
+            Instance = this;
         }
 
         protected override void Initialize() {
-
             base.Initialize();
         }
 
@@ -34,6 +41,8 @@ namespace ChanceOfPrecipitation {
         protected override void Update(GameTime gameTime) {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
+
+            Utilities.Update();
 
             base.Update(gameTime);
         }

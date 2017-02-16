@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MissileCommand
+namespace ChanceOfPrecipitation
 {
     using System;
     using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace MissileCommand
 
     class Utilities
     {
-        public static void update()
+        public static void Update()
         {
             EventMouse.update();
             KB.update();
