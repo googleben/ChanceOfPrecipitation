@@ -115,7 +115,7 @@ namespace ChanceOfPrecipitation {
         }
 
         public override void generateOptions() {
-            options.Add(new MenuOption("Play", () => { return this; }));
+            options.Add(new MenuOption("Play", () => { return Playing.Instance; }));
             options.Add(new MenuOption("Settings", () => new SettingsMenu(this)));
             base.generateOptions();
         }
