@@ -42,7 +42,6 @@ namespace ChanceOfPrecipitation {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            Utilities.Update();
 
             base.Update(gameTime);
         }
