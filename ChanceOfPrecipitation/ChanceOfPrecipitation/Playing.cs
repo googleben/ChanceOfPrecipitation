@@ -41,7 +41,6 @@ namespace ChanceOfPrecipitation {
                 return new MainMenu();
             }
 
-
             return this;
         }
     }

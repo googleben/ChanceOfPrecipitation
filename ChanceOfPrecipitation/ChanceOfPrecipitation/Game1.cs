@@ -60,6 +60,7 @@ namespace ChanceOfPrecipitation {
             f.Close();
             fonts.Add("MenuFont", Content.Load<SpriteFont>("MenuFont"));
 
+            TextureManager.Textures.Add("HealthBar", Content.Load<Texture2D>("HealthBar"));
         }
         protected override void UnloadContent() {
         }
