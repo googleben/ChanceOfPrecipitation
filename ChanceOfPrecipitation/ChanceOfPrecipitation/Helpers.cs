@@ -7,6 +7,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ChanceOfPrecipitation
 {
+
+    [Flags]
+    public enum Collision {
+        None = 0, Left = 1, Right = 2, Top = 4, Bottom = 8
+    }
+
     public abstract class GameObject {
         public bool toDestroy { get; private set; }
 
@@ -17,4 +23,19 @@ namespace ChanceOfPrecipitation
         public abstract void Update(IEnumerable<GameObject> objects);
         public abstract void Draw(SpriteBatch sb);
     }
+
+    public interface Collidable {
+
+        void Collide(Collision side, float amount);
+
+
+
+    }
+
+    public interface StaticObject {
+
+        void Collide(Collidable c);
+
+    }
+
 }
