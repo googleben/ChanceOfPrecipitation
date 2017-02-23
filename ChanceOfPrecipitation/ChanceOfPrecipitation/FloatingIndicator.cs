@@ -37,7 +37,7 @@ namespace ChanceOfPrecipitation
 
             center = position.X;
 
-            Bounds = digit => new Rectangle((int)(position.X) + digit * (scale * 2), (int)position.Y, scale * 2, scale * 5);
+            Bounds = digit => new Rectangle((int)(position.X) + digit * (scale * 2) + (digit - 1) * spacing, (int)position.Y, scale * 2, scale * 5);
         }
 
         public override void Update(IEnumerable<GameObject> objects)
