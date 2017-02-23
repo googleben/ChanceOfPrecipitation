@@ -9,7 +9,7 @@ namespace ChanceOfPrecipitation
 {
 
     [Flags]
-    public enum Collision {
+    public enum Collision : int {
         None = 0, Left = 1, Right = 2, Top = 4, Bottom = 8
     }
 

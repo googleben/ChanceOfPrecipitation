@@ -24,6 +24,8 @@ namespace ChanceOfPrecipitation
 
         Texture2D texture;
 
+        public float maxSpeed = 5f;
+
         public Player(float x, float y, float width, float height) {
             this.bounds = new RectangleF(x, y, width, height);
             this.texture = TextureManager.Textures["HealthBar"];
@@ -31,11 +33,13 @@ namespace ChanceOfPrecipitation
 
         public override void Update(IEnumerable<GameObject> objects) {
             var state = Playing.Instance.state;
+            
             if (state.IsKeyDown(left)) {
-                this.velocity.X -= speed;
-            }
-            if (state.IsKeyDown(right)) {
-                this.velocity.X += speed;
+                this.velocity.X = -maxSpeed;
+            } else if (state.IsKeyDown(right)) {
+                this.velocity.X = maxSpeed;
+            } else {
+                this.velocity.X = 0;
             }
             this.velocity += Playing.Instance.gravity;
             this.bounds.X += velocity.X;
@@ -47,6 +51,7 @@ namespace ChanceOfPrecipitation
         }
 
         public void Collide(Collision side, float amount) {
+            Console.WriteLine(side);
             collision |= side;
             if (side==Collision.Right) {
                 this.bounds.X -= amount;

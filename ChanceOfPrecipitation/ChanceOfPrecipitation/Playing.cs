@@ -32,6 +32,9 @@ namespace ChanceOfPrecipitation {
             lastState = state = Keyboard.GetState();
             player = new Player(0, 0, 64, 64);
             objects.Add(player);
+            for (int i = 0; i<1280-64; i+=64) {
+                objects.Add(new Block(i, 600, "Square"));
+            } 
         }
 
         public void Draw(SpriteBatch sb) {
@@ -45,6 +48,14 @@ namespace ChanceOfPrecipitation {
             if (state.IsKeyDown(Keys.Escape)) {
                 Menu.lastState = state;
                 return new MainMenu();
+            }
+
+            for (int i = 0; i < objects.Count; i++) {
+                var o = objects[i];
+                if (o.toDestroy) { objects.RemoveAt(i--); continue; }
+                o.Update(objects);
+                if (o is StaticObject) (o as StaticObject).Collide(player);
+                if (o.toDestroy) objects.RemoveAt(i--);
             }
 
             return this;
