@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Block.cs" />
+    <Compile Include="FloatingIndicator.cs" />
     <Compile Include="HealthBar.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Menu.cs" />
