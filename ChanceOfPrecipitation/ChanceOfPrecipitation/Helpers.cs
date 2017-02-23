@@ -28,7 +28,7 @@ namespace ChanceOfPrecipitation
 
         void Collide(Collision side, float amount);
 
-
+        RectangleF Bounds();
 
     }
 

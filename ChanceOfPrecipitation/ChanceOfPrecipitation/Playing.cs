@@ -19,13 +19,19 @@ namespace ChanceOfPrecipitation {
 
         public List<GameObject> objects;
 
+        public Vector2 gravity = new Vector2(0, 1);
+
         public KeyboardState state;
         public KeyboardState lastState;
+
+        public Player player;
 
         public Playing() {
             objects = new List<GameObject>();
             instance = this;
             lastState = state = Keyboard.GetState();
+            player = new Player(0, 0, 64, 64);
+            objects.Add(player);
         }
 
         public void Draw(SpriteBatch sb) {
