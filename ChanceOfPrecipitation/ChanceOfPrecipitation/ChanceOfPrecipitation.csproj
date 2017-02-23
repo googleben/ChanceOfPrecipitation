@@ -57,6 +57,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FloatingIndicator.cs" />
     <Compile Include="HealthBar.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Menu.cs" />
