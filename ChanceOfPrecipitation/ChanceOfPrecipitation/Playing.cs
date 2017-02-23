@@ -34,7 +34,9 @@ namespace ChanceOfPrecipitation {
             objects.Add(player);
             for (int i = 0; i<1280-64; i+=64) {
                 objects.Add(new Block(i, 600, "Square"));
-            } 
+            }
+
+            objects.Add(new FloatingIndicator(new Vector2(100, 100), 3, 0.1f, 3, 0.5f, 5, Color.White, 35436));
         }
 
         public void Draw(SpriteBatch sb) {

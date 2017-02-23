@@ -63,7 +63,6 @@ namespace ChanceOfPrecipitation
         {
             currentHealth -= amount;
 
-            // TODO: Get this to work
             if (currentHealth <= 0)
                 Destroy();
         }
