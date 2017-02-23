@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace ChanceOfPrecipitation
 {
-    public class Player : GameObject, Collidable {
+    public class Player : GameObject, Collidable, Entity {
 
         RectangleF bounds;
         Vector2 velocity;
@@ -21,10 +21,19 @@ namespace ChanceOfPrecipitation
         Keys up = Keys.Up;
         Keys down = Keys.Down;
         Keys jump = Keys.Space;
+        Keys abilityOneKey = Keys.J;
+
+        Ability abilityOne;
 
         Texture2D texture;
 
         public float maxSpeed = 5f;
+
+        public float jumpSpeed = 10f;
+
+        public float health;
+
+        int facing = 1;
 
         public Player(float x, float y, float width, float height) {
             this.bounds = new RectangleF(x, y, width, height);
@@ -35,12 +44,23 @@ namespace ChanceOfPrecipitation
             var state = Playing.Instance.state;
             
             if (state.IsKeyDown(left)) {
+                facing = -1;
                 this.velocity.X = -maxSpeed;
             } else if (state.IsKeyDown(right)) {
+                facing = 1;
                 this.velocity.X = maxSpeed;
             } else {
                 this.velocity.X = 0;
             }
+
+            if (state.IsKeyDown(jump) && collision.HasFlag(Collision.Bottom)) {
+                this.velocity.Y = -jumpSpeed;
+            }
+
+            if (state.IsKeyDown(abilityOneKey)) ;//TODO: Add ability
+
+            collision = 0;
+
             this.velocity += Playing.Instance.gravity;
             this.bounds.X += velocity.X;
             this.bounds.Y += velocity.Y;
@@ -70,6 +90,14 @@ namespace ChanceOfPrecipitation
 
         public RectangleF Bounds() {
             return bounds;
+        }
+
+        public float Health() {
+            return health;
+        }
+
+        public void Damage(float amount) {
+            this.health -= amount;
         }
 
     }

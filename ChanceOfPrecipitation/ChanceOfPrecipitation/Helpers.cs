@@ -13,6 +13,11 @@ namespace ChanceOfPrecipitation
         None = 0, Left = 1, Right = 2, Top = 4, Bottom = 8
     }
 
+    public interface Entity {
+        float Health();
+        void Damage(float amount);
+    }
+
     public abstract class GameObject {
         public bool toDestroy { get; private set; }
 
@@ -26,7 +31,7 @@ namespace ChanceOfPrecipitation
 
     public interface Collidable {
 
-        void Collide(Collision side, float amount);
+        void Collide(Collision side, float amount, StaticObject origin);
 
         RectangleF Bounds();
 
