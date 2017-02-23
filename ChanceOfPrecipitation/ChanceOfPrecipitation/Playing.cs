@@ -15,7 +15,7 @@ namespace ChanceOfPrecipitation {
 
         private static Playing instance;
 
-        public static Playing Instance { get { if (instance == null) new Playing(); return instance; } }
+        public static Playing Instance => instance ?? new Playing();
 
         public List<GameObject> objects;
 

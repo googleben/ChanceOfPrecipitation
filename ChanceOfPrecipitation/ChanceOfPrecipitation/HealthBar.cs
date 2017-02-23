@@ -67,5 +67,11 @@ namespace ChanceOfPrecipitation
             if (currentHealth <= 0)
                 Destroy();
         }
+
+        public void AlignHorizontally(Rectangle value)
+        {
+            var offset = BorderBounds.Center.X - value.Center.X;
+            position.X -= offset;
+        }
     }
 }
