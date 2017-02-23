@@ -57,6 +57,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abilities.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="FloatingIndicator.cs" />
     <Compile Include="HealthBar.cs" />
