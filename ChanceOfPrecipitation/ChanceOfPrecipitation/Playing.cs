@@ -24,12 +24,10 @@ namespace ChanceOfPrecipitation {
             instance = this;
             lastState = state = Keyboard.GetState();
             player = new Player(0, 0, 64, 64);
-            //objects.Add(player);
+            objects.Add(player);
             for (var i = 0; i<1280-64; i+=64) {
                 objects.Add(new Block(i, 600, "Square"));
             }
-
-            objects.Add(new FloatingIndicator(new Vector2(100, 600), 1, 0.3f, 2, 1000, 5000, Color.White, 35436));
         }
 
         public void Draw(SpriteBatch sb) {

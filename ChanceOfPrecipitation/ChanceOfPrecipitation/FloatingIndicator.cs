@@ -13,7 +13,7 @@ namespace ChanceOfPrecipitation
         private readonly Point proportions = new Point(3, 5);
 
         private Vector2 position;
-        private readonly int scale;
+        private readonly float scale;
         private float center;
         private readonly float upSpeed;
         private readonly float oscillationDist;
@@ -29,15 +29,15 @@ namespace ChanceOfPrecipitation
         /// <summary>
         /// Initialize a new instance of <see cref="FloatingIndicator"/>
         /// </summary>
-        /// <param name="position">Initial position of the <see cref="FloatingIndicator"/></param>
-        /// <param name="scale">Amount the original proportions of the <see cref="FloatingIndicator"/> are scaled up by</param>
-        /// <param name="upSpeed">The speed the <see cref="FloatingIndicator"/> moves up</param>
-        /// <param name="oscillationDist">The distance the <see cref="FloatingIndicator"/> is displaced from the center during oscillation</param>
-        /// <param name="oscillationPeriod">The time it takes for the <see cref="FloatingIndicator"/> to move from the far right to the far left of its oscillation, in milliseconds</param>
-        /// <param name="life">The time the <see cref="FloatingIndicator"/> lasts, in milliseconds</param>
-        /// <param name="color">The color of the digits of the <see cref="FloatingIndicator"/></param>
-        /// <param name="number">The number the <see cref="FloatingIndicator"/> displays</param>
-        public FloatingIndicator(Vector2 position, int scale, float upSpeed, float oscillationDist, float oscillationPeriod, float life, Color color, int number)
+        /// <param name="position">Initial position of the <see cref="FloatingIndicator"/>.</param>
+        /// <param name="scale">Amount the original proportions of the <see cref="FloatingIndicator"/> are scaled up by.</param>
+        /// <param name="upSpeed">The speed the <see cref="FloatingIndicator"/> moves up.</param>
+        /// <param name="oscillationDist">The distance the <see cref="FloatingIndicator"/> is displaced from the center during oscillation.</param>
+        /// <param name="oscillationPeriod">The time it takes for the <see cref="FloatingIndicator"/> to move from the far right to the far left of its oscillation, in milliseconds.</param>
+        /// <param name="life">The time the <see cref="FloatingIndicator"/> lasts, in milliseconds.</param>
+        /// <param name="color">The color of the digits of the <see cref="FloatingIndicator"/>.</param>
+        /// <param name="number">The number the <see cref="FloatingIndicator"/> displays.</param>
+        public FloatingIndicator(Vector2 position, float scale, float upSpeed, float oscillationDist, float oscillationPeriod, float life, Color color, int number)
         {
             this.position = new Vector2(position.X - oscillationDist, position.Y);
             this.scale = scale;
@@ -59,7 +59,7 @@ namespace ChanceOfPrecipitation
 
         public override void Update(IEnumerable<GameObject> objects)
         {
-            Bounds = digit => new Rectangle((int)(position.X) + digit * (scale * proportions.X) + (digit - 1) * spacing, (int)position.Y, scale * proportions.X, scale * proportions.Y);
+            Bounds = digit => new Rectangle((int)(position.X + digit * (scale * proportions.X) + (digit - 1) * spacing), (int)position.Y, (int)scale * proportions.X, (int)scale * proportions.Y);
 
             position.Y -= upSpeed;
             position.X += direction > 0

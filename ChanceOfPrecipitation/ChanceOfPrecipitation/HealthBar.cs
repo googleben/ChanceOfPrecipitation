@@ -22,6 +22,17 @@ namespace ChanceOfPrecipitation
         private Rectangle BorderBounds => new Rectangle((int)position.X, (int)position.Y, width, height);
         private int HealthWidth => (int)(currentHealth * width / maxHealth);
 
+        /// <summary>
+        /// Initialize a new instance of <see cref="HealthBar"/>.
+        /// </summary>
+        /// <param name="position">The initial position of the <see cref="HealthBar"/>.</param>
+        /// <param name="width">The full width of the <see cref="HealthBar"/>, including the border.</param>
+        /// <param name="height">The full height of the <see cref="HealthBar"/>, including the border.</param>
+        /// <param name="maxHealth">The maximum health of the <see cref="HealthBar"/> instance.</param>
+        /// <param name="borderWidth">The border width of the <see cref="HealthBar"/> instance.</param>
+        /// <param name="borderColor">The border color of the <see cref="HealthBar"/> instance.</param>
+        /// <param name="healthColor">The color of the health indicator of the <see cref="HealthBar"/> instance.</param>
+        /// <param name="damageColor">The color of the damage indicator of the <see cref="HealthBar"/> instance.</param>
         public HealthBar(Vector2 position, int width, int height, int maxHealth, int borderWidth, Color borderColor, Color healthColor, Color damageColor)
         {
             this.position = position;
