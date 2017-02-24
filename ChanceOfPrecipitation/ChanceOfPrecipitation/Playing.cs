@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
 namespace ChanceOfPrecipitation {
     class Playing : GameState {
@@ -32,7 +25,7 @@ namespace ChanceOfPrecipitation {
             lastState = state = Keyboard.GetState();
             player = new Player(0, 0, 64, 64);
             objects.Add(player);
-            for (int i = 0; i<1280-64; i+=64) {
+            for (var i = 0; i<1280-64; i+=64) {
                 objects.Add(new Block(i, 600, "Square"));
             }
         }
@@ -50,11 +43,11 @@ namespace ChanceOfPrecipitation {
                 return new MainMenu();
             }
 
-            for (int i = 0; i < objects.Count; i++) {
+            for (var i = 0; i < objects.Count; i++) {
                 var o = objects[i];
                 if (o.toDestroy) { objects.RemoveAt(i--); continue; }
                 o.Update(objects);
-                if (o is StaticObject) (o as StaticObject).Collide(player);
+                (o as StaticObject)?.Collide(player);
                 if (o.toDestroy) objects.RemoveAt(i--);
             }
 
