@@ -1,15 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
 namespace ChanceOfPrecipitation {
 
@@ -49,10 +42,10 @@ namespace ChanceOfPrecipitation {
         }
 
         public void Draw(SpriteBatch sb) {
-            int ypos = 20;
-            int space = ypos;
+            var ypos = 20;
+            var space = ypos;
 
-            for (int i = 0; i<options.Count; i++) {
+            for (var i = 0; i<options.Count; i++) {
                 var opt = options[i];
                 var m = font.MeasureString(opt.text);
                 sb.DrawString(font, opt.text, new Vector2(Game1.BufferWidth / 2 - m.X / 2, ypos), i == index ? Color.White : Color.Gray);
@@ -61,7 +54,7 @@ namespace ChanceOfPrecipitation {
         }
 
         public GameState Update() {
-            KeyboardState state = Keyboard.GetState();
+            var state = Keyboard.GetState();
             if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !lastState.IsKeyDown(Keys.Enter)) {
                 lastState = state;
                 return options[index].makeState.Invoke();
@@ -130,8 +123,8 @@ namespace ChanceOfPrecipitation {
             var settings = Game1.Instance.settings;
             base.generateOptions();
             this.options.Add(new MenuOption($"Resolution: {Game1.Instance.settings.screenWidth}x{Game1.Instance.settings.screenHeight}", () => {
-                Point size = new Point(settings.screenWidth, settings.screenHeight);
-                int index = Game1.resolutions.IndexOf(size);
+                var size = new Point(settings.screenWidth, settings.screenHeight);
+                var index = Game1.resolutions.IndexOf(size);
                 index++;
                 if (index == Game1.resolutions.Count) index = 0;
                 var r = Game1.resolutions[index];

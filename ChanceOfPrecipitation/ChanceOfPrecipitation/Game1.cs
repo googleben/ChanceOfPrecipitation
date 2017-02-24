@@ -2,12 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using System.Xml.Serialization;
 using System.IO;
 
@@ -45,8 +40,8 @@ namespace ChanceOfPrecipitation {
             state = new MainMenu();
             renderTarget = new RenderTarget2D(GraphicsDevice, 1280, 720);
             resolutions = new List<Point>();
-            foreach (DisplayMode d in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes) {
-                Point r = new Point(d.Width, d.Height);
+            foreach (var d in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes) {
+                var r = new Point(d.Width, d.Height);
                 if (!resolutions.Contains<Point>(r) && d.AspectRatio == 16f / 9f) resolutions.Add(r);
             }
             resolutions.Sort((a, b) => a.X - b.X);
@@ -54,7 +49,7 @@ namespace ChanceOfPrecipitation {
         protected override void LoadContent() {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            XmlSerializer ser = new XmlSerializer(typeof(Settings));
+            var ser = new XmlSerializer(typeof(Settings));
             Stream f = File.OpenRead(@"Content/Settings.xml");
             settings = (Settings)ser.Deserialize(f);
             f.Close();
@@ -68,7 +63,7 @@ namespace ChanceOfPrecipitation {
             TextureManager.Sources["1"] = new Rectangle(0, 0, 15, 25);
             TextureManager.Sources["0"] = new Rectangle(35 * 5, 0, 15, 25);
 
-            for (int i = 2; i < 10; i++)
+            for (var i = 2; i < 10; i++)
                 TextureManager.Sources[i.ToString()] = new Rectangle((3 + (i - 2) * 4) * 5, 0, 15, 25);
         }
         protected override void UnloadContent() {
@@ -87,7 +82,7 @@ namespace ChanceOfPrecipitation {
         }
 
         public void SaveSettings() {
-            XmlSerializer set = new XmlSerializer(typeof(Settings));
+            var set = new XmlSerializer(typeof(Settings));
             File.Delete(@"Content/Settings.xml");
             Stream f = File.OpenWrite(@"Content/Settings.xml");
             set.Serialize(f, settings);
