@@ -25,38 +25,25 @@ namespace ChanceOfPrecipitation
 
         private Func<int, Rectangle> Bounds;
 
-        /// <summary>
-        /// Initialize a new instance of <see cref="FloatingIndicator"/>
-        /// </summary>
-        /// <param name="position">Initial position of the <see cref="FloatingIndicator"/>.</param>
-        /// <param name="scale">Amount the original proportions of the <see cref="FloatingIndicator"/> are scaled up by.</param>
-        /// <param name="upSpeed">The speed the <see cref="FloatingIndicator"/> moves up.</param>
-        /// <param name="oscillationDist">The distance the <see cref="FloatingIndicator"/> is displaced from the center during oscillation.</param>
-        /// <param name="oscillationPeriod">The time it takes for the <see cref="FloatingIndicator"/> to move from the far right to the far left of its oscillation, in milliseconds.</param>
-        /// <param name="life">The time the <see cref="FloatingIndicator"/> lasts, in milliseconds.</param>
-        /// <param name="color">The color of the digits of the <see cref="FloatingIndicator"/>.</param>
-        /// <param name="number">The number the <see cref="FloatingIndicator"/> displays.</param>
-        public FloatingIndicator(Vector2 position, int scale, float upSpeed, float oscillationDist, float oscillationPeriod, float life, Color color, int number)
+        public FloatingIndicator(FloatingIndicatorBuilder builder)
         {
-            this.position = new Vector2(position.X - oscillationDist, position.Y);
-            this.scale = scale;
-            this.upSpeed = upSpeed;
-            this.oscillationDist = oscillationDist;
-            this.oscillationPeriod = new Timer(oscillationPeriod);
-            this.life = new Timer(life);
-            this.color = color;
-            this.number = number;
+            position = new Vector2(builder.Position.X - builder.OscillationDist, builder.Position.Y);
+            scale = builder.Scale;
+            upSpeed = builder.UpSpeed;
+            oscillationDist = builder.OscillationDist;
+            oscillationPeriod = new Timer(builder.OscillationPeriod);
+            life = new Timer(builder.Life);
+            color = builder.Color;
+            number = builder.Number;
 
             center = position.X;
 
-            this.oscillationPeriod.Start();
-            this.life.Start();
+            oscillationPeriod.Start();
+            life.Start();
 
-            this.oscillationPeriod.Elapsed += new ElapsedEventHandler(ChangeDirection);
-            this.life.Elapsed += new ElapsedEventHandler(Delete);
+            oscillationPeriod.Elapsed += ChangeDirection;
+            life.Elapsed += Delete;
         }
-
-        public FloatingIndicator(Vector2 position, int number) : this(position, 2, 0.3f, 1, 500, 2000, Color.White, number) { }
 
         public override void Update(IEnumerable<GameObject> objects)
         {
