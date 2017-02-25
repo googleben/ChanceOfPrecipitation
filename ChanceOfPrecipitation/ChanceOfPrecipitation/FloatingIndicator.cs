@@ -6,16 +6,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ChanceOfPrecipitation
 {
-    class FloatingIndicator : GameObject
+    public class FloatingIndicator : GameObject
     {
-        private const int spacing = 1;
+        private const int Spacing = 1;
         private readonly Point proportions = new Point(3, 5);
 
         private Vector2 position;
-        private readonly int scale;
+        private float scale;
         private float center;
         private readonly float upSpeed;
-        private readonly float oscillationDist;
+        private readonly bool oscillates;
+        private float oscillationDist;
         private readonly Timer oscillationPeriod;
         private readonly Timer life;
         private readonly int number;
@@ -30,6 +31,7 @@ namespace ChanceOfPrecipitation
             position = new Vector2(builder.Position.X - builder.OscillationDist, builder.Position.Y);
             scale = builder.Scale;
             upSpeed = builder.UpSpeed;
+            oscillates = builder.Oscillates;
             oscillationDist = builder.OscillationDist;
             oscillationPeriod = new Timer(builder.OscillationPeriod);
             life = new Timer(builder.Life);
@@ -47,12 +49,24 @@ namespace ChanceOfPrecipitation
 
         public override void Update(IEnumerable<GameObject> objects)
         {
-            Bounds = digit => new Rectangle((int)(position.X) + digit * (scale * proportions.X) + (digit - 1) * spacing, (int)position.Y, scale * proportions.X, scale * proportions.Y);
+            Bounds = digit => new Rectangle((int)(position.X + digit * (scale * proportions.X) + (digit - 1) * Spacing), (int)position.Y, (int)(scale * proportions.X), (int)(scale * proportions.Y));
 
             position.Y -= upSpeed;
-            position.X += direction > 0
-                ? (float)(oscillationDist / oscillationPeriod.Interval * 100)
-                : (float)(-oscillationDist / oscillationPeriod.Interval * 100);
+
+            if (oscillates)
+            {
+                position.X += direction > 0
+                    ? (float) (oscillationDist / oscillationPeriod.Interval * 100)
+                    : (float) (-oscillationDist / oscillationPeriod.Interval * 100);
+
+                oscillationDist /= 1.01f;
+            }
+            else
+            {
+                var shrink = (float)(upSpeed / life.Interval * 100);
+                scale -= shrink;
+                position.X += shrink * 10;
+            }
         }
 
         public override void Draw(SpriteBatch sb)

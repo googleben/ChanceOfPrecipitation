@@ -28,5 +28,10 @@ namespace ChanceOfPrecipitation
         }
 
         public HealthBarBuilder() { }
+
+        public HealthBar Build()
+        {
+            return new HealthBar(this);
+        }
     }
 }

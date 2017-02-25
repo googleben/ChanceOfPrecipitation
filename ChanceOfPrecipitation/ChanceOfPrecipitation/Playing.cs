@@ -25,7 +25,7 @@ namespace ChanceOfPrecipitation {
             lastState = state = Keyboard.GetState();
             player = new Player(0, 0, 64, 64);
             objects.Add(player);
-            for (var i = 0; i<1280-64; i+=64) {
+            for (var i = 0; i < 1280 - 64; i += 64) {
                 objects.Add(new Block(i, 600, "Square"));
             }
         }
@@ -47,7 +47,7 @@ namespace ChanceOfPrecipitation {
                 var o = objects[i];
                 if (o.toDestroy) { objects.RemoveAt(i--); continue; }
                 o.Update(objects);
-                (o as StaticObject)?.Collide(player);
+                (o as IStaticObject)?.Collide(player);
                 if (o.toDestroy) objects.RemoveAt(i--);
             }
 

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ChanceOfPrecipitation
 {
-    class HealthBar : GameObject
+    public class HealthBar : GameObject
     {
         public Vector2 position;
         public int width;

@@ -5,11 +5,11 @@ using Microsoft.Xna.Framework.Graphics;
 namespace ChanceOfPrecipitation {
     public abstract class Ability {
 
-        public abstract void fire(Entity origin);
+        public abstract void Fire(IEntity origin);
 
     }
 
-    public class Bullet : GameObject, Collidable {
+    public class Bullet : GameObject, ICollidable {
 
         RectangleF bounds;
         float damage;
@@ -36,8 +36,8 @@ namespace ChanceOfPrecipitation {
             return bounds;
         }
 
-        public void Collide(Collision side, float amount, StaticObject origin) {
-            if (origin is Entity) (origin as Entity).Damage(damage);
+        public void Collide(Collision side, float amount, IStaticObject origin) {
+            if (origin is IEntity) (origin as IEntity).Damage(damage);
             Destroy();
         }
     }

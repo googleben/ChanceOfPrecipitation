@@ -12,9 +12,9 @@ namespace ChanceOfPrecipitation {
 
         public MakeState makeState;
 
-        public String text;
+        public string text;
 
-        public MenuOption(String text, MakeState makeState) {
+        public MenuOption(string text, MakeState makeState) {
             this.makeState = makeState;
             this.text = text;
         }
@@ -38,18 +38,18 @@ namespace ChanceOfPrecipitation {
             index = 0;
             options = new List<MenuOption>();
             this.fromMenu = fromMenu;
-            generateOptions();
+            GenerateOptions();
         }
 
         public void Draw(SpriteBatch sb) {
             var ypos = 20;
             var space = ypos;
 
-            for (var i = 0; i<options.Count; i++) {
+            for (var i = 0; i < options.Count; i++) {
                 var opt = options[i];
                 var m = font.MeasureString(opt.text);
                 sb.DrawString(font, opt.text, new Vector2(Game1.BufferWidth / 2 - m.X / 2, ypos), i == index ? Color.White : Color.Gray);
-                ypos += space+(int)m.Y;
+                ypos += space + (int)m.Y;
             }
         }
 
@@ -78,12 +78,12 @@ namespace ChanceOfPrecipitation {
             return this;
         }
 
-        public void regenerateOptions() {
+        public void RegenerateOptions() {
             options.Clear();
-            generateOptions();
+            GenerateOptions();
         }
 
-        public virtual void generateOptions() {
+        public virtual void GenerateOptions() {
             if (fromMenu == null) this.options.Add(new MenuOption("Exit", () =>
             {
                 Game1.Instance.Quit();
@@ -107,10 +107,10 @@ namespace ChanceOfPrecipitation {
             return base.Update();
         }
 
-        public override void generateOptions() {
-            options.Add(new MenuOption("Play", () => { return Playing.Instance; }));
+        public override void GenerateOptions() {
+            options.Add(new MenuOption("Play", () => Playing.Instance));
             options.Add(new MenuOption("Settings", () => new SettingsMenu(this)));
-            base.generateOptions();
+            base.GenerateOptions();
         }
 
     }
@@ -119,9 +119,9 @@ namespace ChanceOfPrecipitation {
 
         public SettingsMenu(Menu fromMenu) : base(fromMenu) {}
 
-        public override void generateOptions() {
+        public override void GenerateOptions() {
             var settings = Game1.Instance.settings;
-            base.generateOptions();
+            base.GenerateOptions();
             this.options.Add(new MenuOption($"Resolution: {Game1.Instance.settings.screenWidth}x{Game1.Instance.settings.screenHeight}", () => {
                 var size = new Point(settings.screenWidth, settings.screenHeight);
                 var index = Game1.resolutions.IndexOf(size);
@@ -130,13 +130,13 @@ namespace ChanceOfPrecipitation {
                 var r = Game1.resolutions[index];
                 Game1.Instance.settings.screenWidth = r.X;
                 Game1.Instance.settings.screenHeight = r.Y;
-                regenerateOptions();
+                RegenerateOptions();
                 
                 return this;
             }));
             this.options.Add(new MenuOption("Fullscreen: " + (settings.fullscreen ? "On" : "Off"), () => {
                 Game1.Instance.settings.fullscreen = !settings.fullscreen;
-                regenerateOptions();
+                RegenerateOptions();
                 return this;
             }));
             this.options.Add(new MenuOption("Apply", () => { Game1.Instance.ApplySettings(); return this; }));

@@ -10,7 +10,7 @@ namespace ChanceOfPrecipitation
         None = 0, Left = 1, Right = 2, Top = 4, Bottom = 8
     }
 
-    public interface Entity {
+    public interface IEntity {
         float Health();
         void Damage(float amount);
     }
@@ -26,17 +26,17 @@ namespace ChanceOfPrecipitation
         public abstract void Draw(SpriteBatch sb);
     }
 
-    public interface Collidable {
+    public interface ICollidable {
 
-        void Collide(Collision side, float amount, StaticObject origin);
+        void Collide(Collision side, float amount, IStaticObject origin);
 
         RectangleF Bounds();
 
     }
 
-    public interface StaticObject {
+    public interface IStaticObject {
 
-        void Collide(Collidable c);
+        void Collide(ICollidable c);
 
     }
 

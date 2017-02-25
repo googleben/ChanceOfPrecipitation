@@ -6,13 +6,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace ChanceOfPrecipitation
 {
-    public class Player : GameObject, Collidable, Entity {
+    public class Player : GameObject, ICollidable, IEntity {
 
         RectangleF bounds;
         Vector2 velocity;
         Collision collision;
 
-        const float speed = 1f;
+        const float Speed = 1f;
 
         Keys left = Keys.Left;
         Keys right = Keys.Right;
@@ -55,7 +55,7 @@ namespace ChanceOfPrecipitation
                 this.velocity.Y = -jumpSpeed;
             }
 
-            if (state.IsKeyDown(abilityOneKey)) ;//TODO: Add ability
+            if (state.IsKeyDown(abilityOneKey)); // TODO: Add ability
 
             collision = 0;
 
@@ -71,16 +71,17 @@ namespace ChanceOfPrecipitation
         public void Collide(Collision side, float amount) {
             Console.WriteLine(side);
             collision |= side;
-            if (side==Collision.Right) {
+
+            if (side == Collision.Right) {
                 this.bounds.X -= amount;
                 this.velocity.X = 0;
-            } else if (side==Collision.Left) {
+            } else if (side == Collision.Left) {
                 this.bounds.X += amount;
                 this.velocity.X = 0;
-            } else if (side==Collision.Top) {
+            } else if (side == Collision.Top) {
                 this.bounds.Y += amount;
                 this.velocity.Y = 0;
-            } else if (side==Collision.Bottom) {
+            } else if (side == Collision.Bottom) {
                 this.bounds.Y -= amount;
                 this.velocity.Y = 0;
             }
@@ -98,7 +99,7 @@ namespace ChanceOfPrecipitation
             this.health -= amount;
         }
 
-        public void Collide(Collision side, float amount, StaticObject origin)
+        public void Collide(Collision side, float amount, IStaticObject origin)
         {
             throw new NotImplementedException();
         }

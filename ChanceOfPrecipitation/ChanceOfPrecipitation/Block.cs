@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace ChanceOfPrecipitation {
-    class Block : GameObject, StaticObject {
+    class Block : GameObject, IStaticObject {
 
         Texture2D texture;
         Rectangle src;
@@ -26,10 +26,10 @@ namespace ChanceOfPrecipitation {
             
         }
 
-        public void Collide(Collidable c) {
+        public void Collide(ICollidable c) {
             var i = RectangleF.Intersect(bounds, c.Bounds());
             if (i.Width == 0 || i.Height == 0) return;
-            Console.WriteLine("Col "+i.Width+" "+i.Height);
+            Console.WriteLine("Col " + i.Width + " " + i.Height);
             if (i.Width < i.Height) {
                 c.Collide((i.X < bounds.X) ? Collision.Right : Collision.Left, i.Width, this);
             } else {
