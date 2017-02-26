@@ -4,7 +4,12 @@ namespace ChanceOfPrecipitation
 {
     public class HealthBarBuilder
     {
-        public Vector2 Position { get; set; } = Vector2.Zero;
+        public enum Options
+        {
+            Boss
+        }
+
+        public Vector2 Position { get; set; } = new Vector2(100, 100);
         public int Width { get; set; } = 50;
         public int Height { get; set; } = 15;
         public int MaxHealth { get; set; } = 100;
@@ -27,10 +32,28 @@ namespace ChanceOfPrecipitation
             Height = height;
         }
 
-        public HealthBarBuilder() { }
+        public HealthBarBuilder(int maxHealth)
+        {
+            MaxHealth = maxHealth;
+        }
+
+        public HealthBarBuilder()
+        {
+        }
 
         public HealthBar Build()
         {
+            return new HealthBar(this);
+        }
+
+        public HealthBar Build(Options option)
+        {
+            if (option == Options.Boss)
+            {
+                Position = new Vector2(10, 10);
+                Width = Game1.BufferWidth - 20;
+            }
+
             return new HealthBar(this);
         }
     }

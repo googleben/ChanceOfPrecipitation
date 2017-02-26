@@ -38,7 +38,7 @@ namespace ChanceOfPrecipitation
 
         public override void Update(IEnumerable<GameObject> objects)
         {
-            currentHealth--;
+            Damage(1);
         }
 
         public override void Draw(SpriteBatch sb)
@@ -59,7 +59,6 @@ namespace ChanceOfPrecipitation
         {
             currentHealth -= amount;
 
-            // TODO: Make this work
             if (currentHealth <= 0)
                 Destroy();
         }
