@@ -38,7 +38,7 @@ namespace ChanceOfPrecipitation
 
         public override void Update(IEnumerable<GameObject> objects)
         {
-            Damage(1);
+            
         }
 
         public override void Draw(SpriteBatch sb)

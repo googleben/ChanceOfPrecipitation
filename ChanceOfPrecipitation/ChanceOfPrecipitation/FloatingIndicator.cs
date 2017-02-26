@@ -13,7 +13,6 @@ namespace ChanceOfPrecipitation
 
         private Vector2 position;
         private float scale;
-        private float center;
         private readonly float upSpeed;
         private readonly bool oscillates;
         private float oscillationDist;
@@ -37,8 +36,6 @@ namespace ChanceOfPrecipitation
             life = new Timer(builder.Life);
             color = builder.Color;
             number = builder.Number;
-
-            center = position.X;
 
             oscillationPeriod.Start();
             life.Start();
