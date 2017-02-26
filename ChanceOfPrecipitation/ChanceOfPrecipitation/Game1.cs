@@ -101,7 +101,8 @@ namespace ChanceOfPrecipitation {
 
             GraphicsDevice.Clear(Color.Black);
 
-            spriteBatch.Begin();
+            // Avoid antialiasing
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null);
             state.Draw(spriteBatch);
             spriteBatch.End();
 

@@ -101,7 +101,7 @@ namespace ChanceOfPrecipitation
 
         public void Collide(Collision side, float amount, IStaticObject origin)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

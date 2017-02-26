@@ -6,9 +6,9 @@ namespace ChanceOfPrecipitation
 {
     public class HealthBar : GameObject
     {
-        public Vector2 position;
-        public int width;
-        public int height;
+        private Vector2 position;
+        private readonly int width;
+        private readonly int height;
         private readonly int maxHealth;
         private float currentHealth;
 
