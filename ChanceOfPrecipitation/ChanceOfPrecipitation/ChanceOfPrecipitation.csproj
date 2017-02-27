@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Abilities.cs" />
     <Compile Include="Block.cs" />
+    <Compile Include="Enemy.cs" />
     <Compile Include="FloatingIndicator.cs" />
     <Compile Include="FloatingIndicatorBuilder.cs" />
     <Compile Include="HealthBar.cs" />

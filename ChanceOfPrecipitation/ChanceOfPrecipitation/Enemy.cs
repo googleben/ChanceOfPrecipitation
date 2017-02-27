@@ -6,24 +6,18 @@ using Microsoft.Xna.Framework.Input;
 
 namespace ChanceOfPrecipitation
 {
-    public class Player : GameObject, ICollidable, IEntity {
+    public class Enemy : GameObject, ICollidable, IEntity
+    {
 
         RectangleF bounds;
         Vector2 velocity;
         Collision collision;
 
-        Keys left = Keys.Left;
-        Keys right = Keys.Right;
-        Keys up = Keys.Up;
-        Keys down = Keys.Down;
-        Keys jump = Keys.Space;
-        Keys abilityOneKey = Keys.J;
-
         Ability abilityOne;
 
         Texture2D texture;
 
-        public float maxSpeed = 5f;
+        public float maxSpeed = 2f;
 
         public float jumpSpeed = 10f;
 
@@ -31,50 +25,67 @@ namespace ChanceOfPrecipitation
 
         int facing = 1;
 
-        public Player(float x, float y, float width, float height) {
+        public Enemy(float x, float y, float width, float height)
+        {
             this.bounds = new RectangleF(x, y, width, height);
             this.texture = TextureManager.Textures["HealthBar"];
         }
 
-        public override void Update(IEnumerable<GameObject> objects) {
+        public Enemy(float x, float y, float width, float height, float maxSpeed) : this(x, y, width, height)
+        {
+            this.maxSpeed = maxSpeed;
+        }
+
+        public override void Update(IEnumerable<GameObject> objects)
+        {
             var state = Playing.Instance.state;
-            
-            if (state.IsKeyDown(left)) {
+
+            if (Playing.Instance.player.Bounds().X < Bounds().X)
+            {
                 facing = -1;
                 this.velocity.X = -maxSpeed;
-            } else if (state.IsKeyDown(right)) {
+            }
+            else if (Playing.Instance.player.Bounds().X > Bounds().X)
+            {
                 facing = 1;
                 this.velocity.X = maxSpeed;
-            } else {
+            }
+            else
+            {
                 this.velocity.X = 0;
             }
 
-            if (state.IsKeyDown(jump) && collision.HasFlag(Collision.Bottom)) {
+            if (Playing.Instance.player.Bounds().Y < Bounds().Y && collision.HasFlag(Collision.Bottom) && Math.Abs(Playing.Instance.player.Bounds().X - Bounds().X) < Playing.Instance.player.Bounds().Width * 2)
+            {
                 this.velocity.Y = -jumpSpeed;
             }
 
-            if (state.IsKeyDown(abilityOneKey)); // TODO: Add ability
+            //if (state.IsKeyDown(abilityOneKey)) ; // TODO: Add ability
 
-            collision = 0;
+            collision = Collision.None;
 
             this.velocity += Playing.Instance.gravity;
             this.bounds.X += velocity.X;
             this.bounds.Y += velocity.Y;
         }
 
-        public override void Draw(SpriteBatch sb) {
-            sb.Draw(texture, (Rectangle)bounds, Color.White);
+        public override void Draw(SpriteBatch sb)
+        {
+            sb.Draw(texture, (Rectangle)bounds, Color.Red);
         }
 
-        public RectangleF Bounds() {
+        public RectangleF Bounds()
+        {
             return bounds;
         }
 
-        public float Health() {
+        public float Health()
+        {
             return health;
         }
 
-        public void Damage(float amount) {
+        public void Damage(float amount)
+        {
             this.health -= amount;
         }
 
@@ -83,19 +94,23 @@ namespace ChanceOfPrecipitation
             Console.WriteLine(side);
             collision |= side;
 
-            if (side == Collision.Right) {
+            if (side == Collision.Right)
+            {
                 this.bounds.X -= amount;
                 this.velocity.X = 0;
             }
-            else if (side == Collision.Left) {
+            else if (side == Collision.Left)
+            {
                 this.bounds.X += amount;
                 this.velocity.X = 0;
             }
-            else if (side == Collision.Top) {
+            else if (side == Collision.Top)
+            {
                 this.bounds.Y += amount;
                 this.velocity.Y = 0;
             }
-            else if (side == Collision.Bottom) {
+            else if (side == Collision.Bottom)
+            {
                 this.bounds.Y -= amount;
                 this.velocity.Y = 0;
             }

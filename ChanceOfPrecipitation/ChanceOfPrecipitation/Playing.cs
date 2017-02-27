@@ -43,12 +43,24 @@ namespace ChanceOfPrecipitation {
                 return new MainMenu();
             }
 
+            LinkedList<ICollidable> collidables = new LinkedList<ICollidable>();
+            LinkedList<IStaticObject> statics = new LinkedList<IStaticObject>();
+
             for (var i = 0; i < objects.Count; i++) {
                 var o = objects[i];
                 if (o.toDestroy) { objects.RemoveAt(i--); continue; }
                 o.Update(objects);
-                (o as IStaticObject)?.Collide(player);
                 if (o.toDestroy) objects.RemoveAt(i--);
+                else
+                {
+                    if (o is ICollidable) collidables.AddLast(o as ICollidable);
+                    if (o is IStaticObject) statics.AddLast(o as IStaticObject);
+                }
+            }
+
+            foreach (var s in statics)
+            {
+                foreach (var c in collidables) s.Collide(c);
             }
 
             return this;
