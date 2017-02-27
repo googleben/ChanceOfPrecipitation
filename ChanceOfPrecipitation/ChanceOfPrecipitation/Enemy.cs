@@ -92,9 +92,16 @@ namespace ChanceOfPrecipitation
             return health;
         }
 
+        public void Heal(float amount)
+        {
+            this.health += amount;
+            healthBar.Heal(amount);
+        }
+
         public void Damage(float amount)
         {
             this.health -= amount;
+            healthBar.Damage(amount);
         }
 
         public void Collide(Collision side, float amount, IStaticObject origin)
