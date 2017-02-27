@@ -68,25 +68,6 @@ namespace ChanceOfPrecipitation
             sb.Draw(texture, (Rectangle)bounds, Color.White);
         }
 
-        public void Collide(Collision side, float amount) {
-            Console.WriteLine(side);
-            collision |= side;
-
-            if (side == Collision.Right) {
-                this.bounds.X -= amount;
-                this.velocity.X = 0;
-            } else if (side == Collision.Left) {
-                this.bounds.X += amount;
-                this.velocity.X = 0;
-            } else if (side == Collision.Top) {
-                this.bounds.Y += amount;
-                this.velocity.Y = 0;
-            } else if (side == Collision.Bottom) {
-                this.bounds.Y -= amount;
-                this.velocity.Y = 0;
-            }
-        }
-
         public RectangleF Bounds() {
             return bounds;
         }
@@ -101,7 +82,25 @@ namespace ChanceOfPrecipitation
 
         public void Collide(Collision side, float amount, IStaticObject origin)
         {
-            
+            Console.WriteLine(side);
+            collision |= side;
+
+            if (side == Collision.Right) {
+                this.bounds.X -= amount;
+                this.velocity.X = 0;
+            }
+            else if (side == Collision.Left) {
+                this.bounds.X += amount;
+                this.velocity.X = 0;
+            }
+            else if (side == Collision.Top) {
+                this.bounds.Y += amount;
+                this.velocity.Y = 0;
+            }
+            else if (side == Collision.Bottom) {
+                this.bounds.Y -= amount;
+                this.velocity.Y = 0;
+            }
         }
     }
 }
