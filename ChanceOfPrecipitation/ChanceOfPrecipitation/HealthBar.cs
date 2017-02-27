@@ -9,7 +9,7 @@ namespace ChanceOfPrecipitation
         private Vector2 position;
         private readonly int width;
         private readonly int height;
-        private readonly int maxHealth;
+        private int maxHealth;
         private float currentHealth;
 
         private readonly int borderWidth;
@@ -61,6 +61,16 @@ namespace ChanceOfPrecipitation
 
             if (currentHealth <= 0)
                 Destroy();
+        }
+
+        public void SetMaxHealth(int amount)
+        {
+            maxHealth = amount;
+        }
+
+        public void SetY(float y)
+        {
+            position.Y = y;
         }
 
         public void AlignHorizontally(Rectangle value)

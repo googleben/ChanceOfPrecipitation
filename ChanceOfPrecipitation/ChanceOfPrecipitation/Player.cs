@@ -12,6 +12,8 @@ namespace ChanceOfPrecipitation
         Vector2 velocity;
         Collision collision;
 
+        HealthBar healthBar;
+
         Keys left = Keys.Left;
         Keys right = Keys.Right;
         Keys up = Keys.Up;
@@ -34,6 +36,8 @@ namespace ChanceOfPrecipitation
         public Player(float x, float y, float width, float height) {
             this.bounds = new RectangleF(x, y, width, height);
             this.texture = TextureManager.Textures["HealthBar"];
+
+            healthBar = new HealthBarBuilder() { Position = new Vector2(x, y), Width = (int)width + 10 }.Build();
         }
 
         public override void Update(IEnumerable<GameObject> objects) {
@@ -60,10 +64,14 @@ namespace ChanceOfPrecipitation
             this.velocity += Playing.Instance.gravity;
             this.bounds.X += velocity.X;
             this.bounds.Y += velocity.Y;
+
+            healthBar.AlignHorizontally((Rectangle)Bounds());
+            healthBar.SetY(Bounds().Y - 20);
         }
 
         public override void Draw(SpriteBatch sb) {
             sb.Draw(texture, (Rectangle)bounds, Color.White);
+            healthBar.Draw(sb);
         }
 
         public RectangleF Bounds() {
