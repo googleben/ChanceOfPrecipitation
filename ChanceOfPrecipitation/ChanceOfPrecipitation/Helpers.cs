@@ -10,6 +10,10 @@ namespace ChanceOfPrecipitation
         None = 0, Left = 1, Right = 2, Top = 4, Bottom = 8
     }
 
+    public enum Direction {
+        Left, Right, Up, Down
+    }
+
     public interface IEntity {
         float Health();
         void Damage(float amount);
@@ -22,7 +26,7 @@ namespace ChanceOfPrecipitation
             toDestroy = true;
         }
 
-        public abstract void Update(IEnumerable<GameObject> objects);
+        public abstract void Update(List<GameObject> objects);
         public abstract void Draw(SpriteBatch sb);
     }
 
@@ -31,6 +35,8 @@ namespace ChanceOfPrecipitation
         void Collide(Collision side, float amount, IStaticObject origin);
 
         RectangleF Bounds();
+
+        Direction Facing();
 
     }
 

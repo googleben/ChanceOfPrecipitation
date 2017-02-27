@@ -4,10 +4,6 @@ namespace ChanceOfPrecipitation
 {
     public class HealthBarBuilder
     {
-        public enum Options
-        {
-            Boss
-        }
 
         public Vector2 Position { get; set; } = new Vector2(100, 100);
         public int Width { get; set; } = 50;
@@ -18,6 +14,14 @@ namespace ChanceOfPrecipitation
         public Color BorderColor { get; set; } = new Color(200, 200, 200);
         public Color HealthColor { get; set; } = new Color(0, 255, 0);
         public Color DamageColor { get; set; } = new Color(255, 0, 0);
+
+        private bool isBoss = false;
+        public bool IsBoss { get { return isBoss; } set
+            {
+                isBoss = true;
+                Position = new Vector2(10, 10);
+                Width = Game1.BufferWidth - 20;
+            } }
 
         public HealthBarBuilder(Vector2 position, int width, int height)
         {
@@ -46,15 +50,5 @@ namespace ChanceOfPrecipitation
             return new HealthBar(this);
         }
 
-        public HealthBar Build(Options option)
-        {
-            if (option == Options.Boss)
-            {
-                Position = new Vector2(10, 10);
-                Width = Game1.BufferWidth - 20;
-            }
-
-            return new HealthBar(this);
-        }
     }
 }

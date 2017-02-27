@@ -22,14 +22,13 @@ namespace ChanceOfPrecipitation {
             sb.Draw(texture, (Rectangle)bounds, src, Color.Blue);
         }
 
-        public override void Update(IEnumerable<GameObject> objects) {
+        public override void Update(List<GameObject> objects) {
             
         }
 
         public void Collide(ICollidable c) {
             var i = RectangleF.Intersect(bounds, c.Bounds());
             if (i.Width == 0 || i.Height == 0) return;
-            Console.WriteLine("Col " + i.Width + " " + i.Height);
             if (i.Width < i.Height) {
                 c.Collide((i.X < bounds.X) ? Collision.Right : Collision.Left, i.Width, this);
             } else {
