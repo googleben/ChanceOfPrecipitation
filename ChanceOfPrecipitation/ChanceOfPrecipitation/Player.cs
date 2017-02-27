@@ -97,6 +97,9 @@ namespace ChanceOfPrecipitation
         public void Damage(float amount) {
             this.health -= amount;
             healthBar.Damage(amount);
+
+            if (this.health <= 0)
+                Destroy();
         }
 
         public void Collide(Collision side, float amount, IStaticObject origin)
