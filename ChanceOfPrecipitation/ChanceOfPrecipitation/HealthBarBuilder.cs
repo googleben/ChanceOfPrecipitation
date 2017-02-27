@@ -16,12 +16,18 @@ namespace ChanceOfPrecipitation
         public Color DamageColor { get; set; } = new Color(255, 0, 0);
 
         private bool isBoss = false;
-        public bool IsBoss { get { return isBoss; } set
+        public bool IsBoss {
+            get
+            {
+                return isBoss;
+            }
+            set
             {
                 isBoss = true;
                 Position = new Vector2(10, 10);
                 Width = Game1.BufferWidth - 20;
-            } }
+            }
+        }
 
         public HealthBarBuilder(Vector2 position, int width, int height)
         {

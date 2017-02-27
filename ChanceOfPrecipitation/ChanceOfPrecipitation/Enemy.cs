@@ -13,6 +13,8 @@ namespace ChanceOfPrecipitation
         Vector2 velocity;
         Collision collision;
 
+        HealthBar healthBar;
+
         Ability abilityOne;
 
         Texture2D texture;
@@ -23,12 +25,14 @@ namespace ChanceOfPrecipitation
 
         public float health;
 
-        int facing = 1;
+        Direction facing = Direction.Right;
 
         public Enemy(float x, float y, float width, float height)
         {
             this.bounds = new RectangleF(x, y, width, height);
             this.texture = TextureManager.Textures["HealthBar"];
+
+            healthBar = new HealthBarBuilder(new Vector2(x, y - 20), (int)width + 10, 15).Build();
         }
 
         public Enemy(float x, float y, float width, float height, float maxSpeed) : this(x, y, width, height)
@@ -36,18 +40,18 @@ namespace ChanceOfPrecipitation
             this.maxSpeed = maxSpeed;
         }
 
-        public override void Update(IEnumerable<GameObject> objects)
+        public override void Update(List<GameObject> objects)
         {
             var state = Playing.Instance.state;
 
             if (Playing.Instance.player.Bounds().X < Bounds().X)
             {
-                facing = -1;
+                facing = Direction.Left;
                 this.velocity.X = -maxSpeed;
             }
             else if (Playing.Instance.player.Bounds().X > Bounds().X)
             {
-                facing = 1;
+                facing = Direction.Right;
                 this.velocity.X = maxSpeed;
             }
             else
@@ -67,11 +71,15 @@ namespace ChanceOfPrecipitation
             this.velocity += Playing.Instance.gravity;
             this.bounds.X += velocity.X;
             this.bounds.Y += velocity.Y;
+
+            healthBar.AlignHorizontally((Rectangle)Bounds());
+            healthBar.SetY(Bounds().Y - 20);
         }
 
         public override void Draw(SpriteBatch sb)
         {
             sb.Draw(texture, (Rectangle)bounds, Color.Red);
+            healthBar.Draw(sb);
         }
 
         public RectangleF Bounds()
@@ -114,6 +122,11 @@ namespace ChanceOfPrecipitation
                 this.bounds.Y -= amount;
                 this.velocity.Y = 0;
             }
+        }
+
+        public Direction Facing()
+        {
+            return facing;
         }
     }
 }
