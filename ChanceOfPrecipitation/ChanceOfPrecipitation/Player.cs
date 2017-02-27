@@ -29,25 +29,31 @@ namespace ChanceOfPrecipitation
 
         public float jumpSpeed = 10f;
 
-        public float health;
+        public float health = MaxHealth;
 
-        int facing = 1;
+        public const float MaxHealth = 100;
+
+        Direction facing = Direction.Right;
 
         public Player(float x, float y, float width, float height) {
             this.bounds = new RectangleF(x, y, width, height);
             this.texture = TextureManager.Textures["HealthBar"];
 
             healthBar = new HealthBarBuilder() { Position = new Vector2(x, y), Width = (int)width + 10 }.Build();
+
+            abilityOne = new BulletAbility(this);
         }
 
-        public override void Update(IEnumerable<GameObject> objects) {
+        public override void Update(List<GameObject> objects) {
             var state = Playing.Instance.state;
+
+            abilityOne.Update();
             
             if (state.IsKeyDown(left)) {
-                facing = -1;
+                facing = Direction.Left;
                 this.velocity.X = -maxSpeed;
             } else if (state.IsKeyDown(right)) {
-                facing = 1;
+                facing = Direction.Right;
                 this.velocity.X = maxSpeed;
             } else {
                 this.velocity.X = 0;
@@ -57,9 +63,9 @@ namespace ChanceOfPrecipitation
                 this.velocity.Y = -jumpSpeed;
             }
 
-            if (state.IsKeyDown(abilityOneKey)); // TODO: Add ability
+            if (state.IsKeyDown(abilityOneKey)) abilityOne.Fire(objects); // TODO: Add ability
 
-            collision = 0;
+            collision = Collision.None;
 
             this.velocity += Playing.Instance.gravity;
             this.bounds.X += velocity.X;
@@ -88,7 +94,6 @@ namespace ChanceOfPrecipitation
 
         public void Collide(Collision side, float amount, IStaticObject origin)
         {
-            Console.WriteLine(side);
             collision |= side;
 
             if (side == Collision.Right) {
@@ -107,6 +112,10 @@ namespace ChanceOfPrecipitation
                 this.bounds.Y -= amount;
                 this.velocity.Y = 0;
             }
+        }
+
+        public Direction Facing() {
+            return facing;
         }
     }
 }

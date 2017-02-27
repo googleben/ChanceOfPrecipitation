@@ -44,7 +44,7 @@ namespace ChanceOfPrecipitation
             life.Elapsed += Delete;
         }
 
-        public override void Update(IEnumerable<GameObject> objects)
+        public override void Update(List<GameObject> objects)
         {
             Bounds = digit => new Rectangle((int)(position.X + digit * (scale * proportions.X) + (digit - 1) * Spacing), (int)position.Y, (int)(scale * proportions.X), (int)(scale * proportions.Y));
 
