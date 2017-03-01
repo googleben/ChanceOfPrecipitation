@@ -61,6 +61,8 @@
   <ItemGroup>
     <Compile Include="Numbers.png">
       <Name>Numbers</Name>
+    <Compile Include="platform_tileset_stage1.png">
+      <Name>platform_tileset_stage1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
