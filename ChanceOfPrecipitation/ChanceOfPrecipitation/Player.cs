@@ -41,7 +41,7 @@ namespace ChanceOfPrecipitation
 
             healthBar = new HealthBarBuilder() { Position = new Vector2(x, y), Width = (int)width + 10 }.Build();
 
-            abilityOne = new BulletAbility(this);
+            abilityOne = new BurstFireAbility(this);
         }
 
         public override void Update(List<GameObject> objects) {
@@ -102,7 +102,7 @@ namespace ChanceOfPrecipitation
                 Destroy();
         }
 
-        public void Collide(Collision side, float amount, IStaticObject origin)
+        public void Collide(Collision side, float amount, ICollider origin)
         {
             collision |= side;
 

@@ -25,9 +25,9 @@ namespace ChanceOfPrecipitation
 
         private Func<int, Rectangle> Bounds;
 
-        public FloatingIndicator(FloatingIndicatorBuilder builder)
+        public FloatingIndicator(FloatingIndicatorBuilder builder, int number, Vector2 position)
         {
-            position = new Vector2(builder.Position.X - builder.OscillationDist, builder.Position.Y);
+            this.position = new Vector2(position.X - builder.OscillationDist, position.Y);
             scale = builder.Scale;
             upSpeed = builder.UpSpeed;
             oscillates = builder.Oscillates;
@@ -35,7 +35,7 @@ namespace ChanceOfPrecipitation
             oscillationPeriod = new Timer(builder.OscillationPeriod);
             life = new Timer(builder.Life);
             color = builder.Color;
-            number = builder.Number;
+            this.number = number;
 
             oscillationPeriod.Start();
             life.Start();
@@ -61,7 +61,7 @@ namespace ChanceOfPrecipitation
             else
             {
                 var shrink = (float)(upSpeed / life.Interval * 100);
-                scale -= shrink;
+                //scale -= shrink;
                 position.X += shrink * 10;
             }
         }

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace ChanceOfPrecipitation {
-    class Block : GameObject, IStaticObject {
+    class Block : GameObject, ICollider {
 
         Texture2D texture;
         Rectangle src;

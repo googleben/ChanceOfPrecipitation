@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -33,7 +34,7 @@ namespace ChanceOfPrecipitation {
 
         public override void Fire(List<GameObject> objects) {
             if (cd == 0) {
-                objects.Add(new Bullet(origin.Facing() == Direction.Left ? origin.Bounds().X - Bullet.Width : origin.Bounds().Right, origin.Bounds().Center.Y, 10, 10));
+                objects.Add(new Bullet(origin, origin.Facing() == Direction.Left ? origin.Bounds().X - Bullet.Width : origin.Bounds().Right, origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, 10));
                 base.Fire(objects);
             }
             
@@ -41,7 +42,52 @@ namespace ChanceOfPrecipitation {
 
     }
 
-    public class Bullet : GameObject, ICollidable {
+    public class BurstFireAbility : Ability {
+
+        private ICollidable origin;
+
+        public override int Cooldown() {
+            return 30;
+        }
+
+        public BurstFireAbility(ICollidable origin) {
+            this.origin = origin;
+        }
+
+        public override void Fire(List<GameObject> objects) {
+            if (cd == 0) {
+                objects.Add(new BurstFireDummyObject(origin));
+                base.Fire(objects);
+            }
+
+        }
+
+        class BurstFireDummyObject : GameObject {
+
+            public const int interval = 3;
+            int count = 0;
+            ICollidable origin;
+
+            public BurstFireDummyObject(ICollidable origin) {
+                this.origin = origin;
+            }
+
+            public override void Draw(SpriteBatch sb) {
+                //do nothing
+            }
+
+            public override void Update(List<GameObject> objects) {
+                if (count%interval==0) {
+                    objects.Add(new Bullet(origin, origin.Facing() == Direction.Left ? origin.Bounds().X - Bullet.Width : origin.Bounds().Right, origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, 10));
+                }
+                if (count == interval * 2) Destroy();
+                count++;
+            }
+        }
+
+    }
+
+    public class Bullet : GameObject, ICollider {
 
         RectangleF bounds;
         float damage;
@@ -51,11 +97,14 @@ namespace ChanceOfPrecipitation {
 
         public const int Width = 3;
 
-        public Bullet(float x, float y, float speed, float damage) {
+        ICollidable origin;
+
+        public Bullet(ICollidable origin, float x, float y, float speed, float damage) {
             texture = TextureManager.Textures["Square"];
             bounds = new RectangleF(x, y, Width, 1);
             this.damage = damage;
             this.speed = speed;
+            this.origin = origin;
         }
 
         public override void Draw(SpriteBatch sb) {
@@ -70,9 +119,12 @@ namespace ChanceOfPrecipitation {
             return bounds;
         }
 
-        public void Collide(Collision side, float amount, IStaticObject origin) {
-            if (origin is IEntity) (origin as IEntity).Damage(damage);
+        public void Collide(ICollidable other) {
+            var i = RectangleF.Intersect(bounds, other.Bounds());
+            if (i.Width == 0 || i.Height == 0) return;
             Destroy();
+            if (other is IEntity)
+                if (other != origin) (other as IEntity).Damage(damage);
         }
 
         public Direction Facing() {

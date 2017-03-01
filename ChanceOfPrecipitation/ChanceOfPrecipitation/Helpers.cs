@@ -32,7 +32,7 @@ namespace ChanceOfPrecipitation
 
     public interface ICollidable {
 
-        void Collide(Collision side, float amount, IStaticObject origin);
+        void Collide(Collision side, float amount, ICollider origin);
 
         RectangleF Bounds();
 
@@ -40,7 +40,7 @@ namespace ChanceOfPrecipitation
 
     }
 
-    public interface IStaticObject {
+    public interface ICollider {
 
         void Collide(ICollidable c);
 

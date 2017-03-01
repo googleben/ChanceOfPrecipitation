@@ -58,7 +58,7 @@ namespace ChanceOfPrecipitation {
             TextureManager.Textures["HealthBar"] = Content.Load<Texture2D>("HealthBar");
             TextureManager.Textures["Square"] = Content.Load<Texture2D>("HealthBar");
             TextureManager.Textures["Numbers"] = Content.Load<Texture2D>("NumberSheet");
-            TextureManager.Sources["Square"] = new Rectangle(0, 0, 48, 48);
+            TextureManager.Sources["Square"] = new Rectangle(0, 0, 16, 16);
 
             TextureManager.Sources["1"] = new Rectangle(0, 0, 15, 25);
             TextureManager.Sources["0"] = new Rectangle(35 * 5, 0, 15, 25);

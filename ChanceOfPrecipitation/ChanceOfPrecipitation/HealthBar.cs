@@ -43,6 +43,7 @@ namespace ChanceOfPrecipitation
 
         public override void Draw(SpriteBatch sb)
         {
+            System.Console.WriteLine(borderWidth);
             sb.Draw(TextureManager.Textures["HealthBar"], BorderBounds, borderColor);
             sb.Draw(TextureManager.Textures["HealthBar"], HealthBounds, healthColor);
             sb.Draw(TextureManager.Textures["HealthBar"], DamageBounds, damageColor);

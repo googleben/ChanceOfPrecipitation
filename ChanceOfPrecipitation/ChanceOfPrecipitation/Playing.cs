@@ -23,14 +23,16 @@ namespace ChanceOfPrecipitation {
             objects = new List<GameObject>();
             instance = this;
             lastState = state = Keyboard.GetState();
-            player = new Player(0, 0, 64, 64);
+            player = new Player(0, 0, 16, 32);
             objects.Add(player);
-            for (var i = 0; i < 1280 - 64; i += 64) {
+            for (var i = 0; i < 1280 - 16; i += 16) {
                 objects.Add(new Block(i, 600, "Square"));
             }
+            objects.Add(Enemies.enemy1.Clone(600, 0));
         }
 
         public void Draw(SpriteBatch sb) {
+            sb.Draw(TextureManager.Textures["Square"], new Rectangle(0, 0, 1280, 720), Color.MidnightBlue);
             foreach (var o in objects) o.Draw(sb);
         }
 
@@ -44,7 +46,7 @@ namespace ChanceOfPrecipitation {
             }
 
             LinkedList<ICollidable> collidables = new LinkedList<ICollidable>();
-            LinkedList<IStaticObject> statics = new LinkedList<IStaticObject>();
+            LinkedList<ICollider> statics = new LinkedList<ICollider>();
 
             for (var i = 0; i < objects.Count; i++) {
                 var o = objects[i];
@@ -54,7 +56,7 @@ namespace ChanceOfPrecipitation {
                 else
                 {
                     if (o is ICollidable) collidables.AddLast(o as ICollidable);
-                    if (o is IStaticObject) statics.AddLast(o as IStaticObject);
+                    if (o is ICollider) statics.AddLast(o as ICollider);
                 }
             }
 

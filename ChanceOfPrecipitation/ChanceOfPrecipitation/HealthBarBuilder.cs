@@ -10,7 +10,7 @@ namespace ChanceOfPrecipitation
         public int Height { get; set; } = 15;
         public int MaxHealth { get; set; } = 100;
 
-        public int BorderWidth { get; set; } = 2;
+        public int BorderWidth { get; set; } = 1;
         public Color BorderColor { get; set; } = new Color(200, 200, 200);
         public Color HealthColor { get; set; } = new Color(0, 255, 0);
         public Color DamageColor { get; set; } = new Color(255, 0, 0);

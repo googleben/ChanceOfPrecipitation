@@ -27,12 +27,28 @@ namespace ChanceOfPrecipitation
 
         Direction facing = Direction.Right;
 
+        float maxHealth;
+        public float MaxHealth
+        {
+            get { return maxHealth; }
+            set
+            {
+                this.maxHealth = value;
+                this.healthBar.SetMaxHealth((int)maxHealth);
+            }
+        }
+
+        FloatingIndicatorBuilder damageBuilder;
+
         public Enemy(float x, float y, float width, float height)
         {
             this.bounds = new RectangleF(x, y, width, height);
             this.texture = TextureManager.Textures["HealthBar"];
 
-            healthBar = new HealthBarBuilder(new Vector2(x, y - 20), (int)width + 10, 15).Build();
+            healthBar = new HealthBarBuilder(new Vector2(x, y - 20), (int)width + 20, 5).Build();
+
+            damageBuilder = new FloatingIndicatorBuilder();
+
         }
 
         public Enemy(float x, float y, float width, float height, float maxSpeed) : this(x, y, width, height)
@@ -103,11 +119,13 @@ namespace ChanceOfPrecipitation
             this.health -= amount;
             healthBar.Damage(amount);
 
+            Playing.Instance.objects.Add(damageBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.Y)));
+
             if (this.health <= 0)
                 Destroy();
         }
 
-        public void Collide(Collision side, float amount, IStaticObject origin)
+        public void Collide(Collision side, float amount, ICollider origin)
         {
             Console.WriteLine(side);
             collision |= side;
@@ -138,5 +156,13 @@ namespace ChanceOfPrecipitation
         {
             return facing;
         }
+
+        public Enemy Clone(float x, float y) {
+            var ans = (Enemy)this.MemberwiseClone();
+            ans.bounds.X = x;
+            ans.bounds.Y = y;
+            return ans;
+        }
+
     }
 }
