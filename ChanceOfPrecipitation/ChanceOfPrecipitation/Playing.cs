@@ -25,8 +25,10 @@ namespace ChanceOfPrecipitation {
             lastState = state = Keyboard.GetState();
             player = new Player(0, 0, 16, 32);
             objects.Add(player);
-            for (var i = 0; i < 1280 - 16; i += 16) {
-                objects.Add(new Block(i, 600, "Square"));
+            objects.Add(new Block(0, 600, "platform_tileset_stage1", "stage1_platform_top_left"));
+            objects.Add(new Block(1280 - 16, 600, "platform_tileset_stage1", "stage1_platform_top_right"));
+            for (var i = 16; i < 1280 - 16; i += 16) {
+                objects.Add(new Block(i, 600, "platform_tileset_stage1", "stage1_platform_top_middle"));
             }
             objects.Add(Enemies.enemy1.Clone(600, 0));
         }

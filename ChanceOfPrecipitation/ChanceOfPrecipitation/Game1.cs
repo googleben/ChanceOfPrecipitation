@@ -63,7 +63,7 @@ namespace ChanceOfPrecipitation {
             TextureManager.Sources["1"] = new Rectangle(0, 0, 3, 7);
             TextureManager.Sources["0"] = new Rectangle(34, 0, 5, 7);
             for (var i = 2; i < 9; i++)
-                TextureManager.Sources[(i).ToString()] = new Rectangle(2 + ((i-2)*4), 0, 5, 7);
+                TextureManager.Sources[(i).ToString()] = new Rectangle(2 + ((i - 2) * 4), 0, 5, 7);
 
             TextureManager.Textures["platform_tileset_stage1"] = Content.Load<Texture2D>("platform_tileset_stage1");
             TextureManager.Sources["stage1_platform_top_left"] =        new Rectangle(0, 0, 16, 16);
