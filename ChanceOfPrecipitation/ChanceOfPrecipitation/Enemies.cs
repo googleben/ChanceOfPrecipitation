@@ -9,13 +9,6 @@ using Microsoft.Xna.Framework.Input;
 namespace ChanceOfPrecipitation {
     class Enemies {
 
-        public static Enemy enemy1;
-
-        static Enemies() {
-            enemy1 = new Enemy(0, 0, 16, 32);
-            enemy1.MaxHealth = enemy1.health = 100;
-        }
-
-
+        public static Enemy enemy1 = new EnemyBuilder(0, 0, 16, 32) { MaxHealth = 100 }.Build();
     }
 }

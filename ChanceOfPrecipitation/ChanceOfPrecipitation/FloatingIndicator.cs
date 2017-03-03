@@ -80,6 +80,11 @@ namespace ChanceOfPrecipitation
                 {
                     Console.WriteLine(e.Message);
                 }
+                catch (KeyNotFoundException e)
+                {
+                    Console.WriteLine(e.Message);
+                    sb.Draw(TextureManager.Textures["Numbers"], Bounds(i + 1), TextureManager.Sources["0"], color);
+                }
             }
         }
 

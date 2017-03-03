@@ -46,6 +46,7 @@ namespace ChanceOfPrecipitation {
             }
             resolutions.Sort((a, b) => a.X - b.X);
         }
+
         protected override void LoadContent() {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -55,8 +56,7 @@ namespace ChanceOfPrecipitation {
             f.Close();
             fonts.Add("MenuFont", Content.Load<SpriteFont>("MenuFont"));
 
-            TextureManager.Textures["HealthBar"] = Content.Load<Texture2D>("HealthBar");
-            TextureManager.Textures["Square"] = Content.Load<Texture2D>("HealthBar");
+            TextureManager.Textures["Square"] = Content.Load<Texture2D>("Square");
             TextureManager.Textures["Numbers"] = Content.Load<Texture2D>("Numbers");
             TextureManager.Sources["Square"] = new Rectangle(0, 0, 16, 16);
 
@@ -76,6 +76,7 @@ namespace ChanceOfPrecipitation {
             TextureManager.Sources["stage1_platform_bottom_middle"] =   new Rectangle(16, 32, 16, 16);
             TextureManager.Sources["stage1_platform_bottom_right"] =    new Rectangle(32, 32, 16, 16);
         }
+
         protected override void UnloadContent() {
         }
 

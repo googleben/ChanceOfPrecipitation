@@ -19,15 +19,15 @@ namespace ChanceOfPrecipitation
 
         Texture2D texture;
 
-        public float maxSpeed = 2f;
+        private float maxSpeed;
 
-        public float jumpSpeed = 10f;
+        private float jumpSpeed;
 
-        public float health;
+        private float health;
 
-        Direction facing = Direction.Right;
+        private Direction facing;
 
-        float maxHealth;
+        private float maxHealth;
         public float MaxHealth
         {
             get { return maxHealth; }
@@ -38,22 +38,22 @@ namespace ChanceOfPrecipitation
             }
         }
 
-        FloatingIndicatorBuilder damageBuilder;
+        private FloatingIndicatorBuilder damageBuilder;
+        private FloatingIndicatorBuilder healBuilder;
 
-        public Enemy(float x, float y, float width, float height)
+        public Enemy(EnemyBuilder builder)
         {
-            this.bounds = new RectangleF(x, y, width, height);
-            this.texture = TextureManager.Textures["HealthBar"];
+            bounds = new RectangleF(builder.X, builder.Y, builder.Width, builder.Height);
+            texture = TextureManager.Textures["Square"];
 
-            healthBar = new HealthBarBuilder(new Vector2(x, y - 20), (int)width + 20, 5).Build();
+            facing = builder.Facing;
 
-            damageBuilder = new FloatingIndicatorBuilder();
+            maxHealth = builder.MaxHealth;
+            health = maxHealth;
+            healthBar = new HealthBarBuilder(new Vector2(builder.X, builder.Y - 20), (int)builder.Width + 20, 5).Build();
 
-        }
-
-        public Enemy(float x, float y, float width, float height, float maxSpeed) : this(x, y, width, height)
-        {
-            this.maxSpeed = maxSpeed;
+            damageBuilder = new FloatingIndicatorBuilder() { Color = Color.Red };
+            healBuilder = new FloatingIndicatorBuilder() { Color = Color.Lavender };
         }
 
         public override void Update(List<GameObject> objects)
@@ -112,6 +112,8 @@ namespace ChanceOfPrecipitation
         {
             this.health += amount;
             healthBar.Heal(amount);
+
+            Playing.Instance.objects.Add(healBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.Y)));
         }
 
         public void Damage(float amount)

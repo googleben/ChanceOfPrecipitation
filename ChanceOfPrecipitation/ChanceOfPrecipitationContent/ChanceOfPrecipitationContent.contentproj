@@ -45,8 +45,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HealthBar.bmp">
-      <Name>HealthBar</Name>
+    <Compile Include="Square.bmp">
+      <Name>Square</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

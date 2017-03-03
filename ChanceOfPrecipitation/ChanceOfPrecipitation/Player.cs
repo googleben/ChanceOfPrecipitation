@@ -37,7 +37,7 @@ namespace ChanceOfPrecipitation
 
         public Player(float x, float y, float width, float height) {
             this.bounds = new RectangleF(x, y, width, height);
-            this.texture = TextureManager.Textures["HealthBar"];
+            this.texture = TextureManager.Textures["Square"];
 
             healthBar = new HealthBarBuilder() { Position = new Vector2(x, y), Width = (int)width + 10 }.Build();
 
