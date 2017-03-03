@@ -9,7 +9,7 @@ namespace ChanceOfPrecipitation
     public class FloatingIndicator : GameObject
     {
         private const int Spacing = 1;
-        private readonly Point proportions = new Point(3, 5);
+        private readonly Point proportions = new Point(5, 7);
 
         private Vector2 position;
         private float scale;
@@ -74,7 +74,14 @@ namespace ChanceOfPrecipitation
             {
                 try
                 {
-                    sb.Draw(TextureManager.Textures["Numbers"], Bounds(i + 1), TextureManager.Sources[nums[i].ToString()], color);
+                    var rectangle = Bounds(i + 1);
+                    if (nums[i] != '1')
+                        sb.Draw(TextureManager.Textures["Numbers"], rectangle, TextureManager.Sources[nums[i].ToString()], color);
+                    else
+                    {
+                        rectangle.Width = (int)(proportions.X * scale * 3 / 4);
+                        sb.Draw(TextureManager.Textures["Numbers"], new Rectangle(rectangle.X, rectangle.Y, rectangle.Width / 2, rectangle.Height), TextureManager.Sources[nums[i].ToString()], color);
+                    }
                 }
                 catch (NullReferenceException e)
                 {

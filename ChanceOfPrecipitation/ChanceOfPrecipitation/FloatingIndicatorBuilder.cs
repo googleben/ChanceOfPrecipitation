@@ -4,7 +4,7 @@ namespace ChanceOfPrecipitation
 {
     public class FloatingIndicatorBuilder
     {
-        public float Scale { get; set; } = 3f;
+        public float Scale { get; set; } = 2f;
         public float UpSpeed { get; set; } = 0.3f;
         public bool Oscillates { get; set; } = false;
         public float OscillationDist { get; set; } = 1;
