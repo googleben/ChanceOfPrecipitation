@@ -9,7 +9,7 @@ namespace ChanceOfPrecipitation
     public class Enemy : GameObject, ICollidable, IEntity
     {
 
-        RectangleF bounds;
+        public RectangleF bounds;
         Vector2 velocity;
         Collision collision;
 
@@ -38,8 +38,7 @@ namespace ChanceOfPrecipitation
             }
         }
 
-        private FloatingIndicatorBuilder damageBuilder;
-        private FloatingIndicatorBuilder healBuilder;
+        private FloatingIndicatorBuilder healBuilder, damageBuilder;
 
         public Enemy(EnemyBuilder builder)
         {
@@ -158,13 +157,5 @@ namespace ChanceOfPrecipitation
         {
             return facing;
         }
-
-        public Enemy Clone(float x, float y) {
-            var ans = (Enemy)this.MemberwiseClone();
-            ans.bounds.X = x;
-            ans.bounds.Y = y;
-            return ans;
-        }
-
     }
 }

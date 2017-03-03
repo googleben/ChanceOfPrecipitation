@@ -32,7 +32,7 @@ namespace ChanceOfPrecipitation {
                 objects.Add(new Block(i, 600, "platform_tileset_stage1", "stage1_platform_top_middle"));
             }
 
-            objects.Add(Enemies.enemy1.Clone(600, 0));
+            objects.Add(Enemies.enemy1.Build(600, 0));
         }
 
         public void Draw(SpriteBatch sb) {

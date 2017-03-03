@@ -30,6 +30,13 @@ namespace ChanceOfPrecipitation
 
         }
 
+        public Enemy Build(float x, float y)
+        {
+            X = x;
+            Y = y;
+            return new Enemy(this);
+        }
+
         public Enemy Build()
         {
             return new Enemy(this);

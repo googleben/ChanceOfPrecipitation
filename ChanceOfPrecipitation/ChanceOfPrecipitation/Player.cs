@@ -35,6 +35,8 @@ namespace ChanceOfPrecipitation
 
         Direction facing = Direction.Right;
 
+        private FloatingIndicatorBuilder healBuilder, damageBuilder;
+
         public Player(float x, float y, float width, float height) {
             this.bounds = new RectangleF(x, y, width, height);
             this.texture = TextureManager.Textures["Square"];
@@ -42,6 +44,9 @@ namespace ChanceOfPrecipitation
             healthBar = new HealthBarBuilder() { Position = new Vector2(x, y), Width = (int)width + 10 }.Build();
 
             abilityOne = new BurstFireAbility(this);
+
+            healBuilder = new FloatingIndicatorBuilder() { Color = Color.Lavender };
+            damageBuilder = new FloatingIndicatorBuilder() { Color = Color.Red };
         }
 
         public override void Update(List<GameObject> objects) {
@@ -92,11 +97,16 @@ namespace ChanceOfPrecipitation
         {
             this.health += amount;
             healthBar.Heal(amount);
+
+            Playing.Instance.objects.Add(healBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.Y)));
         }
 
-        public void Damage(float amount) {
+        public void Damage(float amount)
+        {
             this.health -= amount;
             healthBar.Damage(amount);
+
+            Playing.Instance.objects.Add(damageBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.Y)));
 
             if (this.health <= 0)
                 Destroy();
