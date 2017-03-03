@@ -45,6 +45,8 @@ namespace ChanceOfPrecipitation
             bounds = new RectangleF(builder.X, builder.Y, builder.Width, builder.Height);
             texture = TextureManager.Textures["Square"];
 
+            maxSpeed = builder.MaxSpeed;
+
             facing = builder.Facing;
 
             maxHealth = builder.MaxHealth;
