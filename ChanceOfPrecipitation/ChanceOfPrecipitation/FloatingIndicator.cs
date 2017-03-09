@@ -80,7 +80,7 @@ namespace ChanceOfPrecipitation
                     else
                     {
                         rectangle.Width = (int)(proportions.X * scale * 3 / 4);
-                        sb.Draw(TextureManager.Textures["Numbers"], new Rectangle(rectangle.X, rectangle.Y, rectangle.Width / 2, rectangle.Height), TextureManager.Sources[nums[i].ToString()], color);
+                        sb.Draw(TextureManager.Textures["Numbers"], rectangle, TextureManager.Sources[nums[i].ToString()], color);
                     }
                 }
                 catch (NullReferenceException e)
