@@ -13,7 +13,7 @@ namespace ChanceOfPrecipitation {
             this.type = type;
             info = TextureManager.blocks[type];
             texture = TextureManager.textures[info.texName];
-            bounds = new RectangleF(x, y, info.src.Width*info.scale, info.src.Height*info.scale);
+            bounds = new RectangleF(x, y, info.src.Width * info.scale, info.src.Height * info.scale);
         }
 
         public override void Draw(SpriteBatch sb) {
