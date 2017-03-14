@@ -58,23 +58,25 @@ namespace ChanceOfPrecipitation {
 
             TextureManager.Textures["Square"] = Content.Load<Texture2D>("Square");
             TextureManager.Textures["Numbers"] = Content.Load<Texture2D>("Numbers");
-            TextureManager.Sources["Square"] = new Rectangle(0, 0, 16, 16);
-
-            TextureManager.Sources["1"] = new Rectangle(0, 0, 3, 7);
-            TextureManager.Sources["0"] = new Rectangle(34, 0, 5, 7);
+            TextureManager.Blocks["Square"] = new BlockInfo("Square", new Rectangle(0, 0, 16, 16));
+                           
+            TextureManager.Blocks["1"] = new BlockInfo("Numbers", new Rectangle(0, 0, 3, 7));
+            TextureManager.Blocks["0"] = new BlockInfo("Numbers", new Rectangle(34, 0, 5, 7));
             for (var i = 2; i < 9; i++)
-                TextureManager.Sources[(i).ToString()] = new Rectangle(2 + ((i - 2) * 4), 0, 5, 7);
+                TextureManager.Blocks[(i).ToString()] = new BlockInfo("Numbers", new Rectangle(2 + ((i - 2) * 4), 0, 5, 7));
 
+
+            const int scale = 1;
             TextureManager.Textures["platform_tileset_stage1"] = Content.Load<Texture2D>("platform_tileset_stage1");
-            TextureManager.Sources["stage1_platform_top_left"] =        new Rectangle(0, 0, 16, 16);
-            TextureManager.Sources["stage1_platform_top_middle"] =      new Rectangle(16, 0, 16, 16);
-            TextureManager.Sources["stage1_platform_top_right"] =       new Rectangle(32, 0, 16, 16);
-            TextureManager.Sources["stage1_platform_middle_left"] =     new Rectangle(0, 16, 16, 16);
-            TextureManager.Sources["stage1_platform_middle"] =          new Rectangle(16, 16, 16, 16);
-            TextureManager.Sources["stage1_platform_middle_right"] =    new Rectangle(32, 16, 16, 16);
-            TextureManager.Sources["stage1_platform_bottom_left"] =     new Rectangle(0, 32, 16, 16);
-            TextureManager.Sources["stage1_platform_bottom_middle"] =   new Rectangle(16, 32, 16, 16);
-            TextureManager.Sources["stage1_platform_bottom_right"] =    new Rectangle(32, 32, 16, 16);
+            TextureManager.Blocks["stage1_platform_top_left"] =        new BlockInfo("platform_tileset_stage1", new Rectangle(0, 0, 16, 16),   scale);
+            TextureManager.Blocks["stage1_platform_top_middle"] =      new BlockInfo("platform_tileset_stage1", new Rectangle(16, 0, 16, 16),  scale);
+            TextureManager.Blocks["stage1_platform_top_right"] =       new BlockInfo("platform_tileset_stage1", new Rectangle(32, 0, 16, 16),  scale);
+            TextureManager.Blocks["stage1_platform_middle_left"] =     new BlockInfo("platform_tileset_stage1", new Rectangle(0, 16, 16, 16),  scale);
+            TextureManager.Blocks["stage1_platform_middle"] =          new BlockInfo("platform_tileset_stage1", new Rectangle(16, 16, 16, 16), scale); 
+            TextureManager.Blocks["stage1_platform_middle_right"] =    new BlockInfo("platform_tileset_stage1", new Rectangle(32, 16, 16, 16), scale); 
+            TextureManager.Blocks["stage1_platform_bottom_left"] =     new BlockInfo("platform_tileset_stage1", new Rectangle(0, 32, 16, 16),  scale); 
+            TextureManager.Blocks["stage1_platform_bottom_middle"] =   new BlockInfo("platform_tileset_stage1", new Rectangle(16, 32, 16, 16), scale); 
+            TextureManager.Blocks["stage1_platform_bottom_right"] =    new BlockInfo("platform_tileset_stage1", new Rectangle(32, 32, 16, 16), scale); 
         }
 
         protected override void UnloadContent() {

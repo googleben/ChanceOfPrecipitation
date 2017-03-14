@@ -7,27 +7,19 @@ namespace ChanceOfPrecipitation {
     class Block : GameObject, ICollider {
 
         Texture2D texture;
-        Rectangle src;
+        BlockInfo info;
         RectangleF bounds;
         string type;
 
         public Block(float x, float y, string type) {
             this.type = type;
-            this.texture = TextureManager.Textures[type];
-            this.src = TextureManager.Sources[type];
-            this.bounds = new RectangleF(x, y, src.Width, src.Height);
-        }
-
-        public Block(float x, float y, string type, string src)
-        {
-            this.type = type;
-            this.texture = TextureManager.Textures[type];
-            this.src = TextureManager.Sources[src];
-            this.bounds = new RectangleF(x, y, this.src.Width, this.src.Height);
+            this.info = TextureManager.Blocks[type];
+            this.texture = TextureManager.Textures[info.texName];
+            this.bounds = new RectangleF(x, y, info.src.Width*info.scale, info.src.Height*info.scale);
         }
 
         public override void Draw(SpriteBatch sb) {
-            sb.Draw(texture, (Rectangle)bounds, src, Color.White);
+            sb.Draw(texture, (Rectangle)bounds, info.src, Color.White);
         }
 
         public override void Update(List<GameObject> objects) {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace ChanceOfPrecipitation
@@ -43,6 +44,21 @@ namespace ChanceOfPrecipitation
     public interface ICollider {
 
         void Collide(ICollidable c);
+
+    }
+
+    public class BlockInfo {
+
+        public float scale;
+        public string texName;
+        public Rectangle src;
+
+        public BlockInfo(string texName, Rectangle src) : this(texName, src, 1) {}
+        public BlockInfo(string texName, Rectangle src, float scale)  {
+            this.src = src;
+            this.texName = texName;
+            this.scale = scale;
+        }
 
     }
 

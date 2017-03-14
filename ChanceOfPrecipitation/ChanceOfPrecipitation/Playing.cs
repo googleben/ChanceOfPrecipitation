@@ -26,10 +26,10 @@ namespace ChanceOfPrecipitation {
             player = new Player(0, 0, 16, 32);
 
             objects.Add(player);
-            objects.Add(new Block(0, 600, "platform_tileset_stage1", "stage1_platform_top_left"));
-            objects.Add(new Block(1280 - 16, 600, "platform_tileset_stage1", "stage1_platform_top_right"));
+            objects.Add(new Block(0, 600,  "stage1_platform_top_left"));
+            objects.Add(new Block(1280 - 16, 600, "stage1_platform_top_right"));
             for (var i = 16; i < 1280 - 16; i += 16) {
-                objects.Add(new Block(i, 600, "platform_tileset_stage1", "stage1_platform_top_middle"));
+                objects.Add(new Block(i, 600, "stage1_platform_top_middle"));
             }
 
             objects.Add(Enemies.enemy1.Build(600, 0));

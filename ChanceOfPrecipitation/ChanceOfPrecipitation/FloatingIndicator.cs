@@ -74,13 +74,14 @@ namespace ChanceOfPrecipitation
             {
                 try
                 {
+                    //TODO: Cache dictionary accessing
                     var rectangle = Bounds(i + 1);
                     if (nums[i] != '1')
-                        sb.Draw(TextureManager.Textures["Numbers"], rectangle, TextureManager.Sources[nums[i].ToString()], color);
+                        sb.Draw(TextureManager.Textures["Numbers"], rectangle, TextureManager.Blocks[nums[i].ToString()].src, color);
                     else
                     {
                         rectangle.Width = (int)(proportions.X * scale * 3 / 4);
-                        sb.Draw(TextureManager.Textures["Numbers"], rectangle, TextureManager.Sources[nums[i].ToString()], color);
+                        sb.Draw(TextureManager.Textures["Numbers"], rectangle, TextureManager.Blocks[nums[i].ToString()].src, color);
                     }
                 }
                 catch (NullReferenceException e)
@@ -90,7 +91,7 @@ namespace ChanceOfPrecipitation
                 catch (KeyNotFoundException e)
                 {
                     Console.WriteLine(e.Message);
-                    sb.Draw(TextureManager.Textures["Numbers"], Bounds(i + 1), TextureManager.Sources["0"], color);
+                    sb.Draw(TextureManager.Textures["Numbers"], Bounds(i + 1), TextureManager.Blocks["0"].src, color);
                 }
             }
         }
