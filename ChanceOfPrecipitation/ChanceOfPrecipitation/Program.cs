@@ -1,8 +1,8 @@
 namespace ChanceOfPrecipitation {
 #if WINDOWS || XBOX
-    static class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             using (var game = new Game1())
             {

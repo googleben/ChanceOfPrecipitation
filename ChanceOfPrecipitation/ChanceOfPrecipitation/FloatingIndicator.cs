@@ -12,7 +12,7 @@ namespace ChanceOfPrecipitation
         private readonly Point proportions = new Point(5, 7);
 
         private Vector2 position;
-        private float scale;
+        private readonly float scale;
         private readonly float upSpeed;
         private readonly bool oscillates;
         private float oscillationDist;
@@ -23,7 +23,7 @@ namespace ChanceOfPrecipitation
 
         private readonly Color color;
 
-        private Func<int, Rectangle> Bounds;
+        private Func<int, Rectangle> bounds;
 
         public FloatingIndicator(FloatingIndicatorBuilder builder, int number, Vector2 position)
         {
@@ -46,7 +46,7 @@ namespace ChanceOfPrecipitation
 
         public override void Update(List<GameObject> objects)
         {
-            Bounds = digit => new Rectangle((int)(position.X + digit * (scale * proportions.X) + (digit - 1) * Spacing), (int)position.Y, (int)(scale * proportions.X), (int)(scale * proportions.Y));
+            bounds = digit => new Rectangle((int)(position.X + digit * (scale * proportions.X) + (digit - 1) * Spacing), (int)position.Y, (int)(scale * proportions.X), (int)(scale * proportions.Y));
 
             position.Y -= upSpeed;
 
@@ -75,13 +75,13 @@ namespace ChanceOfPrecipitation
                 try
                 {
                     //TODO: Cache dictionary accessing
-                    var rectangle = Bounds(i + 1);
+                    var rectangle = bounds(i + 1);
                     if (nums[i] != '1')
-                        sb.Draw(TextureManager.Textures["Numbers"], rectangle, TextureManager.Blocks[nums[i].ToString()].src, color);
+                        sb.Draw(TextureManager.textures["Numbers"], rectangle, TextureManager.blocks[nums[i].ToString()].src, color);
                     else
                     {
                         rectangle.Width = (int)(proportions.X * scale * 3 / 4);
-                        sb.Draw(TextureManager.Textures["Numbers"], rectangle, TextureManager.Blocks[nums[i].ToString()].src, color);
+                        sb.Draw(TextureManager.textures["Numbers"], rectangle, TextureManager.blocks[nums[i].ToString()].src, color);
                     }
                 }
                 catch (NullReferenceException e)
@@ -91,7 +91,7 @@ namespace ChanceOfPrecipitation
                 catch (KeyNotFoundException e)
                 {
                     Console.WriteLine(e.Message);
-                    sb.Draw(TextureManager.Textures["Numbers"], Bounds(i + 1), TextureManager.Blocks["0"].src, color);
+                    sb.Draw(TextureManager.textures["Numbers"], bounds(i + 1), TextureManager.blocks["0"].src, color);
                 }
             }
         }

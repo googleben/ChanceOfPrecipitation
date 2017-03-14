@@ -8,9 +8,9 @@ using System.IO;
 
 namespace ChanceOfPrecipitation {
 
-    public class Game1 : Microsoft.Xna.Framework.Game {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+    public class Game1 : Game {
+        private readonly GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
 
         public Settings settings;
 
@@ -18,16 +18,16 @@ namespace ChanceOfPrecipitation {
 
         public static Game1 Instance { get; private set; }
 
-        RenderTarget2D renderTarget;
+        private RenderTarget2D renderTarget;
 
         public const int BufferWidth = 1280;
         public const int BufferHeight = 720;
 
-        GameState state;
+        private IGameState state;
         public static List<Point> resolutions;
 
-        int screenWidth;
-        int screenHeight;
+        private int screenWidth;
+        private int screenHeight;
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
@@ -56,27 +56,27 @@ namespace ChanceOfPrecipitation {
             f.Close();
             fonts.Add("MenuFont", Content.Load<SpriteFont>("MenuFont"));
 
-            TextureManager.Textures["Square"] = Content.Load<Texture2D>("Square");
-            TextureManager.Textures["Numbers"] = Content.Load<Texture2D>("Numbers");
-            TextureManager.Blocks["Square"] = new BlockInfo("Square", new Rectangle(0, 0, 16, 16));
+            TextureManager.textures["Square"] = Content.Load<Texture2D>("Square");
+            TextureManager.textures["Numbers"] = Content.Load<Texture2D>("Numbers");
+            TextureManager.blocks["Square"] = new BlockInfo("Square", new Rectangle(0, 0, 16, 16));
                            
-            TextureManager.Blocks["1"] = new BlockInfo("Numbers", new Rectangle(0, 0, 3, 7));
-            TextureManager.Blocks["0"] = new BlockInfo("Numbers", new Rectangle(34, 0, 5, 7));
+            TextureManager.blocks["1"] = new BlockInfo("Numbers", new Rectangle(0, 0, 3, 7));
+            TextureManager.blocks["0"] = new BlockInfo("Numbers", new Rectangle(34, 0, 5, 7));
             for (var i = 2; i < 9; i++)
-                TextureManager.Blocks[(i).ToString()] = new BlockInfo("Numbers", new Rectangle(2 + ((i - 2) * 4), 0, 5, 7));
+                TextureManager.blocks[(i).ToString()] = new BlockInfo("Numbers", new Rectangle(2 + ((i - 2) * 4), 0, 5, 7));
 
 
             const int scale = 1;
-            TextureManager.Textures["platform_tileset_stage1"] = Content.Load<Texture2D>("platform_tileset_stage1");
-            TextureManager.Blocks["stage1_platform_top_left"] =        new BlockInfo("platform_tileset_stage1", new Rectangle(0, 0, 16, 16),   scale);
-            TextureManager.Blocks["stage1_platform_top_middle"] =      new BlockInfo("platform_tileset_stage1", new Rectangle(16, 0, 16, 16),  scale);
-            TextureManager.Blocks["stage1_platform_top_right"] =       new BlockInfo("platform_tileset_stage1", new Rectangle(32, 0, 16, 16),  scale);
-            TextureManager.Blocks["stage1_platform_middle_left"] =     new BlockInfo("platform_tileset_stage1", new Rectangle(0, 16, 16, 16),  scale);
-            TextureManager.Blocks["stage1_platform_middle"] =          new BlockInfo("platform_tileset_stage1", new Rectangle(16, 16, 16, 16), scale); 
-            TextureManager.Blocks["stage1_platform_middle_right"] =    new BlockInfo("platform_tileset_stage1", new Rectangle(32, 16, 16, 16), scale); 
-            TextureManager.Blocks["stage1_platform_bottom_left"] =     new BlockInfo("platform_tileset_stage1", new Rectangle(0, 32, 16, 16),  scale); 
-            TextureManager.Blocks["stage1_platform_bottom_middle"] =   new BlockInfo("platform_tileset_stage1", new Rectangle(16, 32, 16, 16), scale); 
-            TextureManager.Blocks["stage1_platform_bottom_right"] =    new BlockInfo("platform_tileset_stage1", new Rectangle(32, 32, 16, 16), scale); 
+            TextureManager.textures["platform_tileset_stage1"] = Content.Load<Texture2D>("platform_tileset_stage1");
+            TextureManager.blocks["stage1_platform_top_left"] =        new BlockInfo("platform_tileset_stage1", new Rectangle(0, 0, 16, 16),   scale);
+            TextureManager.blocks["stage1_platform_top_middle"] =      new BlockInfo("platform_tileset_stage1", new Rectangle(16, 0, 16, 16),  scale);
+            TextureManager.blocks["stage1_platform_top_right"] =       new BlockInfo("platform_tileset_stage1", new Rectangle(32, 0, 16, 16),  scale);
+            TextureManager.blocks["stage1_platform_middle_left"] =     new BlockInfo("platform_tileset_stage1", new Rectangle(0, 16, 16, 16),  scale);
+            TextureManager.blocks["stage1_platform_middle"] =          new BlockInfo("platform_tileset_stage1", new Rectangle(16, 16, 16, 16), scale); 
+            TextureManager.blocks["stage1_platform_middle_right"] =    new BlockInfo("platform_tileset_stage1", new Rectangle(32, 16, 16, 16), scale); 
+            TextureManager.blocks["stage1_platform_bottom_left"] =     new BlockInfo("platform_tileset_stage1", new Rectangle(0, 32, 16, 16),  scale); 
+            TextureManager.blocks["stage1_platform_bottom_middle"] =   new BlockInfo("platform_tileset_stage1", new Rectangle(16, 32, 16, 16), scale); 
+            TextureManager.blocks["stage1_platform_bottom_right"] =    new BlockInfo("platform_tileset_stage1", new Rectangle(32, 32, 16, 16), scale); 
         }
 
         protected override void UnloadContent() {
@@ -133,14 +133,14 @@ namespace ChanceOfPrecipitation {
         }
 
         public void Quit() {
-            this.Exit();
+            Exit();
         }
 
     }
 
-    interface GameState {
+    internal interface IGameState {
         void Draw(SpriteBatch sb);
-        GameState Update();
+        IGameState Update();
     }
 
 }

@@ -10,7 +10,7 @@ namespace ChanceOfPrecipitation {
         public int screenHeight = 720;
 
         [XmlAttribute()]
-        public bool fullscreen = false;
+        public bool fullscreen;
 
     }
 }

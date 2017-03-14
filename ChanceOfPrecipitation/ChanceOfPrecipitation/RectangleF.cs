@@ -18,25 +18,25 @@ namespace ChanceOfPrecipitation {
         /// <summary>Returns the x-coordinate of the left side of the rectangle.</summary>
         public float Left
         {
-            get { return X; }
+            get { return x; }
         }
 
         /// <summary>Returns the y-coordinate of the top of the rectangle.</summary>
         public float Top
         {
-            get { return Y; }
+            get { return y; }
         }
 
         /// <summary>Returns the x-coordinate of the right side of the rectangle.</summary>
         public float Right
         {
-            get { return X + Width; }
+            get { return x + width; }
         }
 
         /// <summary>Returns the y-coordinate of the bottom of the rectangle.</summary>
         public float Bottom
         {
-            get { return Y + Height; }
+            get { return y + height; }
         }
 
         /// <summary>Gets the Point that specifies the center of the rectangle.</summary>
@@ -45,8 +45,8 @@ namespace ChanceOfPrecipitation {
             get
             {
                 Vector2 v;
-                v.X = X + Width / 2;
-                v.Y = Y + Height / 2;
+                v.X = x + width / 2;
+                v.Y = y + height / 2;
                 return v;
             }
         }
@@ -59,14 +59,14 @@ namespace ChanceOfPrecipitation {
             get
             {
                 Vector2 v;
-                v.X = X;
-                v.Y = Y;
+                v.X = x;
+                v.Y = y;
                 return v;
             }
             set
             {
-                X = value.X;
-                Y = value.Y;
+                x = value.X;
+                y = value.Y;
             }
         }
 
@@ -76,7 +76,7 @@ namespace ChanceOfPrecipitation {
         public bool IsEmpty
         {
             // ReSharper disable CompareOfFloatsByEqualityOperator
-            get { return Width == 0 && Height == 0 && X == 0 && Y == 0; }
+            get { return width == 0 && height == 0 && x == 0 && y == 0; }
             // ReSharper restore CompareOfFloatsByEqualityOperator
         }
 
@@ -85,16 +85,16 @@ namespace ChanceOfPrecipitation {
         #region Fields
 
         /// <summary>Specifies the x-coordinate of the rectangle.</summary>
-        public float X;
+        public float x;
 
         /// <summary>Specifies the y-coordinate of the rectangle.</summary>
-        public float Y;
+        public float y;
 
         /// <summary>Specifies the width of the rectangle.</summary>
-        public float Width;
+        public float width;
 
         /// <summary>Specifies the height of the rectangle.</summary>
-        public float Height;
+        public float height;
 
         #endregion
 
@@ -108,10 +108,10 @@ namespace ChanceOfPrecipitation {
         /// <param name="width">The width of the rectangle.</param>
         /// <param name="height">The height of the rectangle.</param>
         public RectangleF(float x, float y, float width, float height) {
-            X = x;
-            Y = y;
-            Width = width;
-            Height = height;
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
         }
 
         #endregion
@@ -128,10 +128,10 @@ namespace ChanceOfPrecipitation {
         ///     <c>true</c> if the rectangle contains the specified value; otherwise, <c>false</c>.
         /// </returns>
         public bool Contains(RectangleF value) {
-            return X <= value.X &&
-                   (value.X + value.Width) <= (X + Width) &&
-                   Y <= value.Y &&
-                   (value.Y + value.Height) <= (Y + Height);
+            return x <= value.x &&
+                   (value.x + value.width) <= (x + width) &&
+                   y <= value.y &&
+                   (value.y + value.height) <= (y + height);
         }
 
         /// <summary>
@@ -142,10 +142,10 @@ namespace ChanceOfPrecipitation {
         ///     <c>true</c> if the rectangle contains the specified value; otherwise, <c>false</c>.
         /// </returns>
         public bool Contains(Vector2 value) {
-            return X <= value.X &&
-                   value.X < (X + Width) &&
-                   Y <= value.Y &&
-                   value.Y < (Y + Height);
+            return x <= value.X &&
+                   value.X < (x + width) &&
+                   y <= value.Y &&
+                   value.Y < (y + height);
         }
 
         //  by its x- and y-coordinates.
@@ -158,10 +158,10 @@ namespace ChanceOfPrecipitation {
         ///     <c>true</c> if the rectangle contains the specified point; otherwise, <c>false</c>.
         /// </returns>
         public bool Contains(float x, float y) {
-            return X <= x &&
-                   x < (X + Width) &&
-                   Y <= y &&
-                   y < (Y + Height);
+            return this.x <= x &&
+                   x < (this.x + width) &&
+                   this.y <= y &&
+                   y < (this.y + height);
         }
 
         /// <summary>
@@ -175,10 +175,10 @@ namespace ChanceOfPrecipitation {
         ///     <see cref="RectangleF"/>, or false if not.
         /// </param>
         public void Contains(ref RectangleF value, out bool result) {
-            result = X <= value.X &&
-                     (value.X + value.Width) <= (X + Width) &&
-                     Y <= value.Y &&
-                     (value.Y + value.Height) <= (Y + Height);
+            result = x <= value.x &&
+                     (value.x + value.width) <= (x + width) &&
+                     y <= value.y &&
+                     (value.y + value.height) <= (y + height);
         }
 
         /// <summary>
@@ -189,10 +189,10 @@ namespace ChanceOfPrecipitation {
         ///     true if the specified Vector2 is contained within this <see cref="RectangleF"/>; false otherwise.
         /// </param>
         public void Contains(ref Vector2 value, out bool result) {
-            result = X <= value.X &&
-                     value.X < (X + Width) &&
-                     Y <= value.Y &&
-                     value.Y < (Y + Height);
+            result = x <= value.X &&
+                     value.X < (x + width) &&
+                     y <= value.Y &&
+                     value.Y < (y + height);
         }
 
         /// <summary>
@@ -201,10 +201,10 @@ namespace ChanceOfPrecipitation {
         /// <param name="horizontalAmount">Value to push the sides out by.</param>
         /// <param name="verticalAmount">Value to push the top and bottom out by.</param>
         public void Inflate(float horizontalAmount, float verticalAmount) {
-            X -= horizontalAmount;
-            Y -= verticalAmount;
-            Width += horizontalAmount + horizontalAmount;
-            Height += verticalAmount + verticalAmount;
+            x -= horizontalAmount;
+            y -= verticalAmount;
+            width += horizontalAmount + horizontalAmount;
+            height += verticalAmount + verticalAmount;
         }
 
         /// <summary>
@@ -217,10 +217,10 @@ namespace ChanceOfPrecipitation {
         ///     <c>true</c> if the rectangles intersect; otherwise, <c>false</c>.
         /// </returns>
         public bool Intersects(RectangleF other) {
-            return X < (other.X + other.Width) &&
-                   other.X < (X + Width) &&
-                   Y < (other.Y + other.Height) &&
-                   other.Y < (Y + Height);
+            return x < (other.x + other.width) &&
+                   other.x < (x + width) &&
+                   y < (other.y + other.height) &&
+                   other.y < (y + height);
         }
 
         /// <summary>
@@ -233,10 +233,10 @@ namespace ChanceOfPrecipitation {
         ///     true if the specified <see cref="RectangleF"/> intersects with this one; false otherwise.
         /// </param>
         public void Intersects(RectangleF other, out bool result) {
-            result = X < (other.X + other.Width) &&
-                     other.X < (X + Width) &&
-                     Y < (other.Y + other.Height) &&
-                     other.Y < (Y + Height);
+            result = x < (other.x + other.width) &&
+                     other.x < (x + width) &&
+                     y < (other.y + other.height) &&
+                     other.y < (y + height);
         }
 
         /// <summary>
@@ -246,8 +246,8 @@ namespace ChanceOfPrecipitation {
         ///     The values to adjust the position of the <see cref="RectangleF"/> by.
         /// </param>
         public void Offset(Vector2 amount) {
-            X += amount.X;
-            Y += amount.Y;
+            x += amount.X;
+            y += amount.Y;
         }
 
         /// <summary>
@@ -256,8 +256,8 @@ namespace ChanceOfPrecipitation {
         /// <param name="offsetX">Change in the x-position.</param>
         /// <param name="offsetY">Change in the y-position.</param>
         public void Offset(float offsetX, float offsetY) {
-            X += offsetX;
-            Y += offsetY;
+            x += offsetX;
+            y += offsetY;
         }
 
         /// <summary>
@@ -271,27 +271,27 @@ namespace ChanceOfPrecipitation {
         /// </param>
         /// <returns></returns>
         public static RectangleF Intersect(RectangleF value1, RectangleF value2) {
-            var right1 = value1.X + value1.Width;
-            var right2 = value2.X + value2.Width;
-            var bottom1 = value1.Y + value1.Height;
-            var bottom2 = value2.Y + value2.Height;
-            var left = (value1.X > value2.X) ? value1.X : value2.X;
-            var top = (value1.Y > value2.Y) ? value1.Y : value2.Y;
+            var right1 = value1.x + value1.width;
+            var right2 = value2.x + value2.width;
+            var bottom1 = value1.y + value1.height;
+            var bottom2 = value2.y + value2.height;
+            var left = (value1.x > value2.x) ? value1.x : value2.x;
+            var top = (value1.y > value2.y) ? value1.y : value2.y;
             var right = (right1 < right2) ? right1 : right2;
             var bottom = (bottom1 < bottom2) ? bottom1 : bottom2;
 
             RectangleF result;
             if ((right > left) && (bottom > top)) {
-                result.X = left;
-                result.Y = top;
-                result.Width = right - left;
-                result.Height = bottom - top;
+                result.x = left;
+                result.y = top;
+                result.width = right - left;
+                result.height = bottom - top;
             }
             else {
-                result.X = 0;
-                result.Y = 0;
-                result.Width = 0;
-                result.Height = 0;
+                result.x = 0;
+                result.y = 0;
+                result.width = 0;
+                result.height = 0;
             }
             return result;
         }
@@ -307,25 +307,25 @@ namespace ChanceOfPrecipitation {
         /// </param>
         /// <param name="result">The area where the two first parameters overlap.</param>
         public static void Intersect(ref RectangleF value1, ref RectangleF value2, out RectangleF result) {
-            var right1 = value1.X + value1.Width;
-            var right2 = value2.X + value2.Width;
-            var bottom1 = value1.Y + value1.Height;
-            var bottom2 = value2.Y + value2.Height;
-            var left = (value1.X > value2.X) ? value1.X : value2.X;
-            var top = (value1.Y > value2.Y) ? value1.Y : value2.Y;
+            var right1 = value1.x + value1.width;
+            var right2 = value2.x + value2.width;
+            var bottom1 = value1.y + value1.height;
+            var bottom2 = value2.y + value2.height;
+            var left = (value1.x > value2.x) ? value1.x : value2.x;
+            var top = (value1.y > value2.y) ? value1.y : value2.y;
             var right = (right1 < right2) ? right1 : right2;
             var bottom = (bottom1 < bottom2) ? bottom1 : bottom2;
             if ((right > left) && (bottom > top)) {
-                result.X = left;
-                result.Y = top;
-                result.Width = right - left;
-                result.Height = bottom - top;
+                result.x = left;
+                result.y = top;
+                result.width = right - left;
+                result.height = bottom - top;
             }
             else {
-                result.X = 0;
-                result.Y = 0;
-                result.Width = 0;
-                result.Height = 0;
+                result.x = 0;
+                result.y = 0;
+                result.width = 0;
+                result.height = 0;
             }
         }
 
@@ -342,20 +342,20 @@ namespace ChanceOfPrecipitation {
         ///     The <see cref="RectangleF"/> that must be the union of the first two rectangles.
         /// </returns>
         public static RectangleF Union(RectangleF value1, RectangleF value2) {
-            var right1 = value1.X + value1.Width;
-            var right2 = value2.X + value2.Width;
-            var bottom1 = value1.Y + value1.Height;
-            var bottom2 = value2.Y + value2.Height;
-            var left = (value1.X < value2.X) ? value1.X : value2.X;
-            var top = (value1.Y < value2.Y) ? value1.Y : value2.Y;
+            var right1 = value1.x + value1.width;
+            var right2 = value2.x + value2.width;
+            var bottom1 = value1.y + value1.height;
+            var bottom2 = value2.y + value2.height;
+            var left = (value1.x < value2.x) ? value1.x : value2.x;
+            var top = (value1.y < value2.y) ? value1.y : value2.y;
             var right = (right1 > right2) ? right1 : right2;
             var bottom = (bottom1 > bottom2) ? bottom1 : bottom2;
 
             RectangleF result;
-            result.X = left;
-            result.Y = top;
-            result.Width = right - left;
-            result.Height = bottom - top;
+            result.x = left;
+            result.y = top;
+            result.width = right - left;
+            result.height = bottom - top;
             return result;
         }
 
@@ -372,19 +372,19 @@ namespace ChanceOfPrecipitation {
         ///     The <see cref="RectangleF"/> that must be the union of the first two rectangles.
         /// </param>
         public static void Union(ref RectangleF value1, ref RectangleF value2, out RectangleF result) {
-            var right1 = value1.X + value1.Width;
-            var right2 = value2.X + value2.Width;
-            var bottom1 = value1.Y + value1.Height;
-            var bottom2 = value2.Y + value2.Height;
-            var left = (value1.X < value2.X) ? value1.X : value2.X;
-            var top = (value1.Y < value2.Y) ? value1.Y : value2.Y;
+            var right1 = value1.x + value1.width;
+            var right2 = value2.x + value2.width;
+            var bottom1 = value1.y + value1.height;
+            var bottom2 = value2.y + value2.height;
+            var left = (value1.x < value2.x) ? value1.x : value2.x;
+            var top = (value1.y < value2.y) ? value1.y : value2.y;
             var right = (right1 > right2) ? right1 : right2;
             var bottom = (bottom1 > bottom2) ? bottom1 : bottom2;
 
-            result.X = left;
-            result.Y = top;
-            result.Width = right - left;
-            result.Height = bottom - top;
+            result.x = left;
+            result.y = top;
+            result.width = right - left;
+            result.height = bottom - top;
         }
 
         #endregion
@@ -399,7 +399,7 @@ namespace ChanceOfPrecipitation {
         /// </returns>
         public static bool operator ==(RectangleF a, RectangleF b) {
             // ReSharper disable CompareOfFloatsByEqualityOperator
-            return a.X == b.X && a.Y == b.Y && a.Width == b.Width && a.Height == b.Height;
+            return a.x == b.x && a.y == b.y && a.width == b.width && a.height == b.height;
             // ReSharper restore CompareOfFloatsByEqualityOperator
         }
 
@@ -411,7 +411,7 @@ namespace ChanceOfPrecipitation {
         /// </returns>
         public static bool operator !=(RectangleF a, RectangleF b) {
             // ReSharper disable CompareOfFloatsByEqualityOperator
-            return a.X != b.X || a.Y != b.Y || a.Width != b.Width || a.Height != b.Height;
+            return a.x != b.x || a.y != b.y || a.width != b.width || a.height != b.height;
             // ReSharper restore CompareOfFloatsByEqualityOperator
         }
 
@@ -423,15 +423,15 @@ namespace ChanceOfPrecipitation {
         /// <returns>The result of the conversion.</returns>
         public static explicit operator RectangleF(Rectangle rectangle) {
             RectangleF r;
-            r.X = rectangle.X;
-            r.Y = rectangle.Y;
-            r.Width = rectangle.Width;
-            r.Height = rectangle.Height;
+            r.x = rectangle.X;
+            r.y = rectangle.Y;
+            r.width = rectangle.Width;
+            r.height = rectangle.Height;
             return r;
         }
 
         public static explicit operator Rectangle(RectangleF rectangle) {
-            return new Rectangle((int)rectangle.X, (int)rectangle.Y, (int)rectangle.Width, (int)rectangle.Height);
+            return new Rectangle((int)rectangle.x, (int)rectangle.y, (int)rectangle.width, (int)rectangle.height);
         }
 
         #endregion
@@ -445,10 +445,10 @@ namespace ChanceOfPrecipitation {
         /// </returns>
         public bool Equals(RectangleF other) {
             // ReSharper disable CompareOfFloatsByEqualityOperator
-            return (X == other.X) &&
-                   (Y == other.Y) &&
-                   (Width == other.Width) &&
-                   (Height == other.Height);
+            return (x == other.x) &&
+                   (y == other.y) &&
+                   (width == other.width) &&
+                   (height == other.height);
             // ReSharper restore CompareOfFloatsByEqualityOperator
         }
 
@@ -468,7 +468,7 @@ namespace ChanceOfPrecipitation {
         /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
         public override int GetHashCode() {
             // ReSharper disable NonReadonlyFieldInGetHashCode XNA's Rectangle does the same thing
-            return X.GetHashCode() + Y.GetHashCode() + Width.GetHashCode() + Height.GetHashCode();
+            return x.GetHashCode() + y.GetHashCode() + width.GetHashCode() + height.GetHashCode();
             // ReSharper restore NonReadonlyFieldInGetHashCode
         }
 
@@ -486,10 +486,10 @@ namespace ChanceOfPrecipitation {
             return string.Format(
                 CultureInfo.CurrentCulture,
                 "{{X:{0} Y:{1} Width:{2} Height:{3}}}",
-                X.ToString(CultureInfo.CurrentCulture),
-                Y.ToString(CultureInfo.CurrentCulture),
-                Width.ToString(CultureInfo.CurrentCulture),
-                Height.ToString(CultureInfo.CurrentCulture));
+                x.ToString(CultureInfo.CurrentCulture),
+                y.ToString(CultureInfo.CurrentCulture),
+                width.ToString(CultureInfo.CurrentCulture),
+                height.ToString(CultureInfo.CurrentCulture));
         }
 
         #endregion

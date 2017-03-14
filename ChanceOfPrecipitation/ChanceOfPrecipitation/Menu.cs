@@ -4,10 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace ChanceOfPrecipitation {
+    internal class MenuOption {
 
-    class MenuOption {
-
-        public delegate GameState MakeState();
+        public delegate IGameState MakeState();
 
         public MakeState makeState;
 
@@ -20,20 +19,19 @@ namespace ChanceOfPrecipitation {
 
     }
 
-    abstract class Menu : GameState {
-
-        SpriteFont font;
+    internal abstract class Menu : IGameState {
+        private readonly SpriteFont font;
 
         public static KeyboardState lastState = Keyboard.GetState();
 
-        int index;
+        private int index;
 
         protected List<MenuOption> options;
 
-        Menu fromMenu;
+        private readonly Menu fromMenu;
 
         public Menu(Menu fromMenu) {
-            this.font = Game1.fonts["MenuFont"];
+            font = Game1.fonts["MenuFont"];
             index = 0;
             options = new List<MenuOption>();
             this.fromMenu = fromMenu;
@@ -52,7 +50,7 @@ namespace ChanceOfPrecipitation {
             }
         }
 
-        public GameState Update() {
+        public IGameState Update() {
             var state = Keyboard.GetState();
             if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !lastState.IsKeyDown(Keys.Enter)) {
                 lastState = state;
@@ -83,17 +81,17 @@ namespace ChanceOfPrecipitation {
         }
 
         public virtual void GenerateOptions() {
-            if (fromMenu == null) this.options.Add(new MenuOption("Exit", () =>
+            if (fromMenu == null) options.Add(new MenuOption("Exit", () =>
             {
                 Game1.Instance.Quit();
                 return this;
             }));
-            else this.options.Add(new MenuOption("Back", () => fromMenu));
+            else options.Add(new MenuOption("Back", () => fromMenu));
         }
 
     }
 
-    class MainMenu : Menu {
+    internal class MainMenu : Menu {
 
         public MainMenu() : base(null) {}
 
@@ -101,7 +99,7 @@ namespace ChanceOfPrecipitation {
             base.Draw(sb);
         }
 
-        public new GameState Update() {
+        public new IGameState Update() {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) Game1.Instance.Quit();
             return base.Update();
         }
@@ -114,14 +112,14 @@ namespace ChanceOfPrecipitation {
 
     }
 
-    class SettingsMenu : Menu {
+    internal class SettingsMenu : Menu {
 
         public SettingsMenu(Menu fromMenu) : base(fromMenu) {}
 
         public override void GenerateOptions() {
             var settings = Game1.Instance.settings;
             base.GenerateOptions();
-            this.options.Add(new MenuOption($"Resolution: {Game1.Instance.settings.screenWidth}x{Game1.Instance.settings.screenHeight}", () => {
+            options.Add(new MenuOption($"Resolution: {Game1.Instance.settings.screenWidth}x{Game1.Instance.settings.screenHeight}", () => {
                 var size = new Point(settings.screenWidth, settings.screenHeight);
                 var index = Game1.resolutions.IndexOf(size);
                 index++;
@@ -133,12 +131,12 @@ namespace ChanceOfPrecipitation {
                 
                 return this;
             }));
-            this.options.Add(new MenuOption("Fullscreen: " + (settings.fullscreen ? "On" : "Off"), () => {
+            options.Add(new MenuOption("Fullscreen: " + (settings.fullscreen ? "On" : "Off"), () => {
                 Game1.Instance.settings.fullscreen = !settings.fullscreen;
                 RegenerateOptions();
                 return this;
             }));
-            this.options.Add(new MenuOption("Apply", () => { Game1.Instance.ApplySettings(); return this; }));
+            options.Add(new MenuOption("Apply", () => { Game1.Instance.ApplySettings(); return this; }));
         }
 
     }

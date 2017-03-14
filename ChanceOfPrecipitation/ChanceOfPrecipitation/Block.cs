@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace ChanceOfPrecipitation {
-    class Block : GameObject, ICollider {
-
-        Texture2D texture;
-        BlockInfo info;
-        RectangleF bounds;
-        string type;
+    internal class Block : GameObject, ICollider {
+        private readonly Texture2D texture;
+        private readonly BlockInfo info;
+        private RectangleF bounds;
+        private string type;
 
         public Block(float x, float y, string type) {
             this.type = type;
-            this.info = TextureManager.Blocks[type];
-            this.texture = TextureManager.Textures[info.texName];
-            this.bounds = new RectangleF(x, y, info.src.Width*info.scale, info.src.Height*info.scale);
+            info = TextureManager.blocks[type];
+            texture = TextureManager.textures[info.texName];
+            bounds = new RectangleF(x, y, info.src.Width*info.scale, info.src.Height*info.scale);
         }
 
         public override void Draw(SpriteBatch sb) {
@@ -28,11 +26,11 @@ namespace ChanceOfPrecipitation {
 
         public void Collide(ICollidable c) {
             var i = RectangleF.Intersect(bounds, c.Bounds());
-            if (i.Width == 0 || i.Height == 0) return;
-            if (i.Width < i.Height) {
-                c.Collide((i.X < bounds.X) ? Collision.Right : Collision.Left, i.Width, this);
+            if (i.width == 0 || i.height == 0) return;
+            if (i.width < i.height) {
+                c.Collide((i.x < bounds.x) ? Collision.Right : Collision.Left, i.width, this);
             } else {
-                c.Collide((i.Y < bounds.Y) ? Collision.Top : Collision.Bottom, i.Height, this);
+                c.Collide((i.y < bounds.y) ? Collision.Top : Collision.Bottom, i.height, this);
             }
         }
 

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace ChanceOfPrecipitation {
-    class Playing : GameState {
+    internal class Playing : IGameState {
 
         private static Playing instance;
 
@@ -36,11 +36,11 @@ namespace ChanceOfPrecipitation {
         }
 
         public void Draw(SpriteBatch sb) {
-            sb.Draw(TextureManager.Textures["Square"], new Rectangle(0, 0, 1280, 720), Color.MidnightBlue);
+            sb.Draw(TextureManager.textures["Square"], new Rectangle(0, 0, 1280, 720), Color.MidnightBlue);
             foreach (var o in objects) o.Draw(sb);
         }
 
-        public GameState Update() {
+        public IGameState Update() {
 
             lastState = state;
             state = Keyboard.GetState();
@@ -54,9 +54,9 @@ namespace ChanceOfPrecipitation {
 
             for (var i = 0; i < objects.Count; i++) {
                 var o = objects[i];
-                if (o.toDestroy) { objects.RemoveAt(i--); continue; }
+                if (o.ToDestroy) { objects.RemoveAt(i--); continue; }
                 o.Update(objects);
-                if (o.toDestroy) objects.RemoveAt(i--);
+                if (o.ToDestroy) objects.RemoveAt(i--);
                 else
                 {
                     if (o is ICollidable) collidables.AddLast(o as ICollidable);

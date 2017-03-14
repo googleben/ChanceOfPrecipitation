@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -7,23 +6,22 @@ using Microsoft.Xna.Framework.Input;
 namespace ChanceOfPrecipitation
 {
     public class Player : GameObject, ICollidable, IEntity {
+        private RectangleF bounds;
+        private Vector2 velocity;
+        private Collision collision;
 
-        RectangleF bounds;
-        Vector2 velocity;
-        Collision collision;
+        private readonly HealthBar healthBar;
 
-        HealthBar healthBar;
+        private readonly Keys left = Keys.Left;
+        private readonly Keys right = Keys.Right;
+        private Keys up = Keys.Up;
+        private Keys down = Keys.Down;
+        private readonly Keys jump = Keys.Space;
+        private readonly Keys abilityOneKey = Keys.J;
 
-        Keys left = Keys.Left;
-        Keys right = Keys.Right;
-        Keys up = Keys.Up;
-        Keys down = Keys.Down;
-        Keys jump = Keys.Space;
-        Keys abilityOneKey = Keys.J;
+        private readonly Ability abilityOne;
 
-        Ability abilityOne;
-
-        Texture2D texture;
+        private readonly Texture2D texture;
 
         public float maxSpeed = 5f;
 
@@ -33,13 +31,14 @@ namespace ChanceOfPrecipitation
 
         public const float MaxHealth = 100;
 
-        Direction facing = Direction.Right;
+        private Direction facing = Direction.Right;
 
-        private FloatingIndicatorBuilder healBuilder, damageBuilder;
+        private readonly FloatingIndicatorBuilder healBuilder;
+        private readonly FloatingIndicatorBuilder damageBuilder;
 
         public Player(float x, float y, float width, float height) {
-            this.bounds = new RectangleF(x, y, width, height);
-            this.texture = TextureManager.Textures["Square"];
+            bounds = new RectangleF(x, y, width, height);
+            texture = TextureManager.textures["Square"];
 
             healthBar = new HealthBarBuilder() { Position = new Vector2(x, y), Width = (int)width + 10 }.Build();
 
@@ -56,28 +55,28 @@ namespace ChanceOfPrecipitation
             
             if (state.IsKeyDown(left)) {
                 facing = Direction.Left;
-                this.velocity.X = -maxSpeed;
+                velocity.X = -maxSpeed;
             } else if (state.IsKeyDown(right)) {
                 facing = Direction.Right;
-                this.velocity.X = maxSpeed;
+                velocity.X = maxSpeed;
             } else {
-                this.velocity.X = 0;
+                velocity.X = 0;
             }
 
             if (state.IsKeyDown(jump) && collision.HasFlag(Collision.Bottom)) {
-                this.velocity.Y = -jumpSpeed;
+                velocity.Y = -jumpSpeed;
             }
 
             if (state.IsKeyDown(abilityOneKey)) abilityOne.Fire(objects); // TODO: Add ability
 
             collision = Collision.None;
 
-            this.velocity += Playing.Instance.gravity;
-            this.bounds.X += velocity.X;
-            this.bounds.Y += velocity.Y;
+            velocity += Playing.Instance.gravity;
+            bounds.x += velocity.X;
+            bounds.y += velocity.Y;
 
             healthBar.AlignHorizontally((Rectangle)Bounds());
-            healthBar.SetY(Bounds().Y - 20);
+            healthBar.SetY(Bounds().y - 20);
         }
 
         public override void Draw(SpriteBatch sb) {
@@ -95,20 +94,20 @@ namespace ChanceOfPrecipitation
 
         public void Heal(float amount)
         {
-            this.health += amount;
+            health += amount;
             healthBar.Heal(amount);
 
-            Playing.Instance.objects.Add(healBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.Y)));
+            Playing.Instance.objects.Add(healBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.y)));
         }
 
         public void Damage(float amount)
         {
-            this.health -= amount;
+            health -= amount;
             healthBar.Damage(amount);
 
-            Playing.Instance.objects.Add(damageBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.Y)));
+            Playing.Instance.objects.Add(damageBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.y)));
 
-            if (this.health <= 0)
+            if (health <= 0)
                 Destroy();
         }
 
@@ -117,20 +116,20 @@ namespace ChanceOfPrecipitation
             collision |= side;
 
             if (side == Collision.Right) {
-                this.bounds.X -= amount;
-                this.velocity.X = 0;
+                bounds.x -= amount;
+                velocity.X = 0;
             }
             else if (side == Collision.Left) {
-                this.bounds.X += amount;
-                this.velocity.X = 0;
+                bounds.x += amount;
+                velocity.X = 0;
             }
             else if (side == Collision.Top) {
-                this.bounds.Y += amount;
-                this.velocity.Y = 0;
+                bounds.y += amount;
+                velocity.Y = 0;
             }
             else if (side == Collision.Bottom) {
-                this.bounds.Y -= amount;
-                this.velocity.Y = 0;
+                bounds.y -= amount;
+                velocity.Y = 0;
             }
         }
 

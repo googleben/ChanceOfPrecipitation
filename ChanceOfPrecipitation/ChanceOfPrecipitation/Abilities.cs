@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace ChanceOfPrecipitation {
     public abstract class Ability {
 
-        internal int cd = 0;
+        internal int cd;
 
         public virtual void Fire(List<GameObject> objects) {
             cd = Cooldown();
@@ -22,7 +21,7 @@ namespace ChanceOfPrecipitation {
 
     public class BulletAbility : Ability {
 
-        private ICollidable origin;
+        private readonly ICollidable origin;
 
         public override int Cooldown() {
             return 5;
@@ -34,7 +33,7 @@ namespace ChanceOfPrecipitation {
 
         public override void Fire(List<GameObject> objects) {
             if (cd == 0) {
-                objects.Add(new Bullet(origin, origin.Facing() == Direction.Left ? origin.Bounds().X - Bullet.Width : origin.Bounds().Right, origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, 10));
+                objects.Add(new Bullet(origin, origin.Facing() == Direction.Left ? origin.Bounds().x - Bullet.Width : origin.Bounds().Right, origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, 10));
                 base.Fire(objects);
             }
             
@@ -44,7 +43,7 @@ namespace ChanceOfPrecipitation {
 
     public class BurstFireAbility : Ability {
 
-        private ICollidable origin;
+        private readonly ICollidable origin;
 
         public override int Cooldown() {
             return 30;
@@ -62,11 +61,11 @@ namespace ChanceOfPrecipitation {
 
         }
 
-        class BurstFireDummyObject : GameObject {
+        private class BurstFireDummyObject : GameObject {
 
-            public const int interval = 3;
-            int count = 0;
-            ICollidable origin;
+            public const int Interval = 3;
+            private int count;
+            private readonly ICollidable origin;
 
             public BurstFireDummyObject(ICollidable origin) {
                 this.origin = origin;
@@ -77,10 +76,10 @@ namespace ChanceOfPrecipitation {
             }
 
             public override void Update(List<GameObject> objects) {
-                if (count%interval==0) {
-                    objects.Add(new Bullet(origin, origin.Facing() == Direction.Left ? origin.Bounds().X - Bullet.Width : origin.Bounds().Right, origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, 10));
+                if (count%Interval==0) {
+                    objects.Add(new Bullet(origin, origin.Facing() == Direction.Left ? origin.Bounds().x - Bullet.Width : origin.Bounds().Right, origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, 10));
                 }
-                if (count == interval * 2) Destroy();
+                if (count == Interval * 2) Destroy();
                 count++;
             }
         }
@@ -88,19 +87,18 @@ namespace ChanceOfPrecipitation {
     }
 
     public class Bullet : GameObject, ICollider {
+        private RectangleF bounds;
+        private readonly float damage;
+        private readonly float speed;
 
-        RectangleF bounds;
-        float damage;
-        float speed;
-
-        Texture2D texture;
+        private readonly Texture2D texture;
 
         public const int Width = 3;
 
-        ICollidable origin;
+        private readonly ICollidable origin;
 
         public Bullet(ICollidable origin, float x, float y, float speed, float damage) {
-            texture = TextureManager.Textures["Square"];
+            texture = TextureManager.textures["Square"];
             bounds = new RectangleF(x, y, Width, 1);
             this.damage = damage;
             this.speed = speed;
@@ -112,7 +110,7 @@ namespace ChanceOfPrecipitation {
         }
 
         public override void Update(List<GameObject> objects) {
-            this.bounds.X += speed;
+            bounds.x += speed;
         }
 
         public RectangleF Bounds() {
@@ -121,7 +119,7 @@ namespace ChanceOfPrecipitation {
 
         public void Collide(ICollidable other) {
             var i = RectangleF.Intersect(bounds, other.Bounds());
-            if (i.Width == 0 || i.Height == 0) return;
+            if (i.width == 0 || i.height == 0) return;
             Destroy();
             if (other is IEntity)
                 if (other != origin) (other as IEntity).Damage(damage);

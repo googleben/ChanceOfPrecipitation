@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace ChanceOfPrecipitation
 {
@@ -10,16 +9,16 @@ namespace ChanceOfPrecipitation
     {
 
         public RectangleF bounds;
-        Vector2 velocity;
-        Collision collision;
+        private Vector2 velocity;
+        private Collision collision;
 
-        HealthBar healthBar;
+        private readonly HealthBar healthBar;
 
-        Ability abilityOne;
+        private Ability abilityOne;
 
-        Texture2D texture;
+        private readonly Texture2D texture;
 
-        private float maxSpeed;
+        private readonly float maxSpeed;
 
         private float jumpSpeed;
 
@@ -33,17 +32,18 @@ namespace ChanceOfPrecipitation
             get { return maxHealth; }
             set
             {
-                this.maxHealth = value;
-                this.healthBar.SetMaxHealth((int)maxHealth);
+                maxHealth = value;
+                healthBar.SetMaxHealth((int)maxHealth);
             }
         }
 
-        private FloatingIndicatorBuilder healBuilder, damageBuilder;
+        private readonly FloatingIndicatorBuilder healBuilder;
+        private readonly FloatingIndicatorBuilder damageBuilder;
 
         public Enemy(EnemyBuilder builder)
         {
             bounds = new RectangleF(builder.X, builder.Y, builder.Width, builder.Height);
-            texture = TextureManager.Textures["Square"];
+            texture = TextureManager.textures["Square"];
 
             maxSpeed = builder.MaxSpeed;
 
@@ -59,38 +59,36 @@ namespace ChanceOfPrecipitation
 
         public override void Update(List<GameObject> objects)
         {
-            var state = Playing.Instance.state;
-
-            if (Playing.Instance.player.Bounds().X < Bounds().X)
+            if (Playing.Instance.player.Bounds().x < Bounds().x)
             {
                 facing = Direction.Left;
-                this.velocity.X = -maxSpeed;
+                velocity.X = -maxSpeed;
             }
-            else if (Playing.Instance.player.Bounds().X > Bounds().X)
+            else if (Playing.Instance.player.Bounds().x > Bounds().x)
             {
                 facing = Direction.Right;
-                this.velocity.X = maxSpeed;
+                velocity.X = maxSpeed;
             }
             else
             {
-                this.velocity.X = 0;
+                velocity.X = 0;
             }
 
-            if (Playing.Instance.player.Bounds().Y < Bounds().Y && collision.HasFlag(Collision.Bottom) && Math.Abs(Playing.Instance.player.Bounds().X - Bounds().X) < Playing.Instance.player.Bounds().Width * 2)
+            if (Playing.Instance.player.Bounds().y < Bounds().y && collision.HasFlag(Collision.Bottom) && Math.Abs(Playing.Instance.player.Bounds().x - Bounds().x) < Playing.Instance.player.Bounds().width * 2)
             {
-                this.velocity.Y = -jumpSpeed;
+                velocity.Y = -jumpSpeed;
             }
 
             //if (state.IsKeyDown(abilityOneKey)) ; // TODO: Add ability
 
             collision = Collision.None;
 
-            this.velocity += Playing.Instance.gravity;
-            this.bounds.X += velocity.X;
-            this.bounds.Y += velocity.Y;
+            velocity += Playing.Instance.gravity;
+            bounds.x += velocity.X;
+            bounds.y += velocity.Y;
 
             healthBar.AlignHorizontally((Rectangle)Bounds());
-            healthBar.SetY(Bounds().Y - 20);
+            healthBar.SetY(Bounds().y - 20);
         }
 
         public override void Draw(SpriteBatch sb)
@@ -111,20 +109,20 @@ namespace ChanceOfPrecipitation
 
         public void Heal(float amount)
         {
-            this.health += amount;
+            health += amount;
             healthBar.Heal(amount);
 
-            Playing.Instance.objects.Add(healBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.Y)));
+            Playing.Instance.objects.Add(healBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.y)));
         }
 
         public void Damage(float amount)
         {
-            this.health -= amount;
+            health -= amount;
             healthBar.Damage(amount);
 
-            Playing.Instance.objects.Add(damageBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.Y)));
+            Playing.Instance.objects.Add(damageBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.y)));
 
-            if (this.health <= 0)
+            if (health <= 0)
                 Destroy();
         }
 
@@ -135,23 +133,23 @@ namespace ChanceOfPrecipitation
 
             if (side == Collision.Right)
             {
-                this.bounds.X -= amount;
-                this.velocity.X = 0;
+                bounds.x -= amount;
+                velocity.X = 0;
             }
             else if (side == Collision.Left)
             {
-                this.bounds.X += amount;
-                this.velocity.X = 0;
+                bounds.x += amount;
+                velocity.X = 0;
             }
             else if (side == Collision.Top)
             {
-                this.bounds.Y += amount;
-                this.velocity.Y = 0;
+                bounds.y += amount;
+                velocity.Y = 0;
             }
             else if (side == Collision.Bottom)
             {
-                this.bounds.Y -= amount;
-                this.velocity.Y = 0;
+                bounds.y -= amount;
+                velocity.Y = 0;
             }
         }
 

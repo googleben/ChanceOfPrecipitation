@@ -44,9 +44,9 @@ namespace ChanceOfPrecipitation
         public override void Draw(SpriteBatch sb)
         {
             //System.Console.WriteLine(borderWidth);
-            sb.Draw(TextureManager.Textures["Square"], BorderBounds, borderColor);
-            sb.Draw(TextureManager.Textures["Square"], HealthBounds, healthColor);
-            sb.Draw(TextureManager.Textures["Square"], DamageBounds, damageColor);
+            sb.Draw(TextureManager.textures["Square"], BorderBounds, borderColor);
+            sb.Draw(TextureManager.textures["Square"], HealthBounds, healthColor);
+            sb.Draw(TextureManager.textures["Square"], DamageBounds, damageColor);
         }
 
         public void Heal(float amount)

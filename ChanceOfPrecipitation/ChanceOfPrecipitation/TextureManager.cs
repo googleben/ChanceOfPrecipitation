@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace ChanceOfPrecipitation
 {
     public static class TextureManager
     {
-        public static Dictionary<string, Texture2D> Textures;
-        public static Dictionary<string, BlockInfo> Blocks;
+        public static Dictionary<string, Texture2D> textures;
+        public static Dictionary<string, BlockInfo> blocks;
 
         static TextureManager()
         {
-            Textures = new Dictionary<string, Texture2D>();
-            Blocks = new Dictionary<string, BlockInfo>();
+            textures = new Dictionary<string, Texture2D>();
+            blocks = new Dictionary<string, BlockInfo>();
         }
     }
 }

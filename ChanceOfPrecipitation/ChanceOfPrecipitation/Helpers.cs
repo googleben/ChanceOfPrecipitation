@@ -7,7 +7,7 @@ namespace ChanceOfPrecipitation
 {
 
     [Flags]
-    public enum Collision : int {
+    public enum Collision {
         None = 0, Left = 1, Right = 2, Top = 4, Bottom = 8
     }
 
@@ -21,10 +21,10 @@ namespace ChanceOfPrecipitation
     }
 
     public abstract class GameObject {
-        public bool toDestroy { get; private set; }
+        public bool ToDestroy { get; private set; }
 
         public void Destroy() {
-            toDestroy = true;
+            ToDestroy = true;
         }
 
         public abstract void Update(List<GameObject> objects);

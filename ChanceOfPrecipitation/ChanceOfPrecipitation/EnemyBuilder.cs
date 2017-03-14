@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
-
-namespace ChanceOfPrecipitation
+﻿namespace ChanceOfPrecipitation
 {
     public class EnemyBuilder
     {
-        public float X { get; set; } = 0;
-        public float Y { get; set; } = 0;
+        public float X { get; set; }
+        public float Y { get; set; }
         public float Width { get; set; } = 16;
         public float Height { get; set; } = 32;
         public float MaxSpeed { get; set; } = 2f;
-        public float jumpSpeed { get; set; } = 10f;
+        public float JumpSpeed { get; set; } = 10f;
         public float MaxHealth { get; set; } = 100;
         public Direction Facing { get; set; } = Direction.Right;
 

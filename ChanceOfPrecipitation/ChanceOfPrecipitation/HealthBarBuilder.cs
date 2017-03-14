@@ -15,7 +15,7 @@ namespace ChanceOfPrecipitation
         public Color HealthColor { get; set; } = new Color(0, 255, 0);
         public Color DamageColor { get; set; } = new Color(255, 0, 0);
 
-        private bool isBoss = false;
+        private bool isBoss;
         public bool IsBoss {
             get
             {
