@@ -1,6 +1,10 @@
 ﻿namespace ChanceOfPrecipitation {
     internal class Enemies {
 
-        public static EnemyBuilder enemy1 = new EnemyBuilder(0, 0, 16, 32) { MaxHealth = 100 };
+        public static Enemy enemy1 = new Enemy(0, 0, 16, 32);
+
+        static Enemies() {
+            enemy1.MaxHealth = 100;
+        }
     }
 }

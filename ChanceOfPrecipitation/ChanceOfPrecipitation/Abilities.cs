@@ -16,7 +16,7 @@ namespace ChanceOfPrecipitation {
         public void Update() {
             if (cd != 0) cd--;
         }
-
+        
     }
 
     public class BulletAbility : Ability {

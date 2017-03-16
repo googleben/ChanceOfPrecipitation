@@ -61,7 +61,6 @@
     <Compile Include="Block.cs" />
     <Compile Include="Enemies.cs" />
     <Compile Include="Enemy.cs" />
-    <Compile Include="EnemyBuilder.cs" />
     <Compile Include="FloatingIndicator.cs" />
     <Compile Include="FloatingIndicatorBuilder.cs" />
     <Compile Include="HealthBar.cs" />

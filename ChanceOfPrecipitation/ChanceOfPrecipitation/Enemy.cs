@@ -7,24 +7,23 @@ namespace ChanceOfPrecipitation
 {
     public class Enemy : GameObject, ICollidable, IEntity
     {
-
-        public RectangleF bounds;
+        private RectangleF bounds;
         private Vector2 velocity;
         private Collision collision;
 
         private readonly HealthBar healthBar;
 
-        private Ability abilityOne;
+        private Ability[] abilities;
 
         private readonly Texture2D texture;
 
-        private readonly float maxSpeed;
+        public float maxSpeed = 2f;
 
-        private float jumpSpeed;
+        public float jumpSpeed = 10f;
 
-        private float health;
+        public float health;
 
-        private Direction facing;
+        private Direction facing = Direction.Right;
 
         private float maxHealth;
         public float MaxHealth
@@ -37,24 +36,22 @@ namespace ChanceOfPrecipitation
             }
         }
 
-        private readonly FloatingIndicatorBuilder healBuilder;
         private readonly FloatingIndicatorBuilder damageBuilder;
 
-        public Enemy(EnemyBuilder builder)
+        public Enemy(float x, float y, float width, float height)
         {
-            bounds = new RectangleF(builder.X, builder.Y, builder.Width, builder.Height);
-            texture = TextureManager.textures["Square"];
+            bounds = new RectangleF(x, y, width, height);
+            texture = TextureManager.textures["HealthBar"];
 
-            maxSpeed = builder.MaxSpeed;
+            healthBar = new HealthBarBuilder(new Vector2(x, y - 20), (int)width + 20, 5).Build();
 
-            facing = builder.Facing;
+            damageBuilder = new FloatingIndicatorBuilder();
 
-            maxHealth = builder.MaxHealth;
-            health = maxHealth;
-            healthBar = new HealthBarBuilder(new Vector2(builder.X, builder.Y - 20), (int)builder.Width + 20, 5).Build();
+        }
 
-            damageBuilder = new FloatingIndicatorBuilder() { Color = Color.Red };
-            healBuilder = new FloatingIndicatorBuilder() { Color = Color.Lavender };
+        public Enemy(float x, float y, float width, float height, float maxSpeed) : this(x, y, width, height)
+        {
+            this.maxSpeed = maxSpeed;
         }
 
         public override void Update(List<GameObject> objects)
@@ -74,9 +71,7 @@ namespace ChanceOfPrecipitation
                 velocity.X = 0;
             }
 
-            var distanceThreshold = Math.Abs(Playing.Instance.player.Bounds().x - Bounds().x) < Playing.Instance.player.Bounds().width * 2;
-
-            if (Playing.Instance.player.Bounds().y < Bounds().y && collision.HasFlag(Collision.Bottom) && distanceThreshold)
+            if (Playing.Instance.player.Bounds().y < Bounds().y && collision.HasFlag(Collision.Bottom) && Math.Abs(Playing.Instance.player.Bounds().x - Bounds().x) < Playing.Instance.player.Bounds().width * 2)
             {
                 velocity.Y = -jumpSpeed;
             }
@@ -113,8 +108,6 @@ namespace ChanceOfPrecipitation
         {
             health += amount;
             healthBar.Heal(amount);
-
-            Playing.Instance.objects.Add(healBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.y)));
         }
 
         public void Damage(float amount)
@@ -159,5 +152,14 @@ namespace ChanceOfPrecipitation
         {
             return facing;
         }
+
+        public Enemy Clone(float x, float y)
+        {
+            var ans = (Enemy)MemberwiseClone();
+            ans.bounds.x = x;
+            ans.bounds.y = y;
+            return ans;
+        }
+
     }
 }
