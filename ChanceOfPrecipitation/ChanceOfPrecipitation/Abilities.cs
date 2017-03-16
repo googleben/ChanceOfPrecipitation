@@ -19,12 +19,35 @@ namespace ChanceOfPrecipitation {
         
     }
 
+    #region Enemy Abilities
     public abstract class EnemyAbility : Ability {
 
         public abstract bool ShouldFire(List<Player> players);
-
     }
 
+    public class EnemyMeleeAbility : EnemyAbility {
+        ICollidable origin;
+
+        public EnemyMeleeAbility(ICollidable origin) {
+            this.origin = origin;
+        }
+
+        public override bool ShouldFire(List<Player> players) {
+
+            players.ForEach(player => {
+                
+            });
+
+            return true;
+        }
+
+        public override int Cooldown() {
+            return 60;
+        }
+    }
+    #endregion
+
+    #region Player Abilities
     public class BulletAbility : Ability {
 
         private readonly ICollidable origin;
@@ -68,8 +91,7 @@ namespace ChanceOfPrecipitation {
         }
 
         private class BurstFireDummyObject : GameObject {
-
-            public const int Interval = 3;
+            private const int Interval = 3;
             private int count;
             private readonly ICollidable origin;
 
@@ -91,6 +113,7 @@ namespace ChanceOfPrecipitation {
         }
 
     }
+    #endregion
 
     public class Bullet : GameObject, ICollider {
         private RectangleF bounds;
