@@ -49,8 +49,8 @@ namespace ChanceOfPrecipitation {
                 return new MainMenu();
             }
 
-            LinkedList<ICollidable> collidables = new LinkedList<ICollidable>();
-            LinkedList<ICollider> statics = new LinkedList<ICollider>();
+            var collidables = new LinkedList<ICollidable>();
+            var statics = new LinkedList<ICollider>();
 
             for (var i = 0; i < objects.Count; i++) {
                 var o = objects[i];

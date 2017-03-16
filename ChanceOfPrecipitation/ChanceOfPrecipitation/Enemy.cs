@@ -41,11 +41,11 @@ namespace ChanceOfPrecipitation
         public Enemy(float x, float y, float width, float height)
         {
             bounds = new RectangleF(x, y, width, height);
-            texture = TextureManager.textures["HealthBar"];
+            texture = TextureManager.textures["Square"];
 
             healthBar = new HealthBarBuilder(new Vector2(x, y - 20), (int)width + 20, 5).Build();
 
-            damageBuilder = new FloatingIndicatorBuilder();
+            damageBuilder = new FloatingIndicatorBuilder { Color = Color.Red };
         }
 
         public Enemy(float x, float y, float width, float height, float maxSpeed) : this(x, y, width, height)
@@ -55,9 +55,9 @@ namespace ChanceOfPrecipitation
 
         public override void Update(List<GameObject> objects) {
             Player target = null;
-            float min = float.PositiveInfinity;
-            foreach (Player p in Playing.Instance.players) {
-                float dist = Math.Abs(p.Bounds().x - bounds.x);
+            var min = float.PositiveInfinity;
+            foreach (var p in Playing.Instance.players) {
+                var dist = Math.Abs(p.Bounds().x - bounds.x);
                 if (dist < min) {
                     min = dist;
                     target = p;
