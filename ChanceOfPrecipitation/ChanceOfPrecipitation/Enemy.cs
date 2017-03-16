@@ -13,7 +13,7 @@ namespace ChanceOfPrecipitation
 
         private readonly HealthBar healthBar;
 
-        private Ability[] abilities;
+        public Ability[] abilities;
 
         private readonly Texture2D texture;
 
@@ -79,14 +79,9 @@ namespace ChanceOfPrecipitation
                 velocity.X = 0;
             }
 
-<<<<<<< HEAD
-            if (Playing.Instance.player.Bounds().y < Bounds().y && collision.HasFlag(Collision.Bottom) && Math.Abs(Playing.Instance.player.Bounds().x - Bounds().x) < Playing.Instance.player.Bounds().width * 2)
-=======
             var distanceThreshold = Math.Abs(target.Bounds().x - Bounds().x) < target.Bounds().width * 2;
 
-            if (target.Bounds().y < Bounds().y && collision.HasFlag(Collision.Bottom) && distanceThreshold)
->>>>>>> origin/master
-            {
+            if (target.Bounds().y < Bounds().y && collision.HasFlag(Collision.Bottom) && distanceThreshold) {
                 velocity.Y = -jumpSpeed;
             }
 
