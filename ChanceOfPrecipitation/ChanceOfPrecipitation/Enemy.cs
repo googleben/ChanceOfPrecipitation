@@ -46,7 +46,6 @@ namespace ChanceOfPrecipitation
             healthBar = new HealthBarBuilder(new Vector2(x, y - 20), (int)width + 20, 5).Build();
 
             damageBuilder = new FloatingIndicatorBuilder();
-
         }
 
         public Enemy(float x, float y, float width, float height, float maxSpeed) : this(x, y, width, height)
@@ -54,14 +53,23 @@ namespace ChanceOfPrecipitation
             this.maxSpeed = maxSpeed;
         }
 
-        public override void Update(List<GameObject> objects)
-        {
-            if (Playing.Instance.player.Bounds().x < Bounds().x)
+        public override void Update(List<GameObject> objects) {
+            Player target = null;
+            float min = float.PositiveInfinity;
+            foreach (Player p in Playing.Instance.players) {
+                float dist = Math.Abs(p.Bounds().x - bounds.x);
+                if (dist < min) {
+                    min = dist;
+                    target = p;
+                }
+            }
+            if (target == null) return;
+            if (target.Bounds().x < Bounds().x)
             {
                 facing = Direction.Left;
                 velocity.X = -maxSpeed;
             }
-            else if (Playing.Instance.player.Bounds().x > Bounds().x)
+            else if (target.Bounds().x > Bounds().x)
             {
                 facing = Direction.Right;
                 velocity.X = maxSpeed;
@@ -71,12 +79,18 @@ namespace ChanceOfPrecipitation
                 velocity.X = 0;
             }
 
+<<<<<<< HEAD
             if (Playing.Instance.player.Bounds().y < Bounds().y && collision.HasFlag(Collision.Bottom) && Math.Abs(Playing.Instance.player.Bounds().x - Bounds().x) < Playing.Instance.player.Bounds().width * 2)
+=======
+            var distanceThreshold = Math.Abs(target.Bounds().x - Bounds().x) < target.Bounds().width * 2;
+
+            if (target.Bounds().y < Bounds().y && collision.HasFlag(Collision.Bottom) && distanceThreshold)
+>>>>>>> origin/master
             {
                 velocity.Y = -jumpSpeed;
             }
 
-            //if (state.IsKeyDown(abilityOneKey)) ; // TODO: Add ability
+            //TODO: Add ability
 
             collision = Collision.None;
 

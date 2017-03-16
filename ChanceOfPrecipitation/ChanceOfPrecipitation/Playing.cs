@@ -17,15 +17,15 @@ namespace ChanceOfPrecipitation {
         public KeyboardState state;
         public KeyboardState lastState;
 
-        public Player player;
+        public List<Player> players;
 
         public Playing() {
             objects = new List<GameObject>();
             instance = this;
             lastState = state = Keyboard.GetState();
-            player = new Player(0, 0, 16, 32);
+            players = new List<Player>() {new Player(0, 0, 16, 32)};
 
-            objects.Add(player);
+            objects.Add(players[0]);
             objects.Add(new Block(0, 600,  "stage1_platform_top_left"));
             objects.Add(new Block(1280 - 16, 600, "stage1_platform_top_right"));
             for (var i = 16; i < 1280 - 16; i += 16) {

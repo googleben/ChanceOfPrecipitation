@@ -19,6 +19,12 @@ namespace ChanceOfPrecipitation {
         
     }
 
+    public abstract class EnemyAbility : Ability {
+
+        public abstract bool ShouldFire(List<Player> players);
+
+    }
+
     public class BulletAbility : Ability {
 
         private readonly ICollidable origin;
