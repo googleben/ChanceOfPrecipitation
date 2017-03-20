@@ -32,6 +32,7 @@ namespace ChanceOfPrecipitation
             set
             {
                 maxHealth = value;
+                health = maxHealth;
                 healthBar.SetMaxHealth((int)maxHealth);
             }
         }
