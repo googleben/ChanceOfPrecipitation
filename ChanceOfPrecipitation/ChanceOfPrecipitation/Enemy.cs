@@ -89,9 +89,12 @@ namespace ChanceOfPrecipitation
                 velocity.Y = -jumpSpeed;
             }
 
-            foreach (var e in abilities)
+            foreach (var e in abilities) {
+                e.Update();
+                
                 if (e.ShouldFire(objects.OfType<Player>().ToList()))
                     e.Fire(objects);
+            }
 
             collision = Collision.None;
 
