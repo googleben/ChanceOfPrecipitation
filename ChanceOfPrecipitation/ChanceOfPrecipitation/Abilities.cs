@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -16,7 +17,6 @@ namespace ChanceOfPrecipitation {
         public void Update() {
             if (cd != 0) cd--;
         }
-        
     }
 
     #region Enemy Abilities
@@ -26,20 +26,20 @@ namespace ChanceOfPrecipitation {
     }
 
     public class EnemyMeleeAbility : EnemyAbility {
-        ICollidable origin;
+        private readonly ICollidable origin;
 
         public EnemyMeleeAbility(ICollidable origin) {
             this.origin = origin;
         }
 
         public override bool ShouldFire(List<Player> players) {
-
-            players.ForEach(player => {
-                
-            });
-
-            return true;
+            return players.Any(p => p.Bounds().Intersects(origin.Bounds())) && cd <= 0;
         }
+
+        public override void Fire(List<GameObject> objects) => objects.OfType<Player>().ToList().ForEach(p => {
+            if ((origin.Facing() == Direction.Left && p.Bounds().Center.X < origin.Bounds().Center.X) || (origin.Facing() == Direction.Right && p.Bounds().Center.X > origin.Bounds().Center.X))
+                p.Damage(10);
+        });
 
         public override int Cooldown() {
             return 60;

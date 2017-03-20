@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -13,7 +14,7 @@ namespace ChanceOfPrecipitation
 
         private readonly HealthBar healthBar;
 
-        public Ability[] abilities;
+        public EnemyAbility[] abilities;
 
         private readonly Texture2D texture;
 
@@ -47,6 +48,8 @@ namespace ChanceOfPrecipitation
             healthBar = new HealthBarBuilder(new Vector2(x, y - 20), (int)width + 20, 5).Build();
 
             damageBuilder = new FloatingIndicatorBuilder { Color = Color.Red };
+
+            abilities = new EnemyAbility[] { new EnemyMeleeAbility(this) };
         }
 
         public Enemy(float x, float y, float width, float height, float maxSpeed) : this(x, y, width, height)
@@ -86,7 +89,9 @@ namespace ChanceOfPrecipitation
                 velocity.Y = -jumpSpeed;
             }
 
-            //TODO: Add ability
+            foreach (var e in abilities)
+                if (e.ShouldFire(objects.OfType<Player>().ToList()))
+                    e.Fire(objects);
 
             collision = Collision.None;
 
@@ -133,7 +138,7 @@ namespace ChanceOfPrecipitation
 
         public void Collide(Collision side, float amount, ICollider origin)
         {
-            Console.WriteLine(side);
+            //Console.WriteLine(side);
             collision |= side;
 
             if (side == Collision.Right)
