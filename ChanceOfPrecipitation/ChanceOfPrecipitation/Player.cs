@@ -19,7 +19,7 @@ namespace ChanceOfPrecipitation
         private readonly Keys jump = Keys.Space;
         private readonly Keys abilityOneKey = Keys.J;
 
-        private readonly Ability abilityOne;
+        public Ability abilityOne;
 
         private readonly Texture2D texture;
 
@@ -36,6 +36,10 @@ namespace ChanceOfPrecipitation
         private readonly FloatingIndicatorBuilder healBuilder;
         private readonly FloatingIndicatorBuilder damageBuilder;
 
+        private List<Item> items;
+
+        private float itemLoc = 32;
+
         public Player(float x, float y, float width, float height) {
             bounds = new RectangleF(x, y, width, height);
             texture = TextureManager.textures["Square"];
@@ -46,6 +50,7 @@ namespace ChanceOfPrecipitation
 
             healBuilder = new FloatingIndicatorBuilder() { Color = Color.Lavender };
             damageBuilder = new FloatingIndicatorBuilder() { Color = Color.Red };
+            items = new List<Item>();
         }
 
         public override void Update(List<GameObject> objects) {
@@ -62,6 +67,8 @@ namespace ChanceOfPrecipitation
             } else {
                 velocity.X = 0;
             }
+
+            foreach (Item i in items) i.Update(objects);
 
             if (state.IsKeyDown(jump) && collision.HasFlag(Collision.Bottom)) {
                 velocity.Y = -jumpSpeed;
@@ -81,6 +88,7 @@ namespace ChanceOfPrecipitation
 
         public override void Draw(SpriteBatch sb) {
             sb.Draw(texture, (Rectangle)bounds, Color.White);
+            foreach (Item i in items) i.Draw(sb);
             healthBar.Draw(sb);
         }
 
@@ -136,5 +144,10 @@ namespace ChanceOfPrecipitation
         public Direction Facing() {
             return facing;
         }
+
+        public void AddItem(Item i) {
+            i.AddedToPlayer(this, ref itemLoc);
+        }
+
     }
 }
