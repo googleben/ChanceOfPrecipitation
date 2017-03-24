@@ -66,6 +66,7 @@
     <Compile Include="HealthBar.cs" />
     <Compile Include="HealthBarBuilder.cs" />
     <Compile Include="Helpers.cs" />
+    <Compile Include="Lazer.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Playing.cs" />

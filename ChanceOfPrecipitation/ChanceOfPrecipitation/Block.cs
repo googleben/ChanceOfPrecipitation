@@ -6,7 +6,7 @@ namespace ChanceOfPrecipitation {
     internal class Block : GameObject, ICollider {
         private readonly Texture2D texture;
         private readonly BlockInfo info;
-        private RectangleF bounds;
+        public RectangleF bounds;
         private string type;
 
         public Block(float x, float y, string type) {

@@ -38,13 +38,52 @@ namespace ChanceOfPrecipitation {
         }
 
         public override void Fire(List<GameObject> objects) => objects.OfType<Player>().ToList().ForEach(p => {
-            Console.WriteLine("KILL ME");
             if ((origin.Facing() == Direction.Left && p.Bounds().Center.X < origin.Bounds().Center.X) || (origin.Facing() == Direction.Right && p.Bounds().Center.X > origin.Bounds().Center.X))
                 p.Damage(10);
+
+            base.Fire(objects);
         });
 
         public override int Cooldown() {
             return 60;
+        }
+    }
+
+    public class EnemyLazerAbility : EnemyAbility
+    {
+        private readonly ICollidable origin;
+        private readonly int range;
+
+        public EnemyLazerAbility(ICollidable origin, int range) {
+            this.origin = origin;
+            this.range = range;
+        }
+
+        public EnemyLazerAbility(ICollidable origin) : this(origin, 50) { }
+
+        public override int Cooldown() {
+            return 360;
+        }
+
+        public override bool ShouldFire(List<Player> players) {
+            var ans = false;
+
+            players.ForEach(p => {
+                if ((origin.Facing() == Direction.Left && p.Bounds().Center.X < origin.Bounds().Center.X) ||
+                (origin.Facing() == Direction.Right && p.Bounds().Center.X > origin.Bounds().Center.X) &&
+                Math.Abs(p.Bounds().Center.X - origin.Bounds().Center.X) < 50 &&
+                Math.Abs(p.Bounds().Center.Y - origin.Bounds().Center.Y) < range &&
+                cd <= 0)
+                    ans = true;
+            });
+
+            return ans;
+        }
+
+        public override void Fire(List<GameObject> objects) {
+            base.Fire(objects);
+
+
         }
     }
     #endregion
