@@ -92,7 +92,7 @@ namespace ChanceOfPrecipitation
             foreach (var e in abilities) {
                 e.Update();
                 
-                if (e.ShouldFire(objects.OfType<Player>().ToList()))
+                if (e.ShouldFire(Playing.Instance.players))
                     e.Fire(objects);
             }
 

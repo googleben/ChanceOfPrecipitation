@@ -92,6 +92,7 @@ namespace ChanceOfPrecipitation {
     public class BulletAbility : Ability {
 
         private readonly ICollidable origin;
+        public int damage = 10;
 
         public override int Cooldown() {
             return 5;
@@ -103,7 +104,7 @@ namespace ChanceOfPrecipitation {
 
         public override void Fire(List<GameObject> objects) {
             if (cd == 0) {
-                objects.Add(new Bullet(origin, origin.Facing() == Direction.Left ? origin.Bounds().x - Bullet.Width : origin.Bounds().Right, origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, 10));
+                objects.Add(new Bullet(origin, origin.Facing() == Direction.Left ? origin.Bounds().x - Bullet.Width : origin.Bounds().Right, origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, damage));
                 base.Fire(objects);
             }
             
@@ -114,6 +115,7 @@ namespace ChanceOfPrecipitation {
     public class BurstFireAbility : Ability {
 
         private readonly ICollidable origin;
+        public int damage = 10;
 
         public override int Cooldown() {
             return 30;
@@ -125,7 +127,7 @@ namespace ChanceOfPrecipitation {
 
         public override void Fire(List<GameObject> objects) {
             if (cd == 0) {
-                objects.Add(new BurstFireDummyObject(origin));
+                objects.Add(new BurstFireDummyObject(origin, damage));
                 base.Fire(objects);
             }
 
@@ -135,9 +137,11 @@ namespace ChanceOfPrecipitation {
             private const int Interval = 3;
             private int count;
             private readonly ICollidable origin;
+            private int damage;
 
-            public BurstFireDummyObject(ICollidable origin) {
+            public BurstFireDummyObject(ICollidable origin, int damage) {
                 this.origin = origin;
+                this.damage = damage;
             }
 
             public override void Draw(SpriteBatch sb) {
@@ -146,7 +150,7 @@ namespace ChanceOfPrecipitation {
 
             public override void Update(List<GameObject> objects) {
                 if (count%Interval==0) {
-                    objects.Add(new Bullet(origin, origin.Facing() == Direction.Left ? origin.Bounds().x - Bullet.Width : origin.Bounds().Right, origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, 10));
+                    objects.Add(new Bullet(origin, origin.Facing() == Direction.Left ? origin.Bounds().x - Bullet.Width : origin.Bounds().Right, origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, damage));
                 }
                 if (count == Interval * 2) Destroy();
                 count++;
