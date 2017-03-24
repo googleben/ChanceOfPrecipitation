@@ -1,10 +1,8 @@
 ﻿namespace ChanceOfPrecipitation {
-    internal class Enemies {
 
-        public static Enemy enemy1;
-
-        static Enemies() {
-            enemy1 = new Enemy(0, 0, 16, 32) { MaxHealth = 100 };
+    public class BasicEnemy : Enemy {
+        public BasicEnemy(float x, float y) : base(x, y, 16, 32) {
+            texture = TextureManager.textures["Square"];
         }
     }
 }

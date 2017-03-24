@@ -6,17 +6,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ChanceOfPrecipitation
 {
-    public class Enemy : GameObject, ICollidable, IEntity
+    public abstract class Enemy : GameObject, ICollidable, IEntity
     {
-        private RectangleF bounds;
-        private Vector2 velocity;
-        private Collision collision;
+        protected RectangleF bounds;
+        protected Vector2 velocity;
+        protected Collision collision;
 
-        private readonly HealthBar healthBar;
+        protected readonly HealthBar healthBar;
 
         public EnemyAbility[] abilities;
 
-        private readonly Texture2D texture;
+        protected Texture2D texture;
 
         public float maxSpeed = 2f;
 
@@ -24,9 +24,9 @@ namespace ChanceOfPrecipitation
 
         public float health;
 
-        private Direction facing = Direction.Right;
+        protected Direction facing = Direction.Right;
 
-        private float maxHealth;
+        protected float maxHealth;
         public float MaxHealth
         {
             get { return maxHealth; }
@@ -38,12 +38,12 @@ namespace ChanceOfPrecipitation
             }
         }
 
-        private readonly FloatingIndicatorBuilder damageBuilder;
+        protected readonly FloatingIndicatorBuilder damageBuilder;
 
         public Enemy(float x, float y, float width, float height)
         {
             bounds = new RectangleF(x, y, width, height);
-            texture = TextureManager.textures["Square"];
+            maxHealth = 100;
 
             healthBar = new HealthBarBuilder(new Vector2(x, y - 20), (int)width + 20, 5).Build();
 
@@ -169,14 +169,6 @@ namespace ChanceOfPrecipitation
         public Direction Facing()
         {
             return facing;
-        }
-
-        public Enemy Clone(float x, float y)
-        {
-            var ans = (Enemy)MemberwiseClone();
-            ans.bounds.x = x;
-            ans.bounds.y = y;
-            return ans;
         }
 
     }
