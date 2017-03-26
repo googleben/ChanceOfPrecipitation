@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -28,8 +29,9 @@ namespace ChanceOfPrecipitation {
     public class EnemyMeleeAbility : EnemyAbility {
         private readonly ICollidable origin;
 
-        public EnemyMeleeAbility(ICollidable origin) {
+        public EnemyMeleeAbility(ICollidable origin, int range = 0) {
             this.origin = origin;
+            origin.Bounds().Inflate(range, 0);
         }
 
         public override bool ShouldFire(List<Player> players) {
@@ -37,7 +39,7 @@ namespace ChanceOfPrecipitation {
         }
 
         public override void Fire(List<GameObject> objects) => objects.OfType<Player>().ToList().ForEach(p => {
-            if ((origin.Facing() == Direction.Left && p.Bounds().Center.X < origin.Bounds().Center.X) || (origin.Facing() == Direction.Right && p.Bounds().Center.X > origin.Bounds().Center.X))
+            if ((origin.Facing() == Direction.Left && p.Bounds().Center.X <= origin.Bounds().Center.X) || (origin.Facing() == Direction.Right && p.Bounds().Center.X >= origin.Bounds().Center.X))
                 p.Damage(10);
         });
 

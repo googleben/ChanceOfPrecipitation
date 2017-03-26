@@ -7,10 +7,8 @@ namespace ChanceOfPrecipitation {
         private readonly Texture2D texture;
         private readonly BlockInfo info;
         private RectangleF bounds;
-        private string type;
 
         public Block(float x, float y, string type) {
-            this.type = type;
             info = TextureManager.blocks[type];
             texture = TextureManager.textures[info.texName];
             bounds = new RectangleF(x, y, info.src.Width * info.scale, info.src.Height * info.scale);
