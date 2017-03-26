@@ -23,7 +23,7 @@ namespace ChanceOfPrecipitation {
             objects = new List<GameObject>();
             instance = this;
             lastState = state = Keyboard.GetState();
-            players = new List<Player>() {new Player(0, 0, 16, 32)};
+            players = new List<Player>() { new Player(0, 0, 16, 32) };
 
             objects.Add(players[0]);
             objects.Add(new Block(0, 600,  "stage1_platform_top_left"));

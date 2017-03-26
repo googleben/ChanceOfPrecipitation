@@ -29,21 +29,21 @@ namespace ChanceOfPrecipitation
 
         public ItemEntity(float x, float y, string type) {
             this.type = type;
-            this.info = TextureManager.blocks[type];
-            this.texture = TextureManager.textures[info.texName];
-            this.bounds = new RectangleF(x, y, info.src.Width*info.scale, info.src.Height*info.scale);
-            this.origX = x;
-            this.origY = y;
+            info = TextureManager.blocks[type];
+            texture = TextureManager.textures[info.texName];
+            bounds = new RectangleF(x, y, info.src.Width*info.scale, info.src.Height*info.scale);
+            origX = x;
+            origY = y;
             rand = new Random();
         }
 
         public override void Update(List<GameObject> objects) {
             bounds.x -= ((float) rand.NextDouble() - .5f) * 2;
             bounds.y -= ((float)rand.NextDouble() - .5f) * 2;
-            float xd = origX - bounds.x;
+            var xd = origX - bounds.x;
             if (xd < -4) bounds.x = origX - 4;
             if (xd > 4) bounds.x = origX + 4;
-            float yd = origY - bounds.y;
+            var yd = origY - bounds.y;
             if (yd < -4) bounds.y = origY - 4;
             if (yd > 4) bounds.y = origY + 4;
         }
@@ -54,7 +54,7 @@ namespace ChanceOfPrecipitation
 
         public void Collide(ICollidable c) {
             if (c is Player && c.Bounds().Intersects(bounds)) {
-                this.Destroy();
+                Destroy();
                 ((Player) c).AddItem(new T());
             }
         }
@@ -86,7 +86,7 @@ namespace ChanceOfPrecipitation
             bounds.x = loc;
             loc += space;
             Ability[] abilities = {p.abilityOne};
-            foreach (Ability a in abilities) {
+            foreach (var a in abilities) {
                 if (a is BurstFireAbility) ((BurstFireAbility)a).damage += 10;
             }
         }

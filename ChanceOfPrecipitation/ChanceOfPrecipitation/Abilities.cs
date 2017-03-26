@@ -53,14 +53,14 @@ namespace ChanceOfPrecipitation {
     public class EnemyLazerAbility : EnemyAbility
     {
         private readonly ICollidable origin;
-        private readonly int range;
+        private int range;
+        private int life;
 
-        public EnemyLazerAbility(ICollidable origin, int range) {
+        public EnemyLazerAbility(ICollidable origin, int range = 50, int life = 60) {
             this.origin = origin;
             this.range = range;
+            this.life = life;
         }
-
-        public EnemyLazerAbility(ICollidable origin) : this(origin, 50) { }
 
         public override int Cooldown() {
             return 360;
@@ -84,7 +84,7 @@ namespace ChanceOfPrecipitation {
         public override void Fire(List<GameObject> objects) {
             base.Fire(objects);
 
-
+            objects.Add(new Lazer(origin, range, life));
         }
     }
     #endregion

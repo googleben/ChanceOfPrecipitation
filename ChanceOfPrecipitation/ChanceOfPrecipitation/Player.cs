@@ -68,7 +68,7 @@ namespace ChanceOfPrecipitation
                 velocity.X = 0;
             }
 
-            foreach (Item i in items) i.Update(objects);
+            foreach (var i in items) i.Update(objects);
 
             if (state.IsKeyDown(jump) && collision.HasFlag(Collision.Bottom)) {
                 velocity.Y = -jumpSpeed;
@@ -88,7 +88,7 @@ namespace ChanceOfPrecipitation
 
         public override void Draw(SpriteBatch sb) {
             sb.Draw(texture, (Rectangle)bounds, Color.White);
-            foreach (Item i in items) i.Draw(sb);
+            foreach (var i in items) i.Draw(sb);
             healthBar.Draw(sb);
         }
 
