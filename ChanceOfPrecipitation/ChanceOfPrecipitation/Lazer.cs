@@ -35,10 +35,10 @@ namespace ChanceOfPrecipitation
                         collided = true;
                 });
             }
+            bounds = new RectangleF(origin.Bounds().Center.X + origin.Bounds().width / 2, origin.Bounds().Center.Y, width, 5);
         }
 
         public override void Update(List<GameObject> objects) {
-            bounds = new RectangleF(origin.Bounds().Center.X + origin.Bounds().width / 2, origin.Bounds().Center.Y, width, 5);
 
             life--;
 
@@ -48,7 +48,7 @@ namespace ChanceOfPrecipitation
 
         public override void Draw(SpriteBatch sb) {
             for (var i = 0; i < width; i++)
-                sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int)Bounds().x + i, (int)Bounds().x, 1, 5), i == width - 1 ? lazerEndSource : lazerSegmentSource, Color.White);
+                sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int)Bounds().x + i, (int)Bounds().y, 1, 5), i == width - 1 ? lazerEndSource : lazerSegmentSource, Color.White);
         }
 
         public RectangleF Bounds() {

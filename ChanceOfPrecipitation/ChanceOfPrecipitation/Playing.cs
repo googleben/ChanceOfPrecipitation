@@ -33,6 +33,7 @@ namespace ChanceOfPrecipitation {
             }
 
             objects.Add(new BasicEnemy(600, 0));
+            objects.Add(new ItemEntity<DamageUpgrade>(100, 550, "Canister"));
         }
 
         public void Draw(SpriteBatch sb) {

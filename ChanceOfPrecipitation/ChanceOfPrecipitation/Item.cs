@@ -27,6 +27,8 @@ namespace ChanceOfPrecipitation
 
         private Random rand;
 
+        private Vector2 velocity;
+
         public ItemEntity(float x, float y, string type) {
             this.type = type;
             info = TextureManager.blocks[type];
@@ -35,17 +37,22 @@ namespace ChanceOfPrecipitation
             origX = x;
             origY = y;
             rand = new Random();
+            velocity = new Vector2();
         }
 
         public override void Update(List<GameObject> objects) {
-            bounds.x -= ((float) rand.NextDouble() - .5f) * 2;
-            bounds.y -= ((float)rand.NextDouble() - .5f) * 2;
+            velocity.X += ((float) rand.NextDouble() - .5f) * .01f;
+            velocity.Y += ((float)rand.NextDouble() - .5f) * .01f;
+            velocity.X = MathHelper.Clamp(velocity.X, -.5f, .5f);
+            velocity.Y = MathHelper.Clamp(velocity.Y, -.5f, .5f);
+            bounds.x += velocity.X;
+            bounds.y += velocity.Y;
             var xd = origX - bounds.x;
-            if (xd < -4) bounds.x = origX - 4;
-            if (xd > 4) bounds.x = origX + 4;
+            if (xd < -4) bounds.x = origX + 4;
+            if (xd > 4) bounds.x = origX - 4;
             var yd = origY - bounds.y;
-            if (yd < -4) bounds.y = origY - 4;
-            if (yd > 4) bounds.y = origY + 4;
+            if (yd < -4) bounds.y = origY + 4;
+            if (yd > 4) bounds.y = origY - 4;
         }
 
         public override void Draw(SpriteBatch sb) {
@@ -62,7 +69,7 @@ namespace ChanceOfPrecipitation
     }
 
     class DamageUpgrade : Item {
-        private const string type = "DamageUpgrade";
+        private const string type = "Canister";
 
         private Texture2D texture;
         private RectangleF bounds;
@@ -79,7 +86,7 @@ namespace ChanceOfPrecipitation
         }
 
         public override void Draw(SpriteBatch sb) {
-            //TODO: Draw item
+            sb.Draw(texture, (Rectangle)bounds, info.src, Color.White);
         }
 
         public override void AddedToPlayer(Player p, ref float loc) {

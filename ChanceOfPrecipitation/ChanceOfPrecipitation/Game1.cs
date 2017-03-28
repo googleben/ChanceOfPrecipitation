@@ -79,6 +79,9 @@ namespace ChanceOfPrecipitation {
             TextureManager.blocks["stage1_platform_bottom_right"] =    new BlockInfo("platform_tileset_stage1", new Rectangle(32, 32, 16, 16), scale);
 
             TextureManager.textures["Lazer"] = Content.Load<Texture2D>("LazerTileset");
+
+            TextureManager.textures["Items"] = Content.Load<Texture2D>("Items");
+            TextureManager.blocks["Canister"] = new BlockInfo("Items", new Rectangle(0, 0, 32, 32));
         }
 
         protected override void UnloadContent() {
