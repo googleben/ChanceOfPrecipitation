@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -20,12 +18,12 @@ namespace ChanceOfPrecipitation
     class ItemEntity<T> : GameObject, ICollider where T : Item, new() {
         private string type;
         private RectangleF bounds;
-        private Texture2D texture;
-        private BlockInfo info;
-        private float origX;
-        private float origY;
+        private readonly Texture2D texture;
+        private readonly BlockInfo info;
+        private readonly float origX;
+        private readonly float origY;
 
-        private Random rand;
+        private readonly Random rand;
 
         public ItemEntity(float x, float y, string type) {
             this.type = type;
@@ -66,7 +64,7 @@ namespace ChanceOfPrecipitation
 
         private Texture2D texture;
         private RectangleF bounds;
-        private BlockInfo info;
+        private readonly BlockInfo info;
 
         public DamageUpgrade() {
             info = TextureManager.blocks[type];
