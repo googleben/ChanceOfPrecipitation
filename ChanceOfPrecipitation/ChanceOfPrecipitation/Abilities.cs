@@ -53,8 +53,8 @@ namespace ChanceOfPrecipitation {
     public class EnemyLazerAbility : EnemyAbility
     {
         private readonly ICollidable origin;
-        private int range;
-        private int life;
+        private readonly int range;
+        private readonly int life;
 
         public EnemyLazerAbility(ICollidable origin, int range = 50, int life = 60) {
             this.origin = origin;
@@ -82,6 +82,7 @@ namespace ChanceOfPrecipitation {
         }
 
         public override void Fire(List<GameObject> objects) {
+            if (cd > 0) return;
             base.Fire(objects);
 
             objects.Add(new Lazer(origin, range, life));
@@ -138,7 +139,7 @@ namespace ChanceOfPrecipitation {
             private const int Interval = 3;
             private int count;
             private readonly ICollidable origin;
-            private int damage;
+            private readonly int damage;
 
             public BurstFireDummyObject(ICollidable origin, int damage) {
                 this.origin = origin;

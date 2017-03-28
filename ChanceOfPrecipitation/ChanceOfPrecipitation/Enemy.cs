@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -49,7 +48,7 @@ namespace ChanceOfPrecipitation
 
             damageBuilder = new FloatingIndicatorBuilder { Color = Color.Red };
 
-            abilities = new EnemyAbility[] { new EnemyMeleeAbility(this) };
+            abilities = new EnemyAbility[] { new EnemyMeleeAbility(this), new EnemyLazerAbility(this),  };
         }
 
         public Enemy(float x, float y, float width, float height, float maxSpeed) : this(x, y, width, height)

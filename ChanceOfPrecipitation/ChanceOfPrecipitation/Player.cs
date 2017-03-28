@@ -36,7 +36,7 @@ namespace ChanceOfPrecipitation
         private readonly FloatingIndicatorBuilder healBuilder;
         private readonly FloatingIndicatorBuilder damageBuilder;
 
-        private List<Item> items;
+        private readonly List<Item> items;
 
         private float itemLoc = 32;
 

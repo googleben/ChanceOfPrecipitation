@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -9,11 +8,11 @@ namespace ChanceOfPrecipitation
 {
     public class Lazer : GameObject, ICollider {
 
-        private const float damage = 20f;
+        private const float Damage = 10f;
 
-        private ICollidable origin;
-        private int width = 0;
-        private RectangleF bounds;
+        private readonly int width;
+        private readonly RectangleF bounds;
+        private readonly Direction facing;
 
         private bool collided;
         private int life;
@@ -22,13 +21,19 @@ namespace ChanceOfPrecipitation
         private readonly Rectangle lazerEndSource = new Rectangle(1, 0, 1, 5);
 
         public Lazer(ICollidable origin, int range, int life) {
-            this.origin = origin;
             this.life = life;
+
+            facing = origin.Facing();
 
             var blocks = Playing.Instance.objects.OfType<Block>().ToList();
 
+            bounds = new RectangleF(origin.Bounds().Center.X + origin.Bounds().width / 2, origin.Bounds().Center.Y, width, 5);
+
             while (!collided && width < range) {
                 width++;
+                if (facing == Direction.Left) bounds.x--;
+
+                bounds.width = width;
 
                 blocks.ForEach(b => {
                     if (b.bounds.Intersects(Bounds()))
@@ -39,7 +44,10 @@ namespace ChanceOfPrecipitation
         }
 
         public override void Update(List<GameObject> objects) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
             life--;
 
             if (life <= 0)
@@ -47,8 +55,17 @@ namespace ChanceOfPrecipitation
         }
 
         public override void Draw(SpriteBatch sb) {
+<<<<<<< HEAD
             for (var i = 0; i < width; i++)
                 sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int)Bounds().x + i, (int)Bounds().y, 1, 5), i == width - 1 ? lazerEndSource : lazerSegmentSource, Color.White);
+=======
+            if (Facing() == Direction.Right)
+                for (var i = 0; i < width; i++)
+                    sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int)Bounds().x + i, (int)Bounds().x, 1, 5), i == width - 1 ? lazerEndSource : lazerSegmentSource, Color.White);
+            else
+                for (var i = 0; i > width * -1; i--)
+                    sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int)Bounds().x - i, (int)Bounds().x, 1, 5), i == width + 1 ? lazerEndSource : lazerSegmentSource, Color.White);
+>>>>>>> origin/master
         }
 
         public RectangleF Bounds() {
@@ -56,12 +73,12 @@ namespace ChanceOfPrecipitation
         }
 
         public Direction Facing() {
-            return origin.Facing();
+            return facing;
         }
 
         public void Collide(ICollidable c) {
             if (c is Player && c.Bounds().Intersects(Bounds()))
-                ((Player) c).Damage(damage);
+                ((Player) c).Damage(Damage);
         }
     }
 }
