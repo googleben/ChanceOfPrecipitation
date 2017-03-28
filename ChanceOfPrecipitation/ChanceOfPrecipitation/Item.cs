@@ -76,7 +76,7 @@ namespace ChanceOfPrecipitation
         public DamageUpgrade() {
             info = TextureManager.blocks[type];
             texture = TextureManager.textures[info.texName];
-            bounds = new RectangleF(0, 1280-100, info.src.Width*info.scale, info.src.Height*info.scale);
+            bounds = new RectangleF(0, 720-100, info.src.Width*info.scale, info.src.Height*info.scale);
         }
 
         public override void Update(List<GameObject> objects) {
