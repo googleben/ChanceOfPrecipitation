@@ -146,6 +146,7 @@ namespace ChanceOfPrecipitation
         }
 
         public void AddItem(Item i) {
+            items.Add(i);
             i.AddedToPlayer(this, ref itemLoc);
         }
 

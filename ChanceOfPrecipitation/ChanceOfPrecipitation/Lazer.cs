@@ -44,10 +44,6 @@ namespace ChanceOfPrecipitation
         }
 
         public override void Update(List<GameObject> objects) {
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
             life--;
 
             if (life <= 0)
@@ -55,17 +51,12 @@ namespace ChanceOfPrecipitation
         }
 
         public override void Draw(SpriteBatch sb) {
-<<<<<<< HEAD
-            for (var i = 0; i < width; i++)
-                sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int)Bounds().x + i, (int)Bounds().y, 1, 5), i == width - 1 ? lazerEndSource : lazerSegmentSource, Color.White);
-=======
             if (Facing() == Direction.Right)
                 for (var i = 0; i < width; i++)
                     sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int)Bounds().x + i, (int)Bounds().x, 1, 5), i == width - 1 ? lazerEndSource : lazerSegmentSource, Color.White);
             else
                 for (var i = 0; i > width * -1; i--)
                     sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int)Bounds().x - i, (int)Bounds().x, 1, 5), i == width + 1 ? lazerEndSource : lazerSegmentSource, Color.White);
->>>>>>> origin/master
         }
 
         public RectangleF Bounds() {
