@@ -19,8 +19,14 @@ namespace ChanceOfPrecipitation
         private readonly Rectangle lazerSegmentSource = new Rectangle(0, 0, 1, 5);
         private readonly Rectangle lazerEndSource = new Rectangle(1, 0, 1, 5);
 
+        private ICollidable origin;
+
         public Lazer(ICollidable origin, int range, int life) {
             this.life = life;
+
+            this.origin = origin;
+
+            if (origin is Enemy) (origin as Enemy).canMove = false;
 
             facing = origin.Facing();
 
@@ -74,5 +80,11 @@ namespace ChanceOfPrecipitation
             if (c is Player && c.Bounds().Intersects(Bounds()))
                 ((Player) c).Damage(Damage);
         }
+
+        public new void Destroy() {
+            base.Destroy();
+            if (origin is Enemy) (origin as Enemy).canMove = true;
+        }
+
     }
 }

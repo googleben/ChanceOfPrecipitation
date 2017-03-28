@@ -84,7 +84,7 @@ namespace ChanceOfPrecipitation
         }
 
         public override void Draw(SpriteBatch sb) {
-            sb.Draw(texture, (Rectangle)bounds, info.src, Color.White);
+            sb.Draw(texture, (Rectangle)bounds, info.src, Color.White * .75f);
         }
 
         public override void AddedToPlayer(Player p, ref float loc) {

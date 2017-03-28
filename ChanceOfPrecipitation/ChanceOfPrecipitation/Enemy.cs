@@ -23,6 +23,8 @@ namespace ChanceOfPrecipitation
 
         public float health;
 
+        public bool canMove = true;
+
         protected Direction facing = Direction.Right;
 
         protected float maxHealth;
@@ -96,6 +98,9 @@ namespace ChanceOfPrecipitation
             }
 
             collision = Collision.None;
+
+
+            if (!canMove) velocity = Vector2.Zero;
 
             velocity += Playing.Instance.gravity;
             bounds.x += velocity.X;
