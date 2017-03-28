@@ -10,7 +10,6 @@ namespace ChanceOfPrecipitation
 
         private const float Damage = 10f;
 
-        private readonly int width;
         private readonly RectangleF bounds;
         private readonly Direction facing;
 
@@ -27,27 +26,27 @@ namespace ChanceOfPrecipitation
 
             var blocks = Playing.Instance.objects.OfType<Block>().ToList();
 
-            bounds = new RectangleF(origin.Bounds().Center.X + origin.Bounds().width / 2, origin.Bounds().Center.Y, width, 5);
+            bool left = facing == Direction.Left;
 
-            while (!collided && width < range) {
-                width++;
-                if (facing == Direction.Left) bounds.x--;
+            Console.WriteLine(origin.Bounds().Center.Y);
 
-                bounds.width = width;
+            bounds = new RectangleF(origin.Bounds().Center.X + (origin.Bounds().width / (left ? -2 : 2)), origin.Bounds().Center.Y, 1, 5);
+
+            if (left) bounds.x--;
+
+            while (!collided && bounds.width < range) {
+                bounds.width++;
+                if (left) bounds.x--;
 
                 blocks.ForEach(b => {
                     if (b.bounds.Intersects(Bounds()))
                         collided = true;
                 });
             }
-            bounds = new RectangleF(origin.Bounds().Center.X + origin.Bounds().width / 2, origin.Bounds().Center.Y, width, 5);
+
         }
 
         public override void Update(List<GameObject> objects) {
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
             life--;
 
             if (life <= 0)
@@ -55,17 +54,12 @@ namespace ChanceOfPrecipitation
         }
 
         public override void Draw(SpriteBatch sb) {
-<<<<<<< HEAD
-            for (var i = 0; i < width; i++)
-                sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int)Bounds().x + i, (int)Bounds().y, 1, 5), i == width - 1 ? lazerEndSource : lazerSegmentSource, Color.White);
-=======
             if (Facing() == Direction.Right)
-                for (var i = 0; i < width; i++)
-                    sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int)Bounds().x + i, (int)Bounds().x, 1, 5), i == width - 1 ? lazerEndSource : lazerSegmentSource, Color.White);
+                for (var i = 0; i < bounds.width; i++)
+                    sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int)Bounds().x + i, (int)Bounds().y, 1, 5), i == (int)bounds.width - 1 ? lazerEndSource : lazerSegmentSource, Color.White);
             else
-                for (var i = 0; i > width * -1; i--)
-                    sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int)Bounds().x - i, (int)Bounds().x, 1, 5), i == width + 1 ? lazerEndSource : lazerSegmentSource, Color.White);
->>>>>>> origin/master
+                for (var i = 0; i > bounds.width * -1; i--)
+                    sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int)Bounds().x - i, (int)Bounds().y, 1, 5), i == (int)bounds.width + 1 ? lazerEndSource : lazerSegmentSource, Color.White);
         }
 
         public RectangleF Bounds() {
