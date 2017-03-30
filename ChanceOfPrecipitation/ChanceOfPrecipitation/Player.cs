@@ -12,12 +12,12 @@ namespace ChanceOfPrecipitation
 
         private readonly HealthBar healthBar;
 
-        private readonly Keys left = Keys.Left;
-        private readonly Keys right = Keys.Right;
+        private Keys left = Keys.Left;
+        private Keys right = Keys.Right;
         private Keys up = Keys.Up;
         private Keys down = Keys.Down;
-        private readonly Keys jump = Keys.Space;
-        private readonly Keys abilityOneKey = Keys.J;
+        private Keys jump = Keys.Space;
+        private Keys abilityOneKey = Keys.J;
 
         public Ability abilityOne;
 
@@ -30,6 +30,16 @@ namespace ChanceOfPrecipitation
         public float health = MaxHealth;
 
         public const float MaxHealth = 100;
+
+        private bool isHealing;
+        private const int HealTimerReset = 60;
+        private int healTimer = HealTimerReset;
+
+        private const int PassiveHealingAmount = 5;
+
+        private bool shouldHeal;
+        private const int ShouldHealTimerReset = 120;
+        private int shouldHealTimer = ShouldHealTimerReset;
 
         private Direction facing = Direction.Right;
 
@@ -48,7 +58,7 @@ namespace ChanceOfPrecipitation
 
             abilityOne = new BurstFireAbility(this);
 
-            healBuilder = new FloatingIndicatorBuilder() { Color = Color.Lavender };
+            healBuilder = new FloatingIndicatorBuilder() { Color = Color.Green };
             damageBuilder = new FloatingIndicatorBuilder() { Color = Color.Red };
             items = new List<Item>();
         }
@@ -84,6 +94,27 @@ namespace ChanceOfPrecipitation
 
             healthBar.AlignHorizontally((Rectangle)Bounds());
             healthBar.SetY(Bounds().y - 20);
+
+            if (!shouldHeal) {
+                shouldHealTimer--;
+
+                isHealing = false;
+
+                if (shouldHealTimer <= 0) {
+                    shouldHealTimer = ShouldHealTimerReset;
+
+                    if (health < MaxHealth) shouldHeal = true;
+                }
+            } else {
+                isHealing = true;
+            }
+
+            if (isHealing) healTimer--;
+
+            if (healTimer <= 0) {
+                healTimer = HealTimerReset;
+                Heal(PassiveHealingAmount);
+            }
         }
 
         public override void Draw(SpriteBatch sb) {
@@ -112,6 +143,8 @@ namespace ChanceOfPrecipitation
         {
             health -= amount;
             healthBar.Damage(amount);
+            shouldHeal = false;
+            shouldHealTimer = ShouldHealTimerReset;
 
             Playing.Instance.objects.Add(damageBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.y)));
 

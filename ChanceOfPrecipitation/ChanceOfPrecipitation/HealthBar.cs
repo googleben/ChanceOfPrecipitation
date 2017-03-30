@@ -22,6 +22,11 @@ namespace ChanceOfPrecipitation
         private Rectangle BorderBounds => new Rectangle((int)position.X, (int)position.Y, width, height);
         private int HealthWidth => (int)(currentHealth * width / maxHealth);
 
+        private bool isBoss;
+        public bool IsBoss {
+            get { return isBoss; }
+        }
+
         public HealthBar(HealthBarBuilder builder)
         {
             position = builder.Position;
@@ -32,6 +37,8 @@ namespace ChanceOfPrecipitation
             borderColor = builder.BorderColor;
             healthColor = builder.HealthColor;
             damageColor = builder.DamageColor;
+
+            isBoss = builder.IsBoss;
 
             currentHealth = maxHealth;
         }

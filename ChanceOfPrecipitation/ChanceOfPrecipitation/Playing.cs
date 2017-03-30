@@ -32,7 +32,8 @@ namespace ChanceOfPrecipitation {
                 objects.Add(new Block(i, 600, "stage1_platform_top_middle"));
             }
 
-            objects.Add(new BasicEnemy(600, 0));
+            //objects.Add(new BasicEnemy(600, 0));
+            objects.Add(new TestBoss(600, 0));
             objects.Add(new ItemEntity<DamageUpgrade>(100, 550, "Canister"));
         }
 

@@ -11,7 +11,7 @@ namespace ChanceOfPrecipitation
         protected Vector2 velocity;
         protected Collision collision;
 
-        protected readonly HealthBar healthBar;
+        protected HealthBar healthBar;
 
         public EnemyAbility[] abilities;
 
@@ -41,19 +41,20 @@ namespace ChanceOfPrecipitation
 
         protected readonly FloatingIndicatorBuilder damageBuilder;
 
-        public Enemy(float x, float y, float width, float height)
+        protected Enemy(float x, float y, float width, float height)
         {
             bounds = new RectangleF(x, y, width, height);
-            maxHealth = 100;
 
             healthBar = new HealthBarBuilder(new Vector2(x, y - 20), (int)width + 20, 5).Build();
+
+            MaxHealth = 100;
 
             damageBuilder = new FloatingIndicatorBuilder { Color = Color.Red };
 
             abilities = new EnemyAbility[] { new EnemyMeleeAbility(this), new EnemyLazerAbility(this),  };
         }
 
-        public Enemy(float x, float y, float width, float height, float maxSpeed) : this(x, y, width, height)
+        protected Enemy(float x, float y, float width, float height, float maxSpeed) : this(x, y, width, height)
         {
             this.maxSpeed = maxSpeed;
         }
@@ -106,8 +107,10 @@ namespace ChanceOfPrecipitation
             bounds.x += velocity.X;
             bounds.y += velocity.Y;
 
-            healthBar.AlignHorizontally((Rectangle)Bounds());
-            healthBar.SetY(Bounds().y - 20);
+            if (!healthBar.IsBoss) {
+                healthBar.AlignHorizontally((Rectangle) Bounds());
+                healthBar.SetY(Bounds().y - 20);
+            }
         }
 
         public override void Draw(SpriteBatch sb)
@@ -134,6 +137,7 @@ namespace ChanceOfPrecipitation
 
         public void Damage(float amount)
         {
+            Console.WriteLine(amount+" "+health);
             health -= amount;
             healthBar.Damage(amount);
 
