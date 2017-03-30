@@ -279,7 +279,7 @@ namespace ChanceOfPrecipitation {
             var top = (value1.y > value2.y) ? value1.y : value2.y;
             var right = (right1 < right2) ? right1 : right2;
             var bottom = (bottom1 < bottom2) ? bottom1 : bottom2;
-
+            
             RectangleF result;
             if ((right > left) && (bottom > top)) {
                 result.x = left;
@@ -413,6 +413,15 @@ namespace ChanceOfPrecipitation {
             // ReSharper disable CompareOfFloatsByEqualityOperator
             return a.x != b.x || a.y != b.y || a.width != b.width || a.height != b.height;
             // ReSharper restore CompareOfFloatsByEqualityOperator
+        }
+
+        public static RectangleF operator +(RectangleF r, Vector2 v) {
+            RectangleF ans;
+            ans.x = r.x + v.X;
+            ans.y = r.y + v.Y;
+            ans.width = r.width;
+            ans.height = r.height;
+            return ans;
         }
 
         /// <summary>

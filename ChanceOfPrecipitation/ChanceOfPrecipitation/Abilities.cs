@@ -182,7 +182,7 @@ namespace ChanceOfPrecipitation {
         }
 
         public override void Draw(SpriteBatch sb) {
-            sb.Draw(texture, (Rectangle)bounds, Color.White);
+            sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), Color.White);
         }
 
         public override void Update(List<GameObject> objects) {
