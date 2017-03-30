@@ -56,6 +56,9 @@ namespace ChanceOfPrecipitation
         public override void Update(List<GameObject> objects) {
             var state = Playing.Instance.state;
 
+            Playing.Instance.offset.X = (1280 / 2) - this.bounds.Center.X;
+            Playing.Instance.offset.Y = (720 / 2) - this.bounds.Center.Y;
+
             abilityOne.Update();
             
             if (state.IsKeyDown(left)) {
@@ -79,15 +82,16 @@ namespace ChanceOfPrecipitation
             collision = Collision.None;
 
             velocity += Playing.Instance.gravity;
+            velocity.Y = MathHelper.Clamp(velocity.Y, -15, 15);
             bounds.x += velocity.X;
             bounds.y += velocity.Y;
 
-            healthBar.AlignHorizontally((Rectangle)Bounds());
-            healthBar.SetY(Bounds().y - 20);
+            healthBar.AlignHorizontally((Rectangle)(bounds + Playing.Instance.offset));
+            healthBar.SetY((bounds + Playing.Instance.offset).y - 20);
         }
 
         public override void Draw(SpriteBatch sb) {
-            sb.Draw(texture, (Rectangle)bounds, Color.White);
+            sb.Draw(texture, (Rectangle)(bounds+Playing.Instance.offset), Color.White);
             foreach (var i in items) i.Draw(sb);
             healthBar.Draw(sb);
         }

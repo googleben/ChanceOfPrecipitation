@@ -66,7 +66,7 @@ namespace ChanceOfPrecipitation {
                 TextureManager.blocks[(i).ToString()] = new BlockInfo("Numbers", new Rectangle(2 + ((i - 2) * 4), 0, 5, 7));
 
 
-            const int scale = 1;
+            const int scale = 2;
             TextureManager.textures["platform_tileset_stage1"] = Content.Load<Texture2D>("platform_tileset_stage1");
             TextureManager.blocks["stage1_platform_top_left"] =        new BlockInfo("platform_tileset_stage1", new Rectangle(0, 0, 16, 16),   scale);
             TextureManager.blocks["stage1_platform_top_middle"] =      new BlockInfo("platform_tileset_stage1", new Rectangle(16, 0, 16, 16),  scale);

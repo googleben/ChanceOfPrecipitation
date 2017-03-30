@@ -19,6 +19,8 @@ namespace ChanceOfPrecipitation {
 
         public List<Player> players;
 
+        public Vector2 offset = Vector2.Zero;
+
         public Playing() {
             objects = new List<GameObject>();
             instance = this;
@@ -28,7 +30,7 @@ namespace ChanceOfPrecipitation {
             objects.Add(players[0]);
             objects.Add(new Block(0, 600,  "stage1_platform_top_left"));
             objects.Add(new Block(1280 - 16, 600, "stage1_platform_top_right"));
-            for (var i = 16; i < 1280 - 16; i += 16) {
+            for (var i = 32; i < 1280 - 32; i += 32) {
                 objects.Add(new Block(i, 600, "stage1_platform_top_middle"));
             }
 
@@ -38,7 +40,8 @@ namespace ChanceOfPrecipitation {
 
         public void Draw(SpriteBatch sb) {
             sb.Draw(TextureManager.textures["Square"], new Rectangle(0, 0, 1280, 720), Color.MidnightBlue);
-            foreach (var o in objects) o.Draw(sb);
+            foreach (var o in objects) if (!(o is Player)) o.Draw(sb);
+            foreach (var p in players) p.Draw(sb);
         }
 
         public IGameState Update() {

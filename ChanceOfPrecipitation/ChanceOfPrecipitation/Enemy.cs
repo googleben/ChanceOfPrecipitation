@@ -103,16 +103,17 @@ namespace ChanceOfPrecipitation
             if (!canMove) velocity = Vector2.Zero;
 
             velocity += Playing.Instance.gravity;
+            velocity.Y = MathHelper.Clamp(velocity.Y, -15, 15);
             bounds.x += velocity.X;
             bounds.y += velocity.Y;
 
-            healthBar.AlignHorizontally((Rectangle)Bounds());
-            healthBar.SetY(Bounds().y - 20);
+            healthBar.AlignHorizontally((Rectangle)(bounds + Playing.Instance.offset));
+            healthBar.SetY((bounds + Playing.Instance.offset).y - 20);
         }
 
         public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(texture, (Rectangle)bounds, Color.Red);
+            sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), Color.Red);
             healthBar.Draw(sb);
         }
 

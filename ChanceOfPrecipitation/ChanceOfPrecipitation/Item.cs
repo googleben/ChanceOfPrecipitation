@@ -54,7 +54,7 @@ namespace ChanceOfPrecipitation
         }
 
         public override void Draw(SpriteBatch sb) {
-            sb.Draw(texture, (Rectangle)bounds, info.src, Color.White);
+            sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), info.src, Color.White);
         }
 
         public void Collide(ICollidable c) {

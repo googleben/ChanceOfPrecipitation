@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -16,16 +17,18 @@ namespace ChanceOfPrecipitation {
         }
 
         public override void Draw(SpriteBatch sb) {
-            sb.Draw(texture, (Rectangle)bounds, info.src, Color.White);
+            sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), info.src, Color.White);
         }
 
         public override void Update(List<GameObject> objects) {
             
         }
 
+        private const float tol = 0.2f;
+
         public void Collide(ICollidable c) {
             var i = RectangleF.Intersect(bounds, c.Bounds());
-            if (i.width == 0 || i.height == 0) return;
+            if (Math.Abs(i.width) < tol || Math.Abs(i.height) < tol) return;
             if (i.width < i.height) {
                 c.Collide((i.x < bounds.x) ? Collision.Right : Collision.Left, i.width, this);
             } else {
