@@ -8,10 +8,25 @@ namespace ChanceOfPrecipitation
 
     public abstract class Item {
         public static int space = 5;
+        public Texture2D texture;
+        public RectangleF bounds;
+        public readonly BlockInfo info;
 
         public abstract void Update(List<GameObject> objects);
-        public abstract void Draw(SpriteBatch sb);
+
+        public void Draw(SpriteBatch sb) {
+            sb.Draw(texture, (Rectangle)bounds, info.src, Color.White * .75f);
+        }
+
         public abstract void AddedToPlayer(Player p, ref float loc);
+
+        public static List<GameObject> items = new List<GameObject>();
+
+        protected Item(string type) {
+            info = TextureManager.blocks[type];
+            texture = TextureManager.textures[info.texName];
+            bounds = new RectangleF(0, 720 - 100, info.src.Width * info.scale, info.src.Height * info.scale);
+        }
 
     }
 
@@ -69,27 +84,19 @@ namespace ChanceOfPrecipitation
     class DamageUpgrade : Item {
         private const string type = "Canister";
 
-        private Texture2D texture;
-        private RectangleF bounds;
-        private readonly BlockInfo info;
+        
 
-        public DamageUpgrade() {
-            info = TextureManager.blocks[type];
-            texture = TextureManager.textures[info.texName];
-            bounds = new RectangleF(0, 720-100, info.src.Width*info.scale, info.src.Height*info.scale);
+        public DamageUpgrade() : base(type) {
+            
         }
 
         public override void Update(List<GameObject> objects) {
             
         }
 
-        public override void Draw(SpriteBatch sb) {
-            sb.Draw(texture, (Rectangle)bounds, info.src, Color.White * .75f);
-        }
-
         public override void AddedToPlayer(Player p, ref float loc) {
             bounds.x = loc;
-            loc += space;
+            loc += this.bounds.width+space;
             Ability[] abilities = {p.abilityOne};
             foreach (var a in abilities) {
                 if (a is BurstFireAbility) ((BurstFireAbility)a).damage += 10;
