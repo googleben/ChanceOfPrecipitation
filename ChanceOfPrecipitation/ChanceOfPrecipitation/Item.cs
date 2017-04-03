@@ -84,8 +84,6 @@ namespace ChanceOfPrecipitation
     class DamageUpgrade : Item {
         private const string type = "Canister";
 
-        
-
         public DamageUpgrade() : base(type) {
             
         }
