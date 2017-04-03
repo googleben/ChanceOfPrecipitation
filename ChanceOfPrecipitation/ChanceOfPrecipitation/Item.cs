@@ -20,7 +20,14 @@ namespace ChanceOfPrecipitation
 
         public abstract void AddedToPlayer(Player p, ref float loc);
 
-        public static List<GameObject> items = new List<GameObject>();
+        public static List<IItemEntity> items;
+
+        static Item() {
+            items = new List<IItemEntity> {
+                new ItemEntity<DamageUpgrade>(0, 0, DamageUpgrade.type),
+                new ItemEntity<HealingUpgrade>(0, 0, HealingUpgrade.type)
+            };
+        }
 
         protected Item(string type) {
             info = TextureManager.blocks[type];
@@ -30,13 +37,20 @@ namespace ChanceOfPrecipitation
 
     }
 
-    class ItemEntity<T> : GameObject, ICollider where T : Item, new() {
+    public interface IItemEntity {
+
+        GameObject Clone();
+        void SetPos(float x, float y);
+
+    }
+
+    public class ItemEntity<T> : GameObject, ICollider, IItemEntity where T : Item, new() {
         private string type;
         private RectangleF bounds;
         private readonly Texture2D texture;
         private readonly BlockInfo info;
-        private readonly float origX;
-        private readonly float origY;
+        private float origX;
+        private float origY;
 
         private readonly Random rand;
 
@@ -79,12 +93,23 @@ namespace ChanceOfPrecipitation
             }
         }
 
+        public GameObject Clone() {
+            return (ItemEntity<T>)MemberwiseClone();
+        }
+
+        public RectangleF Bounds() {
+            return bounds;
+        }
+
+        public void SetPos(float x, float y) {
+            bounds.x = origX = x;
+            bounds.y = origY = y;
+        }
+
     }
 
     class DamageUpgrade : Item {
-        private const string type = "Canister";
-
-        
+        public const string type = "RedCanister";
 
         public DamageUpgrade() : base(type) {
             
@@ -101,6 +126,26 @@ namespace ChanceOfPrecipitation
             foreach (var a in abilities) {
                 if (a is BurstFireAbility) ((BurstFireAbility)a).damage += 10;
             }
+        }
+    }
+
+    class HealingUpgrade : Item {
+        public const string type = "GreenCanister";
+
+        public HealingUpgrade() : base(type) {
+
+        }
+
+        public override void Update(List<GameObject> objects)
+        {
+
+        }
+
+        public override void AddedToPlayer(Player p, ref float loc)
+        {
+            bounds.x = loc;
+            loc += this.bounds.width + space;
+            p.PassiveHealingAmount += 5;
         }
     }
 

@@ -35,7 +35,7 @@ namespace ChanceOfPrecipitation
         private const int HealTimerReset = 60;
         private int healTimer = HealTimerReset;
 
-        private const int PassiveHealingAmount = 5;
+        public int PassiveHealingAmount = 5;
 
         private bool shouldHeal;
         private const int ShouldHealTimerReset = 120;
