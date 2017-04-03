@@ -31,6 +31,9 @@ namespace ChanceOfPrecipitation
         public abstract void Draw(SpriteBatch sb);
     }
 
+    /// <summary>
+    /// Handles the collision with an ICollider
+    /// </summary>
     public interface ICollidable {
 
         void Collide(Collision side, float amount, ICollider origin);
@@ -41,6 +44,9 @@ namespace ChanceOfPrecipitation
 
     }
 
+    /// <summary>
+    /// Checks if the collision is happening
+    /// </summary>
     public interface ICollider {
 
         void Collide(ICollidable c);

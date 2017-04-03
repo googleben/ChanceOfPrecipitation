@@ -82,6 +82,9 @@ namespace ChanceOfPrecipitation {
 
             TextureManager.textures["Items"] = Content.Load<Texture2D>("Items");
             TextureManager.blocks["Canister"] = new BlockInfo("Items", new Rectangle(0, 0, 32, 32));
+
+            TextureManager.blocks["shop"] = new BlockInfo("", new Rectangle(0, 0, 64, 48));
+            TextureManager.blocks["stand"] = new BlockInfo("ItemStand", new Rectangle(0, 0, 16, 48));
         }
 
         protected override void UnloadContent() {
