@@ -48,7 +48,7 @@ namespace ChanceOfPrecipitation
         private const float ItemScale = ItemShop.SizeMultiplier * 0.3f;
 
         private readonly Item item;
-        private ItemShop origin;
+        private readonly ItemShop origin;
         private readonly RectangleF bounds;
         private readonly RectangleF itemBounds;
         private readonly BlockInfo info;
@@ -83,6 +83,76 @@ namespace ChanceOfPrecipitation
                 ((Player) c).AddItem(item);
                 origin.BoughtItem = true;
             }
+        }
+    }
+
+    public class Coin : GameObject, ICollidable, ICollider {
+        public const int Value = 5;
+        private const int VelRange = 1;
+        private const float Damper = -0.9f;
+
+        private readonly Random rand;
+        private Vector2 velocity;
+        private readonly Texture2D texture;
+        private RectangleF bounds;
+        private readonly BlockInfo info;
+
+        public Coin(float x, float y) {
+            info = TextureManager.blocks["coin"];
+            bounds = new RectangleF(x, y, info.src.Width, info.src.Height);
+
+            rand = new Random();
+            velocity.Y = rand.Next(-VelRange, 0);
+            velocity.X = rand.Next(-VelRange, VelRange);
+
+            texture = TextureManager.textures[info.texName];
+        }
+
+        public override void Update(List<GameObject> objects) {
+            velocity += Playing.Instance.gravity;
+
+            bounds.x += velocity.X;
+            bounds.y += velocity.Y;
+
+            if (Math.Abs(velocity.X) < 0.01f) velocity.X = 0;
+            if (Math.Abs(velocity.Y) < 0.01f) velocity.Y = 0;
+        }
+
+        public override void Draw(SpriteBatch sb)
+        {
+            sb.Draw(texture, (Rectangle) (bounds + Playing.Instance.offset), info.src, Color.White);
+        }
+
+        public void Collide(ICollidable c)
+        {
+            if (c is Player && c.Bounds().Intersects(bounds)) {
+                Destroy();
+                ((Player) c).AddMoney(Value);
+            }
+        }
+
+        public void Collide(Collision side, float amount, ICollider origin) {
+            if (side == Collision.Right && velocity.X > 0) {
+                velocity.X *= Damper;
+            }
+            else if (side == Collision.Left && velocity.X < 0) {
+                velocity.X *= Damper;
+            }
+            else if (side == Collision.Top && velocity.Y < 0) {
+                velocity.Y *= Damper;
+            }
+            else if (side == Collision.Bottom && velocity.Y > 0) {
+                velocity.X *= -Damper;
+                velocity.Y *= Damper;
+            }
+        }
+
+        public RectangleF Bounds() {
+            return bounds;
+        }
+
+        public Direction Facing() {
+            return velocity.X >= 0 ? Direction.Right : Direction.Left;
         }
     }
 }

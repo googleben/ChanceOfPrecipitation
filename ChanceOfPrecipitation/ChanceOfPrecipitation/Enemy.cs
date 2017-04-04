@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ChanceOfPrecipitation
 {
-    public abstract class Enemy : GameObject, ICollidable, IEntity
+    public abstract class Enemy : GameObject, ICollidable, IEntity, IValuable
     {
         protected RectangleF bounds;
         protected Vector2 velocity;
@@ -26,6 +26,8 @@ namespace ChanceOfPrecipitation
         public bool canMove = true;
 
         protected Direction facing = Direction.Right;
+
+        public int Value => 2 * Coin.Value;
 
         protected float maxHealth;
         public float MaxHealth
@@ -180,5 +182,9 @@ namespace ChanceOfPrecipitation
             return facing;
         }
 
+        public void DropCoins() {
+            for (var i = 0; i < Value; i += Coin.Value)
+                Playing.Instance.objects.Add(new Coin(bounds.Center.X, bounds.Center.Y));
+        }
     }
 }

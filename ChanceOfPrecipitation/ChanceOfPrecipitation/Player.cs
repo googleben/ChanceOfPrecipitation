@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -40,6 +41,8 @@ namespace ChanceOfPrecipitation
         private bool shouldHeal;
         private const int ShouldHealTimerReset = 120;
         private int shouldHealTimer = ShouldHealTimerReset;
+
+        private int money;
 
         private Direction facing = Direction.Right;
 
@@ -154,6 +157,19 @@ namespace ChanceOfPrecipitation
 
             if (health <= 0)
                 Destroy();
+        }
+
+        public void AddMoney(int amount) {
+            money += amount;
+            Console.WriteLine(money);
+        }
+
+        public void SpendMoney(int amount) {
+            money -= amount;
+        }
+
+        public bool HasEnoughMoney(int amount) {
+            return money >= amount;
         }
 
         public void Collide(Collision side, float amount, ICollider origin)
