@@ -22,6 +22,8 @@ namespace ChanceOfPrecipitation
         public Ability abilityOne;
 
         private readonly Texture2D texture;
+        private readonly Texture2D moneyTexture;
+        private readonly Rectangle moneySrc;
 
         public float maxSpeed = 5f;
 
@@ -55,6 +57,10 @@ namespace ChanceOfPrecipitation
         public Player(float x, float y, float width, float height) {
             bounds = new RectangleF(x, y, width, height);
             texture = TextureManager.textures["Square"];
+
+            var info = TextureManager.blocks["money"];
+            moneyTexture = TextureManager.textures[info.texName];
+            moneySrc = info.src;
 
             healthBar = new HealthBarBuilder() { Position = new Vector2(x, y), Width = (int)width + 10 }.Build();
 
@@ -134,6 +140,8 @@ namespace ChanceOfPrecipitation
             sb.Draw(texture, (Rectangle)(bounds+Playing.Instance.offset), Color.White);
             foreach (var i in items) i.Draw(sb);
             healthBar.Draw(sb);
+
+            sb.Draw(moneyTexture, new Rectangle(20, 20, 35, 49), moneySrc, Color.Gold);
         }
 
         public RectangleF Bounds() {

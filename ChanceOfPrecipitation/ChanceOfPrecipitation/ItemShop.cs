@@ -56,8 +56,8 @@ namespace ChanceOfPrecipitation
         private readonly Texture2D texture;
 
         private float origY;
-        private float oscillatioRange;
-        private const float Wavelength = 0.004f;
+        private float amplitude;
+        private const float Wavelength = 0.002f;
         private float waveCounter;
         private readonly float phase;
 
@@ -72,14 +72,15 @@ namespace ChanceOfPrecipitation
             itemBounds = new RectangleF(bounds.Center.X - item.info.src.Width / ItemShop.SizeMultiplier * 4 / 3, bounds.Center.Y - bounds.height / 5, item.info.src.Width * ItemScale, item.info.src.Height * ItemScale);
 
             origY = itemBounds.y;
-            oscillatioRange = bounds.height / 10;
+            amplitude = bounds.height / 14.4f;
+            Console.WriteLine("HEIGHT: " + bounds.height);
             phase = (float) Playing.random.NextDouble() * 10;
         }
 
         public override void Update(List<GameObject> objects) {
             waveCounter += Wavelength;
 
-            itemBounds.y = (float) (oscillatioRange * Math.Sin(2 * Math.PI * waveCounter + phase) + origY);
+            itemBounds.y = (float) (amplitude * Math.Sin(2 * Math.PI * waveCounter + phase) + origY);
         }
 
         public override void Draw(SpriteBatch sb) {
@@ -113,7 +114,7 @@ namespace ChanceOfPrecipitation
 
         public Coin(float x, float y) {
             info = TextureManager.blocks["coin"];
-            bounds = new RectangleF(x, y, info.src.Width, info.src.Height);
+            bounds = new RectangleF(x, y, info.src.Width * info.scale, info.src.Height * info.scale);
 
             velocity.Y = Playing.random.Next(-VelRange, 0);
             velocity.X = Playing.random.Next(-VelRange * 2, VelRange * 2);

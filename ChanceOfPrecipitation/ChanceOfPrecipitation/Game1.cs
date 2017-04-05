@@ -59,7 +59,7 @@ namespace ChanceOfPrecipitation {
             TextureManager.textures["Square"] = Content.Load<Texture2D>("Square");
             TextureManager.textures["Numbers"] = Content.Load<Texture2D>("Numbers");
             TextureManager.blocks["Square"] = new BlockInfo("Square", new Rectangle(0, 0, 16, 16));
-                           
+
             TextureManager.blocks["1"] = new BlockInfo("Numbers", new Rectangle(0, 0, 3, 7));
             TextureManager.blocks["0"] = new BlockInfo("Numbers", new Rectangle(34, 0, 5, 7));
             for (var i = 2; i < 9; i++)
@@ -88,7 +88,9 @@ namespace ChanceOfPrecipitation {
             TextureManager.blocks["stand"] = new BlockInfo("ItemStand", new Rectangle(0, 0, 16, 48));
 
             TextureManager.textures["coin"] = Content.Load<Texture2D>("coin");
-            TextureManager.blocks["coin"] = new BlockInfo("coin", new Rectangle(0, 0, 8, 8));
+            TextureManager.blocks["coin"] = new BlockInfo("coin", new Rectangle(0, 0, 8, 8), 1.5f);
+
+            //TextureManager.blocks["money"]
         }
 
         protected override void UnloadContent() {
