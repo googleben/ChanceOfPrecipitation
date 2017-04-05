@@ -100,9 +100,9 @@ namespace ChanceOfPrecipitation {
         }
 
         void SpawnEnemy() {
-            List<RectangleF> spawnAreas = new List<RectangleF>();
-            List<RectangleF> spawnRestrictions = new List<RectangleF>();
-            foreach (Player p in players)
+            var spawnAreas = new List<RectangleF>();
+            var spawnRestrictions = new List<RectangleF>();
+            foreach (var p in players)
             {
                 var bounds = p.Bounds();
                 spawnAreas.Add(new RectangleF(bounds.x - spawnRange.X / 2, bounds.y - spawnRange.Y / 2, spawnRange.X, spawnRange.Y));
@@ -112,11 +112,11 @@ namespace ChanceOfPrecipitation {
             var height = enemy.Bounds().height;
             var width = enemy.Bounds().width;
             var blocks = objects.OfType<Block>();
-            List<RectangleF> spawns = new List<RectangleF>();
+            var spawns = new List<RectangleF>();
             foreach (var b in blocks) {
                 var bounds = b.bounds;
-                RectangleF spawn = new RectangleF(bounds.x, bounds.y-height, width, height);
-                bool works = true;
+                var spawn = new RectangleF(bounds.x, bounds.y-height, width, height);
+                var works = true;
                 foreach (var x in spawnAreas) if (!spawn.Intersects(x)) { works = false; break; }
                 foreach (var x in spawnRestrictions) if (!works || spawn.Intersects(x)) { works = false; break; }
                 if (works) foreach (var x in blocks) if (x.bounds.Intersects(spawn)) { works = false; break; }

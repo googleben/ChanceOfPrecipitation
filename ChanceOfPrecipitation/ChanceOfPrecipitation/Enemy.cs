@@ -147,7 +147,7 @@ namespace ChanceOfPrecipitation
 
             if (health <= 0) {
                 if (random.NextDouble() < chanceToDropItem()) {
-                    GameObject drop = Item.items[random.Next(Item.items.Count)].Clone();
+                    var drop = Item.items[random.Next(Item.items.Count)].Clone();
                     (drop as IItemEntity)?.SetPos(bounds.Center.X, bounds.Center.Y);
                     Playing.Instance.objects.Add(drop);
                 }

@@ -44,7 +44,7 @@ namespace ChanceOfPrecipitation
 
             numbers = new List<Number>();
             var nums = number.ToString().ToCharArray();
-            foreach (char c in nums) {
+            foreach (var c in nums) {
                 numbers.Add(new Number(c+"", scale));
             }
 
@@ -57,7 +57,7 @@ namespace ChanceOfPrecipitation
             position.Y -= upSpeed;
             var x = position.X;
 
-            foreach (Number n in numbers) {
+            foreach (var n in numbers) {
                 n.SetPos(x, position.Y);
                 x += n.bounds.width;
             }
@@ -83,7 +83,7 @@ namespace ChanceOfPrecipitation
             //var nums = number.ToString().ToCharArray();
 
             
-            foreach (Number n in numbers) n.Draw(sb);
+            foreach (var n in numbers) n.Draw(sb);
         }
 
         private void Delete(object sender, ElapsedEventArgs e)
