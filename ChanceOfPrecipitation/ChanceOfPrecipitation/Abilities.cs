@@ -39,7 +39,7 @@ namespace ChanceOfPrecipitation {
         }
 
         public override void Fire(List<GameObject> objects) => objects.OfType<Player>().ToList().ForEach(p => {
-            if ((origin.Facing() == Direction.Left && p.Bounds().Center.X <= origin.Bounds().Center.X) || (origin.Facing() == Direction.Right && p.Bounds().Center.X >= origin.Bounds().Center.X))
+            if (origin.Facing() == Direction.Left && p.Bounds().Center.X <= origin.Bounds().Center.X || origin.Facing() == Direction.Right && p.Bounds().Center.X >= origin.Bounds().Center.X)
                 p.Damage(10);
 
             base.Fire(objects);
@@ -70,8 +70,8 @@ namespace ChanceOfPrecipitation {
             var ans = false;
 
             players.ForEach(p => {
-                if (((origin.Facing() == Direction.Left && p.Bounds().Center.X < origin.Bounds().Center.X) ||
-                (origin.Facing() == Direction.Right && p.Bounds().Center.X > origin.Bounds().Center.X)) &&
+                if ((origin.Facing() == Direction.Left && p.Bounds().Center.X < origin.Bounds().Center.X ||
+                origin.Facing() == Direction.Right && p.Bounds().Center.X > origin.Bounds().Center.X) &&
                 Math.Abs(p.Bounds().Center.X - origin.Bounds().Center.X) < 50 &&
                 Math.Abs(p.Bounds().Center.Y - origin.Bounds().Center.Y) < range &&
                 cd <= 0)

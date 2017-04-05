@@ -63,7 +63,7 @@ namespace ChanceOfPrecipitation {
             TextureManager.blocks["1"] = new BlockInfo("Numbers", new Rectangle(0, 0, 3, 7));
             TextureManager.blocks["0"] = new BlockInfo("Numbers", new Rectangle(34, 0, 5, 7));
             for (var i = 2; i < 9; i++)
-                TextureManager.blocks[(i).ToString()] = new BlockInfo("Numbers", new Rectangle(2 + ((i - 2) * 4), 0, 5, 7));
+                TextureManager.blocks[i.ToString()] = new BlockInfo("Numbers", new Rectangle(2 + (i - 2) * 4, 0, 5, 7));
 
 
             const int scale = 2;
@@ -81,8 +81,17 @@ namespace ChanceOfPrecipitation {
             TextureManager.textures["Lazer"] = Content.Load<Texture2D>("LazerTileset");
 
             TextureManager.textures["Items"] = Content.Load<Texture2D>("Items");
+
             TextureManager.blocks["GreenCanister"] = new BlockInfo("Items", new Rectangle(0, 0, 32, 32));
             TextureManager.blocks["RedCanister"] = new BlockInfo("Items", new Rectangle(32, 0, 32, 32));
+
+            TextureManager.textures["ItemStand"] = Content.Load<Texture2D>("ItemStand");
+            TextureManager.blocks["shop"] = new BlockInfo("", new Rectangle(0, 0, 64, 48));
+            TextureManager.blocks["stand"] = new BlockInfo("ItemStand", new Rectangle(0, 0, 16, 48));
+
+            TextureManager.textures["coin"] = Content.Load<Texture2D>("coin");
+            TextureManager.blocks["coin"] = new BlockInfo("coin", new Rectangle(0, 0, 8, 8));
+
         }
 
         protected override void UnloadContent() {

@@ -24,15 +24,15 @@ namespace ChanceOfPrecipitation {
             
         }
 
-        private const float tol = 0.2f;
+        private const float Tol = 0.2f;
 
         public void Collide(ICollidable c) {
             var i = RectangleF.Intersect(bounds, c.Bounds());
-            if (Math.Abs(i.width) < tol || Math.Abs(i.height) < tol) return;
+            if (Math.Abs(i.width) < Tol || Math.Abs(i.height) < Tol) return;
             if (i.width < i.height) {
-                c.Collide((i.x < bounds.x) ? Collision.Right : Collision.Left, i.width, this);
+                c.Collide(i.x < bounds.x ? Collision.Right : Collision.Left, i.width, this);
             } else {
-                c.Collide((i.y < bounds.y) ? Collision.Top : Collision.Bottom, i.height, this);
+                c.Collide(i.y < bounds.y ? Collision.Top : Collision.Bottom, i.height, this);
             }
         }
 

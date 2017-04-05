@@ -41,6 +41,8 @@ namespace ChanceOfPrecipitation
         private const int ShouldHealTimerReset = 120;
         private int shouldHealTimer = ShouldHealTimerReset;
 
+        private int money;
+
         private Direction facing = Direction.Right;
 
         private readonly FloatingIndicatorBuilder healBuilder;
@@ -66,8 +68,8 @@ namespace ChanceOfPrecipitation
         public override void Update(List<GameObject> objects) {
             var state = Playing.Instance.state;
 
-            Playing.Instance.offset.X = (1280 / 2) - this.bounds.Center.X;
-            Playing.Instance.offset.Y = (720 / 2) - this.bounds.Center.Y;
+            Playing.Instance.offset.X = 1280 / 2 - bounds.Center.X;
+            Playing.Instance.offset.Y = 720 / 2 - bounds.Center.Y;
 
             abilityOne.Update();
             
@@ -119,6 +121,13 @@ namespace ChanceOfPrecipitation
                 healTimer = HealTimerReset;
                 Heal(PassiveHealingAmount);
             }
+
+            if (health >= MaxHealth) {
+                shouldHeal = false;
+
+                if (health > MaxHealth)
+                    Damage(health - MaxHealth);
+            }
         }
 
         public override void Draw(SpriteBatch sb) {
@@ -154,6 +163,18 @@ namespace ChanceOfPrecipitation
 
             if (health <= 0)
                 Destroy();
+        }
+
+        public void AddMoney(int amount) {
+            money += amount;
+        }
+
+        public void SpendMoney(int amount) {
+            money -= amount;
+        }
+
+        public bool HasEnoughMoney(int amount) {
+            return money >= amount;
         }
 
         public void Collide(Collision side, float amount, ICollider origin)

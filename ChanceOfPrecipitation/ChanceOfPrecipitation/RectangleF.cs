@@ -129,9 +129,9 @@ namespace ChanceOfPrecipitation {
         /// </returns>
         public bool Contains(RectangleF value) {
             return x <= value.x &&
-                   (value.x + value.width) <= (x + width) &&
+                   value.x + value.width <= x + width &&
                    y <= value.y &&
-                   (value.y + value.height) <= (y + height);
+                   value.y + value.height <= y + height;
         }
 
         /// <summary>
@@ -143,9 +143,9 @@ namespace ChanceOfPrecipitation {
         /// </returns>
         public bool Contains(Vector2 value) {
             return x <= value.X &&
-                   value.X < (x + width) &&
+                   value.X < x + width &&
                    y <= value.Y &&
-                   value.Y < (y + height);
+                   value.Y < y + height;
         }
 
         //  by its x- and y-coordinates.
@@ -159,9 +159,9 @@ namespace ChanceOfPrecipitation {
         /// </returns>
         public bool Contains(float x, float y) {
             return this.x <= x &&
-                   x < (this.x + width) &&
+                   x < this.x + width &&
                    this.y <= y &&
-                   y < (this.y + height);
+                   y < this.y + height;
         }
 
         /// <summary>
@@ -176,9 +176,9 @@ namespace ChanceOfPrecipitation {
         /// </param>
         public void Contains(ref RectangleF value, out bool result) {
             result = x <= value.x &&
-                     (value.x + value.width) <= (x + width) &&
+                     value.x + value.width <= x + width &&
                      y <= value.y &&
-                     (value.y + value.height) <= (y + height);
+                     value.y + value.height <= y + height;
         }
 
         /// <summary>
@@ -190,9 +190,9 @@ namespace ChanceOfPrecipitation {
         /// </param>
         public void Contains(ref Vector2 value, out bool result) {
             result = x <= value.X &&
-                     value.X < (x + width) &&
+                     value.X < x + width &&
                      y <= value.Y &&
-                     value.Y < (y + height);
+                     value.Y < y + height;
         }
 
         /// <summary>
@@ -217,10 +217,10 @@ namespace ChanceOfPrecipitation {
         ///     <c>true</c> if the rectangles intersect; otherwise, <c>false</c>.
         /// </returns>
         public bool Intersects(RectangleF other) {
-            return x < (other.x + other.width) &&
-                   other.x < (x + width) &&
-                   y < (other.y + other.height) &&
-                   other.y < (y + height);
+            return x < other.x + other.width &&
+                   other.x < x + width &&
+                   y < other.y + other.height &&
+                   other.y < y + height;
         }
 
         /// <summary>
@@ -233,10 +233,10 @@ namespace ChanceOfPrecipitation {
         ///     true if the specified <see cref="RectangleF"/> intersects with this one; false otherwise.
         /// </param>
         public void Intersects(RectangleF other, out bool result) {
-            result = x < (other.x + other.width) &&
-                     other.x < (x + width) &&
-                     y < (other.y + other.height) &&
-                     other.y < (y + height);
+            result = x < other.x + other.width &&
+                     other.x < x + width &&
+                     y < other.y + other.height &&
+                     other.y < y + height;
         }
 
         /// <summary>
@@ -275,13 +275,13 @@ namespace ChanceOfPrecipitation {
             var right2 = value2.x + value2.width;
             var bottom1 = value1.y + value1.height;
             var bottom2 = value2.y + value2.height;
-            var left = (value1.x > value2.x) ? value1.x : value2.x;
-            var top = (value1.y > value2.y) ? value1.y : value2.y;
-            var right = (right1 < right2) ? right1 : right2;
-            var bottom = (bottom1 < bottom2) ? bottom1 : bottom2;
+            var left = value1.x > value2.x ? value1.x : value2.x;
+            var top = value1.y > value2.y ? value1.y : value2.y;
+            var right = right1 < right2 ? right1 : right2;
+            var bottom = bottom1 < bottom2 ? bottom1 : bottom2;
             
             RectangleF result;
-            if ((right > left) && (bottom > top)) {
+            if (right > left && bottom > top) {
                 result.x = left;
                 result.y = top;
                 result.width = right - left;
@@ -311,11 +311,11 @@ namespace ChanceOfPrecipitation {
             var right2 = value2.x + value2.width;
             var bottom1 = value1.y + value1.height;
             var bottom2 = value2.y + value2.height;
-            var left = (value1.x > value2.x) ? value1.x : value2.x;
-            var top = (value1.y > value2.y) ? value1.y : value2.y;
-            var right = (right1 < right2) ? right1 : right2;
-            var bottom = (bottom1 < bottom2) ? bottom1 : bottom2;
-            if ((right > left) && (bottom > top)) {
+            var left = value1.x > value2.x ? value1.x : value2.x;
+            var top = value1.y > value2.y ? value1.y : value2.y;
+            var right = right1 < right2 ? right1 : right2;
+            var bottom = bottom1 < bottom2 ? bottom1 : bottom2;
+            if (right > left && bottom > top) {
                 result.x = left;
                 result.y = top;
                 result.width = right - left;
@@ -346,10 +346,10 @@ namespace ChanceOfPrecipitation {
             var right2 = value2.x + value2.width;
             var bottom1 = value1.y + value1.height;
             var bottom2 = value2.y + value2.height;
-            var left = (value1.x < value2.x) ? value1.x : value2.x;
-            var top = (value1.y < value2.y) ? value1.y : value2.y;
-            var right = (right1 > right2) ? right1 : right2;
-            var bottom = (bottom1 > bottom2) ? bottom1 : bottom2;
+            var left = value1.x < value2.x ? value1.x : value2.x;
+            var top = value1.y < value2.y ? value1.y : value2.y;
+            var right = right1 > right2 ? right1 : right2;
+            var bottom = bottom1 > bottom2 ? bottom1 : bottom2;
 
             RectangleF result;
             result.x = left;
@@ -376,10 +376,10 @@ namespace ChanceOfPrecipitation {
             var right2 = value2.x + value2.width;
             var bottom1 = value1.y + value1.height;
             var bottom2 = value2.y + value2.height;
-            var left = (value1.x < value2.x) ? value1.x : value2.x;
-            var top = (value1.y < value2.y) ? value1.y : value2.y;
-            var right = (right1 > right2) ? right1 : right2;
-            var bottom = (bottom1 > bottom2) ? bottom1 : bottom2;
+            var left = value1.x < value2.x ? value1.x : value2.x;
+            var top = value1.y < value2.y ? value1.y : value2.y;
+            var right = right1 > right2 ? right1 : right2;
+            var bottom = bottom1 > bottom2 ? bottom1 : bottom2;
 
             result.x = left;
             result.y = top;
@@ -454,10 +454,10 @@ namespace ChanceOfPrecipitation {
         /// </returns>
         public bool Equals(RectangleF other) {
             // ReSharper disable CompareOfFloatsByEqualityOperator
-            return (x == other.x) &&
-                   (y == other.y) &&
-                   (width == other.width) &&
-                   (height == other.height);
+            return x == other.x &&
+                   y == other.y &&
+                   width == other.width &&
+                   height == other.height;
             // ReSharper restore CompareOfFloatsByEqualityOperator
         }
 
@@ -470,7 +470,7 @@ namespace ChanceOfPrecipitation {
         ///     <c>false</c>.
         /// </returns>
         public override bool Equals(object obj) {
-            return (obj is Rectangle) && Equals((Rectangle)obj);
+            return obj is Rectangle && Equals((Rectangle)obj);
         }
 
         /// <summary>Returns a hash code for this instance.</summary>

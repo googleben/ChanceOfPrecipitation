@@ -111,9 +111,7 @@ namespace ChanceOfPrecipitation
     class DamageUpgrade : Item {
         public const string type = "RedCanister";
 
-        public DamageUpgrade() : base(type) {
-            
-        }
+        public DamageUpgrade() : base(type) {}
 
         public override void Update(List<GameObject> objects) {
             
@@ -121,7 +119,7 @@ namespace ChanceOfPrecipitation
 
         public override void AddedToPlayer(Player p, ref float loc) {
             bounds.x = loc;
-            loc += this.bounds.width+space;
+            loc += bounds.width+space;
             Ability[] abilities = {p.abilityOne};
             foreach (var a in abilities) {
                 if (a is BurstFireAbility) ((BurstFireAbility)a).damage += 10;
