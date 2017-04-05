@@ -36,7 +36,7 @@ namespace ChanceOfPrecipitation
 
             Console.WriteLine(origin.Bounds().Center.Y);
 
-            bounds = new RectangleF(origin.Bounds().Center.X + (origin.Bounds().width / (left ? -2 : 2)), origin.Bounds().Center.Y, 1, 5);
+            bounds = new RectangleF(origin.Bounds().Center.X + origin.Bounds().width / (left ? -2 : 2), origin.Bounds().Center.Y, 1, 5);
 
             if (left) bounds.x--;
 

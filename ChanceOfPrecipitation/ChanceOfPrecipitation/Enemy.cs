@@ -146,8 +146,10 @@ namespace ChanceOfPrecipitation
 
             Playing.Instance.objects.Add(damageBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.y)));
 
-            if (health <= 0)
+            if (health <= 0) {
                 Destroy();
+                DropCoins();
+            }
         }
 
         public void Collide(Collision side, float amount, ICollider origin)

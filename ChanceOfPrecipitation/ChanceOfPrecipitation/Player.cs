@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -69,8 +68,8 @@ namespace ChanceOfPrecipitation
         public override void Update(List<GameObject> objects) {
             var state = Playing.Instance.state;
 
-            Playing.Instance.offset.X = (1280 / 2) - this.bounds.Center.X;
-            Playing.Instance.offset.Y = (720 / 2) - this.bounds.Center.Y;
+            Playing.Instance.offset.X = 1280 / 2 - bounds.Center.X;
+            Playing.Instance.offset.Y = 720 / 2 - bounds.Center.Y;
 
             abilityOne.Update();
             
@@ -122,6 +121,13 @@ namespace ChanceOfPrecipitation
                 healTimer = HealTimerReset;
                 Heal(PassiveHealingAmount);
             }
+
+            if (health >= MaxHealth) {
+                shouldHeal = false;
+
+                if (health > MaxHealth)
+                    Damage(health - MaxHealth);
+            }
         }
 
         public override void Draw(SpriteBatch sb) {
@@ -161,7 +167,6 @@ namespace ChanceOfPrecipitation
 
         public void AddMoney(int amount) {
             money += amount;
-            Console.WriteLine(money);
         }
 
         public void SpendMoney(int amount) {

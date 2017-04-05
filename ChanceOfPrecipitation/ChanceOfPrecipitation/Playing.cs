@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -9,6 +8,7 @@ namespace ChanceOfPrecipitation {
     internal class Playing : IGameState {
 
         private static Playing instance;
+        public static Random random;
 
         public static Playing Instance => instance ?? new Playing();
 
@@ -26,6 +26,7 @@ namespace ChanceOfPrecipitation {
         public Playing() {
             objects = new List<GameObject>();
             instance = this;
+            random = new Random();
             lastState = state = Keyboard.GetState();
             players = new List<Player>() { new Player(0, 0, 16, 32) };
 
@@ -36,11 +37,13 @@ namespace ChanceOfPrecipitation {
                 objects.Add(new Block(i, 600, "stage1_platform_top_middle"));
             }
 
-            //objects.Add(new BasicEnemy(600, 0));
+            objects.Add(new BasicEnemy(600, 0));
             //objects.Add(new TestBoss(600, 0));
             objects.Add(new ItemEntity<DamageUpgrade>(100, 550, "Canister"));
 
             objects.Add(new ItemShop(150, 460, new DamageUpgrade(), new DamageUpgrade(), new DamageUpgrade()));
+
+            //objects.Add(new Coin(200, 495));
         }
 
         public void Draw(SpriteBatch sb) {
