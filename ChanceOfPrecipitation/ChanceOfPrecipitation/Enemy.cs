@@ -54,8 +54,6 @@ namespace ChanceOfPrecipitation
             MaxHealth = 100;
 
             damageBuilder = new FloatingIndicatorBuilder { Color = Color.Red };
-
-            abilities = new EnemyAbility[] { new EnemyMeleeAbility(this), new EnemyLazerAbility(this),  };
         }
 
         protected Enemy(float x, float y, float width, float height, float maxSpeed) : this(x, y, width, height)
@@ -142,7 +140,6 @@ namespace ChanceOfPrecipitation
 
         public void Damage(float amount)
         {
-            Console.WriteLine(amount+" "+health);
             health -= amount;
             healthBar.Damage(amount);
 
@@ -201,6 +198,11 @@ namespace ChanceOfPrecipitation
         public void DropCoins() {
             for (var i = 0; i < Value; i += Coin.Value)
                 Playing.Instance.objects.Add(new Coin(bounds.Center.X, bounds.Center.Y));
+        }
+
+        public void SetPos(float x, float y) {
+            bounds.x = x;
+            bounds.y = y;
         }
 
     }

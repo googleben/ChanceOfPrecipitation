@@ -8,7 +8,7 @@ namespace ChanceOfPrecipitation
 {
     public class Lazer : GameObject, ICollider {
 
-        private const float Damage = 10f;
+        private const float Damage = 2f;
 
         private readonly RectangleF bounds;
         private readonly Direction facing;
@@ -34,7 +34,7 @@ namespace ChanceOfPrecipitation
 
             var left = facing == Direction.Left;
 
-            Console.WriteLine(origin.Bounds().Center.Y);
+            //Console.WriteLine(origin.Bounds().Center.Y);
 
             bounds = new RectangleF(origin.Bounds().Center.X + origin.Bounds().width / (left ? -2 : 2), origin.Bounds().Center.Y, 1, 5);
 
@@ -55,7 +55,7 @@ namespace ChanceOfPrecipitation
         public override void Update(List<GameObject> objects) {
             life--;
 
-            if (life <= 0)
+            if (life <= 0 || (origin as Enemy)?.health<=0)
                 Destroy();
         }
 

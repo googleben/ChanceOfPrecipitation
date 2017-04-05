@@ -6,6 +6,8 @@ namespace ChanceOfPrecipitation
 {
     public class HealthBar : GameObject
     {
+        //TODO: Clean up and reduce coupling
+
         private Vector2 position;
         private readonly int width;
         private readonly int height;

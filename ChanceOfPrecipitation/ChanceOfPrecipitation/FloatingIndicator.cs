@@ -9,7 +9,6 @@ namespace ChanceOfPrecipitation
     public class FloatingIndicator : GameObject
     {
         private const int Spacing = 1;
-        private readonly Point proportions = new Point(5, 7);
 
         private Vector2 position;
         private readonly float scale;
@@ -23,7 +22,7 @@ namespace ChanceOfPrecipitation
 
         private readonly Color color;
 
-        private Func<int, Rectangle> bounds;
+        private List<Number> numbers;
 
         public FloatingIndicator(FloatingIndicatorBuilder builder, int number, Vector2 position)
         {
@@ -42,13 +41,26 @@ namespace ChanceOfPrecipitation
 
             oscillationPeriod.Elapsed += ChangeDirection;
             life.Elapsed += Delete;
+
+            numbers = new List<Number>();
+            var nums = number.ToString().ToCharArray();
+            foreach (char c in nums) {
+                numbers.Add(new Number(c+"", scale));
+            }
+
         }
 
         public override void Update(List<GameObject> objects)
         {
-            bounds = digit => new Rectangle((int)(position.X + digit * (scale * proportions.X) + (digit - 1) * Spacing) + (int)Playing.Instance.offset.X, (int)position.Y + (int)Playing.Instance.offset.Y, (int)(scale * proportions.X), (int)(scale * proportions.Y));
+            
 
             position.Y -= upSpeed;
+            var x = position.X;
+
+            foreach (Number n in numbers) {
+                n.SetPos(x, position.Y);
+                x += n.bounds.width;
+            }
 
             if (oscillates)
             {
@@ -60,40 +72,18 @@ namespace ChanceOfPrecipitation
             }
             else
             {
-                var shrink = (float)(upSpeed / life.Interval * 100);
+                //var shrink = (float)(upSpeed / life.Interval * 100);
                 //scale -= shrink;
-                position.X += shrink * 10;
+                //position.X += shrink * 10;
             }
         }
 
         public override void Draw(SpriteBatch sb)
         {
-            var nums = number.ToString().ToCharArray();
+            //var nums = number.ToString().ToCharArray();
 
-            for (var i = 0; i < nums.Length; i++)
-            {
-                try
-                {
-                    //TODO: Cache dictionary accessing
-                    var rectangle = bounds(i + 1);
-                    if (nums[i] != '1')
-                        sb.Draw(TextureManager.textures["Numbers"], rectangle, TextureManager.blocks[nums[i].ToString()].src, color);
-                    else
-                    {
-                        rectangle.Width = (int)(proportions.X * scale * 3 / 4);
-                        sb.Draw(TextureManager.textures["Numbers"], rectangle, TextureManager.blocks[nums[i].ToString()].src, color);
-                    }
-                }
-                catch (NullReferenceException e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-                catch (KeyNotFoundException e)
-                {
-                    Console.WriteLine(e.Message);
-                    sb.Draw(TextureManager.textures["Numbers"], bounds(i + 1), TextureManager.blocks["0"].src, color);
-                }
-            }
+            
+            foreach (Number n in numbers) n.Draw(sb);
         }
 
         private void Delete(object sender, ElapsedEventArgs e)
@@ -107,5 +97,31 @@ namespace ChanceOfPrecipitation
         {
             direction *= -1;
         }
+    }
+
+    class Number {
+        public float scale;
+        public RectangleF bounds;
+        public Texture2D texture;
+        public BlockInfo info;
+        public string type;
+
+        public Number(string type, float scale) {
+            this.scale = scale;
+            this.type = type;
+            this.info = TextureManager.blocks[type];
+            this.texture = TextureManager.textures[info.texName];
+            this.bounds = new RectangleF(0, 0, info.src.Width*scale, info.src.Height*scale);
+        }
+
+        public void SetPos(float x, float y) {
+            bounds.x = x;
+            bounds.y = y;
+        }
+
+        public void Draw(SpriteBatch sb) {
+            sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), info.src, Color.White);
+        }
+
     }
 }

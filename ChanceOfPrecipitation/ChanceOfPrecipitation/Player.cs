@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -169,8 +170,10 @@ namespace ChanceOfPrecipitation
 
             Playing.Instance.objects.Add(damageBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.y)));
 
-            if (health <= 0)
+            if (health <= 0) {
                 Destroy();
+            }
+            else Console.WriteLine(health);
         }
 
         public void AddMoney(int amount) {

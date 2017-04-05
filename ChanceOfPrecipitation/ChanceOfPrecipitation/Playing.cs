@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -8,7 +9,7 @@ namespace ChanceOfPrecipitation {
     internal class Playing : IGameState {
 
         private static Playing instance;
-        public static Random random;
+        public static Random random = new Random();
 
         public static Playing Instance => instance ?? new Playing();
 
@@ -22,6 +23,12 @@ namespace ChanceOfPrecipitation {
         public List<Player> players;
 
         public Vector2 offset = Vector2.Zero;
+
+        public Vector2 spawnRange = new Vector2(500, 300);
+        public Vector2 noSpawnRange = new Vector2(100, 50);
+        private int ticksToSpawn = 0;
+        private int minTicksToSpawn = 360;
+        private int ticksToSpawnRange = 120;
 
         public Playing() {
             objects = new List<GameObject>();
@@ -40,7 +47,6 @@ namespace ChanceOfPrecipitation {
             objects.Add(new BasicEnemy(600, 0));
             //objects.Add(new TestBoss(600, 0));
             objects.Add(new ItemEntity<DamageUpgrade>(100, 550, DamageUpgrade.type));
-            objects.Add(new ItemEntity<DamageUpgrade>(100, 550, "Canister"));
 
             objects.Add(new ItemShop(150, 460, new DamageUpgrade(), new DamageUpgrade(), new DamageUpgrade()));
 
@@ -50,7 +56,7 @@ namespace ChanceOfPrecipitation {
         public void Draw(SpriteBatch sb) {
             sb.Draw(TextureManager.textures["Square"], new Rectangle(0, 0, 1280, 720), Color.MidnightBlue);
             foreach (var o in objects) if (!(o is Player)) o.Draw(sb);
-            foreach (var p in players) p.Draw(sb);
+            foreach (var p in players) if (p.health>0) p.Draw(sb);
         }
 
         public IGameState Update() {
@@ -70,7 +76,7 @@ namespace ChanceOfPrecipitation {
                 var o = objects[i];
                 if (o.ToDestroy) { objects.RemoveAt(i--); continue; }
                 o.Update(objects);
-                if (o.ToDestroy) objects.RemoveAt(i--);
+                if (o.ToDestroy) { if (o is Player) objects.RemoveAt(i--); }
                 else
                 {
                     if (o is ICollidable) collidables.AddLast(o as ICollidable);
@@ -78,12 +84,51 @@ namespace ChanceOfPrecipitation {
                 }
             }
 
-            foreach (var s in statics)
-            {
+            
+
+            foreach (var s in statics) {
                 foreach (var c in collidables) s.Collide(c);
             }
 
+            if (ticksToSpawn == 0) {
+                SpawnEnemy();
+                ticksToSpawn = minTicksToSpawn + random.Next(ticksToSpawnRange);
+            }
+            ticksToSpawn--;
+
             return this;
+        }
+
+        void SpawnEnemy() {
+            List<RectangleF> spawnAreas = new List<RectangleF>();
+            List<RectangleF> spawnRestrictions = new List<RectangleF>();
+            foreach (Player p in players)
+            {
+                var bounds = p.Bounds();
+                spawnAreas.Add(new RectangleF(bounds.x - spawnRange.X / 2, bounds.y - spawnRange.Y / 2, spawnRange.X, spawnRange.Y));
+                spawnRestrictions.Add(new RectangleF(bounds.x - noSpawnRange.X / 2, bounds.y - noSpawnRange.Y / 2, noSpawnRange.X, noSpawnRange.Y));
+            }
+            var enemy = new BasicEnemy(0, 0);
+            var height = enemy.Bounds().height;
+            var width = enemy.Bounds().width;
+            var blocks = objects.OfType<Block>();
+            List<RectangleF> spawns = new List<RectangleF>();
+            foreach (var b in blocks) {
+                var bounds = b.bounds;
+                RectangleF spawn = new RectangleF(bounds.x, bounds.y-height, width, height);
+                bool works = true;
+                foreach (var x in spawnAreas) if (!spawn.Intersects(x)) { works = false; break; }
+                foreach (var x in spawnRestrictions) if (!works || spawn.Intersects(x)) { works = false; break; }
+                if (works) foreach (var x in blocks) if (x.bounds.Intersects(spawn)) { works = false; break; }
+                if (!works) continue;
+                spawns.Add(spawn);
+            }
+            if (spawns.Count == 0) {
+                return;
+            }
+            var ans = spawns[random.Next(spawns.Count)];
+            enemy.SetPos(ans.x, ans.y);
+            objects.Add(enemy);
         }
     }
 }

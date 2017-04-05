@@ -101,7 +101,7 @@ namespace ChanceOfPrecipitation
     }
 
     public class Coin : GameObject, ICollidable, ICollider {
-        public const int Value = 5;
+        public const int Value = 9;
         private const int VelRange = 2;
         private const float VelDamper = -0.9f;
 
