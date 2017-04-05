@@ -39,6 +39,7 @@ namespace ChanceOfPrecipitation {
 
             objects.Add(new BasicEnemy(600, 0));
             //objects.Add(new TestBoss(600, 0));
+            objects.Add(new ItemEntity<DamageUpgrade>(100, 550, DamageUpgrade.type));
             objects.Add(new ItemEntity<DamageUpgrade>(100, 550, "Canister"));
 
             objects.Add(new ItemShop(150, 460, new DamageUpgrade(), new DamageUpgrade(), new DamageUpgrade()));
@@ -58,6 +59,7 @@ namespace ChanceOfPrecipitation {
             state = Keyboard.GetState();
             if (state.IsKeyDown(Keys.Escape)) {
                 Menu.lastState = state;
+                instance = null;
                 return new MainMenu();
             }
 
