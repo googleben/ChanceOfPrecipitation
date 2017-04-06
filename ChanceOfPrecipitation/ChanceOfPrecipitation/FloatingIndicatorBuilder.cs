@@ -11,6 +11,8 @@ namespace ChanceOfPrecipitation
         public float OscillationPeriod { get; set; } = 500;
         public float Life { get; set; } = 2000;
         public Color Color { get; set; } = Color.White;
+        public bool IsStatic { get; set; } = false;
+        public int Spacing { get; set; } = 0;
 
         public FloatingIndicator Build(int number, Vector2 position)
         {

@@ -25,6 +25,7 @@ namespace ChanceOfPrecipitation
         private readonly Texture2D texture;
         private readonly Texture2D moneyTexture;
         private readonly Rectangle moneySrc;
+        private readonly Rectangle moneyBounds;
 
         public float maxSpeed = 5f;
 
@@ -50,6 +51,7 @@ namespace ChanceOfPrecipitation
 
         private readonly FloatingIndicatorBuilder healBuilder;
         private readonly FloatingIndicatorBuilder damageBuilder;
+        private readonly FloatingIndicatorBuilder moneyBuilder;
 
         private readonly List<Item> items;
 
@@ -62,6 +64,7 @@ namespace ChanceOfPrecipitation
             var info = TextureManager.blocks["money"];
             moneyTexture = TextureManager.textures[info.texName];
             moneySrc = info.src;
+            moneyBounds = new Rectangle(20, 20, 35, 49);
 
             healthBar = new HealthBarBuilder() { Position = new Vector2(x, y), Width = (int)width + 10 }.Build();
 
@@ -69,6 +72,7 @@ namespace ChanceOfPrecipitation
 
             healBuilder = new FloatingIndicatorBuilder() { Color = Color.Green };
             damageBuilder = new FloatingIndicatorBuilder() { Color = Color.Red };
+            moneyBuilder = new FloatingIndicatorBuilder() { IsStatic = true, Scale = 8f, Life = 17f, Spacing = 3 };
             items = new List<Item>();
         }
 
@@ -135,6 +139,8 @@ namespace ChanceOfPrecipitation
                 if (health > MaxHealth)
                     Damage(health - MaxHealth);
             }
+
+            objects.Add(moneyBuilder.Build(money, new Vector2(moneyBounds.X + moneyBounds.Width * 1.5f, moneyBounds.Y)));
         }
 
         public override void Draw(SpriteBatch sb) {
@@ -142,7 +148,7 @@ namespace ChanceOfPrecipitation
             foreach (var i in items) i.Draw(sb);
             healthBar.Draw(sb);
 
-            sb.Draw(moneyTexture, new Rectangle(20, 20, 35, 49), moneySrc, Color.Gold);
+            sb.Draw(moneyTexture, moneyBounds, moneySrc, Color.Gold);
         }
         
         public RectangleF Bounds() {
@@ -157,7 +163,6 @@ namespace ChanceOfPrecipitation
         {
             health += amount;
             healthBar.Heal(amount);
-            Console.WriteLine("HEALING");
 
             Playing.Instance.objects.Add(healBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.y)));
         }
