@@ -144,7 +144,7 @@ namespace ChanceOfPrecipitation
 
             sb.Draw(moneyTexture, new Rectangle(20, 20, 35, 49), moneySrc, Color.Gold);
         }
-
+        
         public RectangleF Bounds() {
             return bounds;
         }
@@ -157,6 +157,7 @@ namespace ChanceOfPrecipitation
         {
             health += amount;
             healthBar.Heal(amount);
+            Console.WriteLine("HEALING");
 
             Playing.Instance.objects.Add(healBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.y)));
         }

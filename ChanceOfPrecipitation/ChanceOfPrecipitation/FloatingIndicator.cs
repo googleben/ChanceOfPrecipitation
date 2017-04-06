@@ -45,7 +45,7 @@ namespace ChanceOfPrecipitation
             numbers = new List<Number>();
             var nums = number.ToString().ToCharArray();
             foreach (var c in nums) {
-                numbers.Add(new Number(c+"", scale));
+                numbers.Add(new Number(c+"", scale, color));
             }
 
         }
@@ -105,10 +105,14 @@ namespace ChanceOfPrecipitation
         public Texture2D texture;
         public BlockInfo info;
         public string type;
+        public Color color;
 
-        public Number(string type, float scale) {
+        public Number(string type, float scale) : this(type, scale, Color.White) { }
+
+        public Number(string type, float scale, Color color) {
             this.scale = scale;
             this.type = type;
+            this.color = color;
             this.info = TextureManager.blocks[type];
             this.texture = TextureManager.textures[info.texName];
             this.bounds = new RectangleF(0, 0, info.src.Width*scale, info.src.Height*scale);
@@ -120,7 +124,7 @@ namespace ChanceOfPrecipitation
         }
 
         public void Draw(SpriteBatch sb) {
-            sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), info.src, Color.White);
+            sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), info.src, color);
         }
 
     }
