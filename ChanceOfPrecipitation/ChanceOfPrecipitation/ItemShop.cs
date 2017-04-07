@@ -61,6 +61,8 @@ namespace ChanceOfPrecipitation
         private float waveCounter;
         private readonly float phase;
 
+        private Text text;
+
         public ItemStand(ItemShop origin, Item item, float x, float y) {
             this.origin = origin;
             this.item = item;
@@ -73,19 +75,29 @@ namespace ChanceOfPrecipitation
 
             origY = itemBounds.y;
             amplitude = bounds.height / 14.4f;
-            Console.WriteLine("HEIGHT: " + bounds.height);
             phase = (float) Playing.random.NextDouble() * 10;
+
+            text = new Text("test", Vector2.Zero);
+            text.SetPos(bounds.Center.X - text.width / 2, bounds.Bottom + 5);
         }
 
         public override void Update(List<GameObject> objects) {
             waveCounter += Wavelength;
 
             itemBounds.y = (float) (amplitude * Math.Sin(2 * Math.PI * waveCounter + phase) + origY);
+
+            var intersectingPlayer = false;
+            Playing.Instance.players.ForEach(p => {
+                if (bounds.Intersects(p.Bounds())) intersectingPlayer = true;
+            });
+
+            text.IsVisible = intersectingPlayer;
         }
 
         public override void Draw(SpriteBatch sb) {
             sb.Draw(texture, (Rectangle) (bounds + Playing.Instance.offset), info.src, Color.White);
             sb.Draw(item.texture, (Rectangle) (itemBounds + Playing.Instance.offset), item.info.src, Color.White * .5f);
+            text.Draw(sb);
         }
 
         public void Collide(ICollidable c) {
