@@ -143,7 +143,7 @@ namespace ChanceOfPrecipitation
         {
             bounds.x = loc;
             loc += this.bounds.width + space;
-            p.PassiveHealingAmount += 5;
+            p.passiveHealingAmount += 5;
         }
     }
 

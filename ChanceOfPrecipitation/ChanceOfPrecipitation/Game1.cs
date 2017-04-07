@@ -65,6 +65,12 @@ namespace ChanceOfPrecipitation {
             for (var i = 2; i <= 9; i++)
                 TextureManager.blocks[i.ToString()] = new BlockInfo("Numbers", new Rectangle(2 + (i - 2) * 4, 0, 5, 7));
 
+            TextureManager.textures["Numbers2"] = Content.Load<Texture2D>("Numbers2");
+            TextureManager.blocks["big1"] = new BlockInfo("Numbers2", new Rectangle(0, 0, 5, 17));
+            TextureManager.blocks["big0"] = new BlockInfo("Numbers2", new Rectangle(93, 0, 11, 17));
+            TextureManager.blocks["bigCredits"] = new BlockInfo("Numbers2", new Rectangle(104, 0, 11, 17));
+            for (var i = 2; i <= 9; i++)
+                TextureManager.blocks["big"+i.ToString()] = new BlockInfo("Numbers2", new Rectangle(5 + (i - 2) * 11, 0, 11, 17));
 
             const int scale = 2;
             TextureManager.textures["platform_tileset_stage1"] = Content.Load<Texture2D>("platform_tileset_stage1");

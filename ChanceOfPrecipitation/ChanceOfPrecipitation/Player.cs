@@ -23,9 +23,6 @@ namespace ChanceOfPrecipitation
         public Ability abilityOne;
 
         private readonly Texture2D texture;
-        private readonly Texture2D moneyTexture;
-        private readonly Rectangle moneySrc;
-        private readonly Rectangle moneyBounds;
 
         public float maxSpeed = 5f;
 
@@ -39,7 +36,7 @@ namespace ChanceOfPrecipitation
         private const int HealTimerReset = 60;
         private int healTimer = HealTimerReset;
 
-        public int PassiveHealingAmount = 5;
+        public int passiveHealingAmount = 5;
 
         private bool shouldHeal;
         private const int ShouldHealTimerReset = 120;
@@ -51,20 +48,18 @@ namespace ChanceOfPrecipitation
 
         private readonly FloatingIndicatorBuilder healBuilder;
         private readonly FloatingIndicatorBuilder damageBuilder;
-        private readonly FloatingIndicatorBuilder moneyBuilder;
 
         private readonly List<Item> items;
 
         private float itemLoc = 32;
+
+        private MoneyDisplay moneyDisplay;
 
         public Player(float x, float y, float width, float height) {
             bounds = new RectangleF(x, y, width, height);
             texture = TextureManager.textures["Square"];
 
             var info = TextureManager.blocks["money"];
-            moneyTexture = TextureManager.textures[info.texName];
-            moneySrc = info.src;
-            moneyBounds = new Rectangle(20, 20, 35, 49);
 
             healthBar = new HealthBarBuilder() { Position = new Vector2(x, y), Width = (int)width + 10 }.Build();
 
@@ -72,15 +67,12 @@ namespace ChanceOfPrecipitation
 
             healBuilder = new FloatingIndicatorBuilder() { Color = Color.Green };
             damageBuilder = new FloatingIndicatorBuilder() { Color = Color.Red };
-            moneyBuilder = new FloatingIndicatorBuilder() { IsStatic = true, Scale = 8f, Life = 17f, Spacing = 3 };
+            moneyDisplay = new MoneyDisplay(new Vector2(15, 15));
             items = new List<Item>();
         }
 
         public override void Update(List<GameObject> objects) {
             var state = Playing.Instance.state;
-
-            Playing.Instance.offset.X = 1280 / 2 - bounds.Center.X;
-            Playing.Instance.offset.Y = 720 / 2 - bounds.Center.Y;
 
             abilityOne.Update();
             
@@ -109,8 +101,13 @@ namespace ChanceOfPrecipitation
             bounds.x += velocity.X;
             bounds.y += velocity.Y;
 
+            Playing.Instance.offset.X = 1280 / 2 - bounds.Center.X;
+            Playing.Instance.offset.Y = 720 / 2 - bounds.Center.Y;
+
+
             healthBar.AlignHorizontally((Rectangle)(bounds + Playing.Instance.offset));
             healthBar.SetY((bounds + Playing.Instance.offset).y - 20);
+            healthBar.SetHealth(health);
 
             if (!shouldHeal) {
                 shouldHealTimer--;
@@ -130,25 +127,24 @@ namespace ChanceOfPrecipitation
 
             if (healTimer <= 0) {
                 healTimer = HealTimerReset;
-                Heal(PassiveHealingAmount);
+                Heal(passiveHealingAmount);
             }
 
             if (health >= MaxHealth) {
                 shouldHeal = false;
 
-                if (health > MaxHealth)
-                    Damage(health - MaxHealth);
+                if (health > MaxHealth) {
+                    health = MaxHealth;
+                }
             }
-
-            objects.Add(moneyBuilder.Build(money, new Vector2(moneyBounds.X + moneyBounds.Width * 1.5f, moneyBounds.Y)));
         }
 
         public override void Draw(SpriteBatch sb) {
             sb.Draw(texture, (Rectangle)(bounds+Playing.Instance.offset), Color.White);
             foreach (var i in items) i.Draw(sb);
             healthBar.Draw(sb);
-
-            sb.Draw(moneyTexture, moneyBounds, moneySrc, Color.Gold);
+            moneyDisplay.Draw(sb);
+            
         }
         
         public RectangleF Bounds() {
@@ -162,7 +158,6 @@ namespace ChanceOfPrecipitation
         public void Heal(float amount)
         {
             health += amount;
-            healthBar.Heal(amount);
 
             Playing.Instance.objects.Add(healBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.y)));
         }
@@ -170,7 +165,6 @@ namespace ChanceOfPrecipitation
         public void Damage(float amount)
         {
             health -= amount;
-            healthBar.Damage(amount);
             shouldHeal = false;
             shouldHealTimer = ShouldHealTimerReset;
 
@@ -184,10 +178,12 @@ namespace ChanceOfPrecipitation
 
         public void AddMoney(int amount) {
             money += amount;
+            moneyDisplay.SetMoney(money);
         }
 
         public void SpendMoney(int amount) {
             money -= amount;
+            moneyDisplay.SetMoney(money);
         }
 
         public bool HasEnoughMoney(int amount) {
