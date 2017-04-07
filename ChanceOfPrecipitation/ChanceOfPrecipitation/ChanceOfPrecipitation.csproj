@@ -79,6 +79,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="RectangleF.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="Text.cs" />
     <Compile Include="TextureManager.cs" />
   </ItemGroup>
   <ItemGroup>

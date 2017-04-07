@@ -25,9 +25,7 @@ namespace ChanceOfPrecipitation
         private int HealthWidth => (int)(currentHealth * width / maxHealth);
 
         private bool isBoss;
-        public bool IsBoss {
-            get { return isBoss; }
-        }
+        public bool IsBoss => isBoss;
 
         public HealthBar(HealthBarBuilder builder)
         {
