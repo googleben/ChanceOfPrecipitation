@@ -18,6 +18,8 @@ namespace ChanceOfPrecipitation
         public Text(string text, Vector2 position, float scale = 0.5f, int spacing = 1) {
             this.spacing = spacing;
 
+            text = text.ToLower();
+
             characters = new List<Character>();
 
             foreach (var c in text)

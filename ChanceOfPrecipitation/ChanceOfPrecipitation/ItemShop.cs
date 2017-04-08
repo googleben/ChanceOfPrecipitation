@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace ChanceOfPrecipitation
 {
@@ -62,10 +63,16 @@ namespace ChanceOfPrecipitation
         private readonly float phase;
 
         private Text text;
+        private readonly Keys buyKey;
+        private readonly int cost;
+        private Player player;
+        private bool intersectingPlayer = false;
 
         public ItemStand(ItemShop origin, Item item, float x, float y) {
             this.origin = origin;
             this.item = item;
+
+            player = new Player(0, 0, 0, 0);
 
             info = TextureManager.blocks["stand"];
             texture = TextureManager.textures[info.texName];
@@ -77,8 +84,11 @@ namespace ChanceOfPrecipitation
             amplitude = bounds.height / 14.4f;
             phase = (float) Playing.random.NextDouble() * 10;
 
-            text = new Text("test", Vector2.Zero);
+            buyKey = Keys.E;
+            text = new Text("press " + buyKey + " to buy item", Vector2.Zero);
             text.SetPos(bounds.Center.X - text.width / 2, bounds.Bottom + 5);
+
+            cost = 10;
         }
 
         public override void Update(List<GameObject> objects) {
@@ -86,12 +96,17 @@ namespace ChanceOfPrecipitation
 
             itemBounds.y = (float) (amplitude * Math.Sin(2 * Math.PI * waveCounter + phase) + origY);
 
-            var intersectingPlayer = false;
-            Playing.Instance.players.ForEach(p => {
-                if (bounds.Intersects(p.Bounds())) intersectingPlayer = true;
-            });
-
             text.IsVisible = intersectingPlayer;
+
+            if (Playing.Instance.state.IsKeyDown(buyKey) && !Playing.Instance.lastState.IsKeyDown(buyKey) && intersectingPlayer) {
+                if (player.HasEnoughMoney(cost)) {
+                    player.SpendMoney(cost);
+                    player.AddItem(item);
+                    origin.BoughtItem = true;
+                }
+            }
+
+            intersectingPlayer = false;
         }
 
         public override void Draw(SpriteBatch sb) {
@@ -101,14 +116,11 @@ namespace ChanceOfPrecipitation
         }
 
         public void Collide(ICollidable c) {
-            if (!(c is Player) || !c.Bounds().Intersects(bounds)) return;
-
-            // TODO: Prompt player to select item
-
-            if (false) { // if player selected item
-                ((Player) c).AddItem(item);
-                origin.BoughtItem = true;
+            if (c is Player && c.Bounds().Intersects(bounds)) {
+                player = c as Player;
+                intersectingPlayer = true;
             }
+
         }
     }
 

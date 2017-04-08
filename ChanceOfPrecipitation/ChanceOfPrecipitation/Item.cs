@@ -119,7 +119,7 @@ namespace ChanceOfPrecipitation
 
         public override void AddedToPlayer(Player p, ref float loc) {
             bounds.x = loc;
-            loc += bounds.width+space;
+            loc += bounds.width + space;
             Ability[] abilities = {p.abilityOne};
             foreach (var a in abilities) {
                 if (a is BurstFireAbility) ((BurstFireAbility)a).damage += 10;
@@ -142,7 +142,7 @@ namespace ChanceOfPrecipitation
         public override void AddedToPlayer(Player p, ref float loc)
         {
             bounds.x = loc;
-            loc += this.bounds.width + space;
+            loc += bounds.width + space;
             p.passiveHealingAmount += 5;
         }
     }
