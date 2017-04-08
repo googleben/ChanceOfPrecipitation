@@ -99,7 +99,7 @@ namespace ChanceOfPrecipitation
 
             itemBounds.y = (float) (amplitude * multiplier * Math.Sin(2 * Math.PI * waveCounter + phase) + origY);
 
-            text.IsVisible = intersectingPlayer;
+            text.IsVisible = intersectingPlayer && !origin.BoughtItem;
 
             if (Playing.Instance.state.IsKeyDown(buyKey) && !Playing.Instance.lastState.IsKeyDown(buyKey) && intersectingPlayer && !origin.BoughtItem) {
                 if (player.HasEnoughMoney(cost)) {
