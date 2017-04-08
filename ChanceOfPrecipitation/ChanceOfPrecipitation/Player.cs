@@ -173,7 +173,6 @@ namespace ChanceOfPrecipitation
             if (health <= 0) {
                 Destroy();
             }
-            else Console.WriteLine(health);
         }
 
         public void AddMoney(int amount) {
@@ -219,6 +218,7 @@ namespace ChanceOfPrecipitation
         public void AddItem(Item i) {
             items.Add(i);
             i.AddedToPlayer(this, ref itemLoc);
+            Console.WriteLine(items.Count);
         }
 
     }

@@ -66,7 +66,9 @@ namespace ChanceOfPrecipitation
         private readonly Keys buyKey;
         private readonly int cost;
         private Player player;
-        private bool intersectingPlayer = false;
+        private bool intersectingPlayer;
+
+        private float multiplier;
 
         public ItemStand(ItemShop origin, Item item, float x, float y) {
             this.origin = origin;
@@ -92,13 +94,15 @@ namespace ChanceOfPrecipitation
         }
 
         public override void Update(List<GameObject> objects) {
+            multiplier = origin.BoughtItem ? 0.25f : 1f;
+
             waveCounter += Wavelength;
 
-            itemBounds.y = (float) (amplitude * Math.Sin(2 * Math.PI * waveCounter + phase) + origY);
+            itemBounds.y = (float) (amplitude * multiplier * Math.Sin(2 * Math.PI * waveCounter + phase) + origY);
 
             text.IsVisible = intersectingPlayer;
 
-            if (Playing.Instance.state.IsKeyDown(buyKey) && !Playing.Instance.lastState.IsKeyDown(buyKey) && intersectingPlayer) {
+            if (Playing.Instance.state.IsKeyDown(buyKey) && !Playing.Instance.lastState.IsKeyDown(buyKey) && intersectingPlayer && !origin.BoughtItem) {
                 if (player.HasEnoughMoney(cost)) {
                     player.SpendMoney(cost);
                     player.AddItem(item);
@@ -111,7 +115,7 @@ namespace ChanceOfPrecipitation
 
         public override void Draw(SpriteBatch sb) {
             sb.Draw(texture, (Rectangle) (bounds + Playing.Instance.offset), info.src, Color.White);
-            sb.Draw(item.texture, (Rectangle) (itemBounds + Playing.Instance.offset), item.info.src, Color.White * .5f);
+            sb.Draw(item.texture, (Rectangle) (itemBounds + Playing.Instance.offset), item.info.src, Color.White * .5f * multiplier);
             text.Draw(sb);
         }
 
