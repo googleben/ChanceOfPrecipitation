@@ -52,11 +52,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Numbers.png">
-      <Name>Numbers</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="platform_tileset_stage1.png">
       <Name>platform_tileset_stage1</Name>
       <Importer>TextureImporter</Importer>
@@ -92,15 +87,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="money.png">
-      <Name>money</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Numbers2.png">
-      <Name>Numbers2</Name>
+    <Compile Include="Numbers.png">
+      <Name>Numbers</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -20,10 +17,10 @@ namespace ChanceOfPrecipitation
 
         public void SetMoney(int money) {
             numbers.Clear();
-            Character credits = new Character("bigCredits", scale, Color.Gold, true);
+            Character credits = new Character("$", scale, Color.Gold, true);
             numbers.Add(credits);
             foreach (char c in (money + "")) {
-                numbers.Add(new Character("big"+c, scale, Color.Gold, true));
+                numbers.Add(new Character(c.ToString(), scale, Color.Gold, true));
             }
             float x = position.X;
             foreach (Character c in numbers) {

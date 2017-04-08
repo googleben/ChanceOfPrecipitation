@@ -59,8 +59,6 @@ namespace ChanceOfPrecipitation
             bounds = new RectangleF(x, y, width, height);
             texture = TextureManager.textures["Square"];
 
-            var info = TextureManager.blocks["money"];
-
             healthBar = new HealthBarBuilder() { Position = new Vector2(x, y), Width = (int)width + 10 }.Build();
 
             abilityOne = new BurstFireAbility(this);
@@ -218,7 +216,6 @@ namespace ChanceOfPrecipitation
         public void AddItem(Item i) {
             items.Add(i);
             i.AddedToPlayer(this, ref itemLoc);
-            Console.WriteLine(items.Count);
         }
 
     }

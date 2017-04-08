@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Timers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -49,7 +48,7 @@ namespace ChanceOfPrecipitation
             Characters = new List<Character>();
             var nums = Character.ToString().ToCharArray();
             foreach (var c in nums) {
-                Characters.Add(new Character("big"+c+"", scale, color, isStatic));
+                Characters.Add(new Character(c.ToString(), scale, color, isStatic));
             }
 
         }

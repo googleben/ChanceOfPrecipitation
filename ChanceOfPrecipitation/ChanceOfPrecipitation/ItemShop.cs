@@ -18,10 +18,10 @@ namespace ChanceOfPrecipitation
         public bool BoughtItem { get; set; }
 
         // TODO: ADD CURRENCY
-        public ItemShop(float x, float y, Item a, Item b, Item c) {
-            itemA = new ItemStand(this, a, x, y);
-            itemB = new ItemStand(this, b, x + 24 * SizeMultiplier, y);
-            itemC = new ItemStand(this, c, x + 48 * SizeMultiplier, y);
+        public ItemShop(float x, float y, Item a, Item b, Item c, int minCost, int maxCost) {
+            itemA = new ItemStand(this, a, x, y, Playing.random.Next(minCost, maxCost));
+            itemB = new ItemStand(this, b, x + 24 * SizeMultiplier, y, Playing.random.Next(minCost, maxCost));
+            itemC = new ItemStand(this, c, x + 48 * SizeMultiplier, y, Playing.random.Next(minCost, maxCost));
 
             var info = TextureManager.blocks["shop"];
             bounds = new RectangleF(x, y, info.src.Width * info.scale * SizeMultiplier, info.src.Height * info.scale * SizeMultiplier);
@@ -70,9 +70,10 @@ namespace ChanceOfPrecipitation
 
         private float multiplier;
 
-        public ItemStand(ItemShop origin, Item item, float x, float y) {
+        public ItemStand(ItemShop origin, Item item, float x, float y, int cost) {
             this.origin = origin;
             this.item = item;
+            this.cost = cost;
 
             player = new Player(0, 0, 0, 0);
 
@@ -87,10 +88,8 @@ namespace ChanceOfPrecipitation
             phase = (float) Playing.random.NextDouble() * 10;
 
             buyKey = Keys.E;
-            text = new Text("press " + buyKey + " to buy item", Vector2.Zero);
+            text = new Text("press " + buyKey + " to buy item for $" + cost, Vector2.Zero);
             text.SetPos(bounds.Center.X - text.width / 2, bounds.Bottom + 5);
-
-            cost = 10;
         }
 
         public override void Update(List<GameObject> objects) {

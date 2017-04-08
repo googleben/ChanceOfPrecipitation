@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ChanceOfPrecipitation {
+﻿namespace ChanceOfPrecipitation {
 
     #region Enemies
     public class BasicEnemy : Enemy {
