@@ -88,6 +88,38 @@ namespace ChanceOfPrecipitation {
             objects.Add(new Lazer(origin, range, life));
         }
     }
+
+    public class EnemyBulletAbility : EnemyAbility {
+        private readonly ICollidable origin;
+        public int damage = 10;
+
+        public EnemyBulletAbility(ICollidable origin) {
+            this.origin = origin;
+        }
+
+        public override int Cooldown() {
+            return 120;
+        }
+
+        public override bool ShouldFire(List<Player> players) {
+            var ans = false;
+
+            players.ForEach(p => {
+                if ((origin.Facing() == Direction.Left && p.Bounds().Center.X < origin.Bounds().Center.X ||
+                origin.Facing() == Direction.Right && p.Bounds().Center.X > origin.Bounds().Center.X) &&
+                Math.Abs(origin.Bounds().Center.Y - origin.Bounds().Center.Y) < 10 &&
+                cd <= 0)
+                    ans = true;
+            });
+
+            return ans;
+        }
+
+        public override void Fire(List<GameObject> objects) {
+            objects.Add(new Bullet(origin, origin.Facing() == Direction.Left ? origin.Bounds().x - Bullet.Width : origin.Bounds().Right, origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, damage));
+            base.Fire(objects);
+        }
+    }
     #endregion
 
     #region Player Abilities

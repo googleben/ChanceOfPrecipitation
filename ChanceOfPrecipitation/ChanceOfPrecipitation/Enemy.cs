@@ -12,6 +12,7 @@ namespace ChanceOfPrecipitation
         protected Collision collision;
 
         protected HealthBar healthBar;
+        protected Color color;
 
         public EnemyAbility[] abilities;
 
@@ -48,6 +49,7 @@ namespace ChanceOfPrecipitation
         protected Enemy(float x, float y, float width, float height)
         {
             bounds = new RectangleF(x, y, width, height);
+            color = Color.Red;
 
             healthBar = new HealthBarBuilder(new Vector2(x, y - 20), (int)width + 20, 5).Build();
 
@@ -93,22 +95,13 @@ namespace ChanceOfPrecipitation
                 velocity.Y = -jumpSpeed;
             }
 
-            foreach (var e in abilities) {
-                e.Update();
-                
-                if (e.ShouldFire(Playing.Instance.players))
-                    e.Fire(objects);
-            }
+            UpdateAbilities(objects);
 
             collision = Collision.None;
 
-
             if (!canMove) velocity = Vector2.Zero;
 
-            velocity += Playing.Instance.gravity;
-            velocity.Y = MathHelper.Clamp(velocity.Y, -15, 15);
-            bounds.x += velocity.X;
-            bounds.y += velocity.Y;
+            UpdatePosition();
 
             if (!healthBar.IsBoss) {
                 healthBar.AlignHorizontally((Rectangle)(bounds + Playing.Instance.offset));
@@ -116,9 +109,26 @@ namespace ChanceOfPrecipitation
             }
         }
 
+        protected void UpdatePosition() {
+            velocity += Playing.Instance.gravity;
+            velocity.Y = MathHelper.Clamp(velocity.Y, -15, 15);
+            bounds.x += velocity.X;
+            bounds.y += velocity.Y;
+        }
+
+        protected void UpdateAbilities(List<GameObject> objects) {
+            foreach (var e in abilities)
+            {
+                e.Update();
+
+                if (e.ShouldFire(Playing.Instance.players))
+                    e.Fire(objects);
+            }
+        }
+
         public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), Color.Red);
+            sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), color);
             healthBar.Draw(sb);
         }
 
