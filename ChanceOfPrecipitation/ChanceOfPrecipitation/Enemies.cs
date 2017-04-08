@@ -34,6 +34,7 @@ namespace ChanceOfPrecipitation {
 
             UpdateAbilities(objects);
             UpdatePosition();
+            UpdateHealthBar();
         }
     }
     #endregion

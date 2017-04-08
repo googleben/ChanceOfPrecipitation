@@ -103,10 +103,7 @@ namespace ChanceOfPrecipitation
 
             UpdatePosition();
 
-            if (!healthBar.IsBoss) {
-                healthBar.AlignHorizontally((Rectangle)(bounds + Playing.Instance.offset));
-                healthBar.SetY((bounds + Playing.Instance.offset).y - 20);
-            }
+            UpdateHealthBar();
         }
 
         protected void UpdatePosition() {
@@ -123,6 +120,14 @@ namespace ChanceOfPrecipitation
 
                 if (e.ShouldFire(Playing.Instance.players))
                     e.Fire(objects);
+            }
+        }
+
+        protected void UpdateHealthBar() {
+            if (!healthBar.IsBoss)
+            {
+                healthBar.AlignHorizontally((Rectangle)(bounds + Playing.Instance.offset));
+                healthBar.SetY((bounds + Playing.Instance.offset).y - 20);
             }
         }
 

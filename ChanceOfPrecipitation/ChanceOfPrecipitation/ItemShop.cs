@@ -70,6 +70,8 @@ namespace ChanceOfPrecipitation
 
         private float multiplier;
 
+        private FloatingIndicatorBuilder builder;
+
         public ItemStand(ItemShop origin, Item item, float x, float y, int cost) {
             this.origin = origin;
             this.item = item;
@@ -90,6 +92,8 @@ namespace ChanceOfPrecipitation
             buyKey = Keys.E;
             text = new Text("press " + buyKey + " to buy item for $" + cost, Vector2.Zero);
             text.SetPos(bounds.Center.X - text.width / 2, bounds.Bottom + 5);
+
+            builder = new FloatingIndicatorBuilder() { Color = Color.Gold };
         }
 
         public override void Update(List<GameObject> objects) {
@@ -106,6 +110,7 @@ namespace ChanceOfPrecipitation
                     player.SpendMoney(cost);
                     player.AddItem(item);
                     origin.BoughtItem = true;
+                    objects.Add(builder.Build("-" + cost, player.Bounds().Center));
                 }
             }
 

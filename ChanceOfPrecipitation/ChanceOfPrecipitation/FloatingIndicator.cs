@@ -14,7 +14,7 @@ namespace ChanceOfPrecipitation
         private float oscillationDist;
         private readonly Timer oscillationPeriod;
         private readonly Timer life;
-        private readonly int Character;
+        private readonly string Character;
         private int direction = 1;
         private bool isStatic;
         private int spacing;
@@ -23,17 +23,18 @@ namespace ChanceOfPrecipitation
 
         private List<Character> Characters;
 
-        public FloatingIndicator(FloatingIndicatorBuilder builder, int Character, Vector2 position)
-        {
+        public FloatingIndicator(FloatingIndicatorBuilder builder, int Character, Vector2 position) : this(builder, Character.ToString(), position) { }
+
+        public FloatingIndicator(FloatingIndicatorBuilder builder, string text, Vector2 position) {
             this.position = new Vector2(position.X - builder.OscillationDist, position.Y);
-            scale = builder.Scale/2.5f;
+            scale = builder.Scale / 2.5f;
             upSpeed = builder.UpSpeed;
             oscillates = builder.Oscillates;
             oscillationDist = builder.OscillationDist;
             oscillationPeriod = new Timer(builder.OscillationPeriod);
             life = new Timer(builder.Life);
             color = builder.Color;
-            this.Character = Character;
+            Character = text;
             isStatic = builder.IsStatic;
             spacing = builder.Spacing;
 
@@ -50,7 +51,6 @@ namespace ChanceOfPrecipitation
             foreach (var c in nums) {
                 Characters.Add(new Character(c.ToString(), scale, color, isStatic));
             }
-
         }
 
         public override void Update(List<GameObject> objects)

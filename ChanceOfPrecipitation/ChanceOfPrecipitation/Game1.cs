@@ -100,6 +100,7 @@ namespace ChanceOfPrecipitation {
 
             TextureManager.textures["letters"] = Content.Load<Texture2D>("letters");
             TextureManager.blocks[" "] = new BlockInfo("letters", new Rectangle(286, 0, 11, 17));
+            TextureManager.blocks["-"] = new BlockInfo("letters", new Rectangle(297, 0, 11, 17));
 
             for (var i = 0; i < 26; i++)
                 TextureManager.blocks[Convert.ToChar(i + 97).ToString()] = new BlockInfo("letters", new Rectangle(i * 11, 0, 11, 17));
