@@ -25,7 +25,8 @@ namespace ChanceOfPrecipitation
         static Item() {
             items = new List<IItemEntity> {
                 new ItemEntity<DamageUpgrade>(0, 0, DamageUpgrade.type),
-                new ItemEntity<HealingUpgrade>(0, 0, HealingUpgrade.type)
+                new ItemEntity<HealingUpgrade>(0, 0, HealingUpgrade.type),
+                new ItemEntity<MoneyUpgrade>(0, 0, MoneyUpgrade.type)
             };
         }
 
@@ -139,12 +140,24 @@ namespace ChanceOfPrecipitation
 
         }
 
-        public override void AddedToPlayer(Player p, ref float loc)
-        {
+        public override void AddedToPlayer(Player p, ref float loc) {
             bounds.x = loc;
             loc += bounds.width + space;
             p.passiveHealingAmount += 5;
         }
     }
 
+    class MoneyUpgrade : Item {
+        public const string type = "YellowCanister";
+
+        public MoneyUpgrade() : base(type) { }
+
+        public override void Update(List<GameObject> objects) { }
+
+        public override void AddedToPlayer(Player p, ref float loc) {
+            bounds.x = loc;
+            loc += bounds.width + space;
+            Coin.Value += 5;
+        }
+    }
 }

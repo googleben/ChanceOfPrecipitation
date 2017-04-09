@@ -102,7 +102,6 @@ namespace ChanceOfPrecipitation
             Playing.Instance.offset.X = 1280 / 2 - bounds.Center.X;
             Playing.Instance.offset.Y = 720 / 2 - bounds.Center.Y;
 
-
             healthBar.AlignHorizontally((Rectangle)(bounds + Playing.Instance.offset));
             healthBar.SetY((bounds + Playing.Instance.offset).y - 20);
             healthBar.SetHealth(health);

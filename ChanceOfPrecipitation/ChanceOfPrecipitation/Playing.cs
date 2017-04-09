@@ -49,7 +49,7 @@ namespace ChanceOfPrecipitation {
             //objects.Add(new TestBoss(600, 0));
             objects.Add(new ItemEntity<DamageUpgrade>(100, 550, DamageUpgrade.type));
 
-            objects.Add(new ItemShop(150, 460, new DamageUpgrade(), new HealingUpgrade(), new DamageUpgrade(), 10, 30));
+            objects.Add(new ItemShop(150, 460, new DamageUpgrade(), new HealingUpgrade(), new MoneyUpgrade(), 10, 30));
 
             //objects.Add(new Coin(200, 495));
         }

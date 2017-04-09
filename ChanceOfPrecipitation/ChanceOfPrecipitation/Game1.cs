@@ -90,6 +90,7 @@ namespace ChanceOfPrecipitation {
 
             TextureManager.blocks["GreenCanister"] = new BlockInfo("Items", new Rectangle(0, 0, 32, 32));
             TextureManager.blocks["RedCanister"] = new BlockInfo("Items", new Rectangle(32, 0, 32, 32));
+            TextureManager.blocks["YellowCanister"] = new BlockInfo("Items", new Rectangle(64, 0, 32, 32));
 
             TextureManager.textures["ItemStand"] = Content.Load<Texture2D>("ItemStand");
             TextureManager.blocks["shop"] = new BlockInfo("", new Rectangle(0, 0, 64, 48));
