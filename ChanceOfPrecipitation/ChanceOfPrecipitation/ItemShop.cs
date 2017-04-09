@@ -62,7 +62,8 @@ namespace ChanceOfPrecipitation
         private float waveCounter;
         private readonly float phase;
 
-        private Text text;
+        private Text promptText;
+        private Text costText;
         private readonly Keys buyKey;
         private readonly int cost;
         private Player player;
@@ -70,7 +71,8 @@ namespace ChanceOfPrecipitation
 
         private float multiplier;
 
-        private FloatingIndicatorBuilder builder;
+        private FloatingIndicatorBuilder purchaseBuilder;
+        private FloatingIndicatorBuilder errorBuilder;
 
         public ItemStand(ItemShop origin, Item item, float x, float y, int cost) {
             this.origin = origin;
@@ -90,10 +92,14 @@ namespace ChanceOfPrecipitation
             phase = (float) Playing.random.NextDouble() * 10;
 
             buyKey = Keys.E;
-            text = new Text("press " + buyKey + " to buy item for $" + cost, Vector2.Zero);
-            text.SetPos(bounds.Center.X - text.width / 2, bounds.Bottom + 5);
+            promptText = new Text("press " + buyKey + " to buy item", Vector2.Zero);
+            promptText.SetPos(bounds.Center.X - promptText.width / 2, bounds.y - 10);
 
-            builder = new FloatingIndicatorBuilder() { Color = Color.Gold };
+            costText = new Text("$" + cost, Vector2.Zero, 0.75f, Color.Gold) { IsVisible = true };
+            costText.SetPos(bounds.Center.X - costText.width / 2, bounds.Bottom + 5);
+
+            purchaseBuilder = new FloatingIndicatorBuilder() { Color = Color.Gold };
+            errorBuilder = new FloatingIndicatorBuilder() { Scale = 1 };
         }
 
         public override void Update(List<GameObject> objects) {
@@ -103,14 +109,17 @@ namespace ChanceOfPrecipitation
 
             itemBounds.y = (float) (amplitude * multiplier * Math.Sin(2 * Math.PI * waveCounter + phase) + origY);
 
-            text.IsVisible = intersectingPlayer && !origin.BoughtItem;
+            promptText.IsVisible = intersectingPlayer && !origin.BoughtItem;
+            costText.IsVisible = !origin.BoughtItem;
 
             if (Playing.Instance.state.IsKeyDown(buyKey) && !Playing.Instance.lastState.IsKeyDown(buyKey) && intersectingPlayer && !origin.BoughtItem) {
                 if (player.HasEnoughMoney(cost)) {
                     player.SpendMoney(cost);
                     player.AddItem(item);
                     origin.BoughtItem = true;
-                    objects.Add(builder.Build("-" + cost, player.Bounds().Center));
+                    objects.Add(purchaseBuilder.Build("-" + cost, player.Bounds().Center));
+                } else {
+                    objects.Add(errorBuilder.Build("not enough money", player.Bounds().Center));
                 }
             }
 
@@ -120,7 +129,8 @@ namespace ChanceOfPrecipitation
         public override void Draw(SpriteBatch sb) {
             sb.Draw(texture, (Rectangle) (bounds + Playing.Instance.offset), info.src, Color.White);
             sb.Draw(item.texture, (Rectangle) (itemBounds + Playing.Instance.offset), item.info.src, Color.White * .5f * multiplier);
-            text.Draw(sb);
+            promptText.Draw(sb);
+            costText.Draw(sb);
         }
 
         public void Collide(ICollidable c) {

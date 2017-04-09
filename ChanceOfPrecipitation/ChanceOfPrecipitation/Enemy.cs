@@ -28,8 +28,6 @@ namespace ChanceOfPrecipitation
 
         protected Direction facing = Direction.Right;
 
-        static Random random = new Random();
-
         public int Value => 2 * Coin.Value;
 
         protected float maxHealth;
@@ -161,8 +159,8 @@ namespace ChanceOfPrecipitation
             Playing.Instance.objects.Add(damageBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.y)));
 
             if (health <= 0) {
-                if (random.NextDouble() < chanceToDropItem()) {
-                    var drop = Item.items[random.Next(Item.items.Count)].Clone();
+                if (Playing.random.NextDouble() < chanceToDropItem()) {
+                    var drop = Item.items[Playing.random.Next(Item.items.Count)].Clone();
                     (drop as IItemEntity)?.SetPos(bounds.Center.X, bounds.Center.Y);
                     Playing.Instance.objects.Add(drop);
                 }

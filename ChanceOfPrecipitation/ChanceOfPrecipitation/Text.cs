@@ -12,7 +12,11 @@ namespace ChanceOfPrecipitation
 
         private readonly List<Character> characters;
 
-        public Text(string text, Vector2 position, float scale = 0.5f, int spacing = 1) {
+        public Text(string text, Vector2 position) : this(text, position, 0.5f, 1, Color.White) { }
+        public Text(string text, Vector2 position, float scale, Color color) : this(text, position, scale, 1, color) { }
+        public Text(string text, Vector2 position, Color color) : this(text, position, 0.5f, 1, color) { }
+
+        public Text(string text, Vector2 position, float scale, int spacing, Color color) {
             this.spacing = spacing;
 
             text = text.ToLower();
@@ -20,7 +24,7 @@ namespace ChanceOfPrecipitation
             characters = new List<Character>();
 
             foreach (var c in text)
-                characters.Add(new Character(c.ToString(), scale, Color.White));
+                characters.Add(new Character(c.ToString(), scale, color));
 
             var x = position.X;
 
