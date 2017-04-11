@@ -78,10 +78,10 @@ namespace ChanceOfPrecipitation {
             TextureManager.blocks["stage1_platform_top_middle"] =      new BlockInfo("platform_tileset_stage1", new Rectangle(16, 0, 16, 16),  scale);
             TextureManager.blocks["stage1_platform_top_right"] =       new BlockInfo("platform_tileset_stage1", new Rectangle(32, 0, 16, 16),  scale);
             TextureManager.blocks["stage1_platform_middle_left"] =     new BlockInfo("platform_tileset_stage1", new Rectangle(0, 16, 16, 16),  scale);
-            TextureManager.blocks["stage1_platform_middle"] =          new BlockInfo("platform_tileset_stage1", new Rectangle(16, 16, 16, 16), scale); 
-            TextureManager.blocks["stage1_platform_middle_right"] =    new BlockInfo("platform_tileset_stage1", new Rectangle(32, 16, 16, 16), scale); 
-            TextureManager.blocks["stage1_platform_bottom_left"] =     new BlockInfo("platform_tileset_stage1", new Rectangle(0, 32, 16, 16),  scale); 
-            TextureManager.blocks["stage1_platform_bottom_middle"] =   new BlockInfo("platform_tileset_stage1", new Rectangle(16, 32, 16, 16), scale); 
+            TextureManager.blocks["stage1_platform_middle"] =          new BlockInfo("platform_tileset_stage1", new Rectangle(16, 16, 16, 16), scale);
+            TextureManager.blocks["stage1_platform_middle_right"] =    new BlockInfo("platform_tileset_stage1", new Rectangle(32, 16, 16, 16), scale);
+            TextureManager.blocks["stage1_platform_bottom_left"] =     new BlockInfo("platform_tileset_stage1", new Rectangle(0, 32, 16, 16),  scale);
+            TextureManager.blocks["stage1_platform_bottom_middle"] =   new BlockInfo("platform_tileset_stage1", new Rectangle(16, 32, 16, 16), scale);
             TextureManager.blocks["stage1_platform_bottom_right"] =    new BlockInfo("platform_tileset_stage1", new Rectangle(32, 32, 16, 16), scale);
 
             TextureManager.textures["Lazer"] = Content.Load<Texture2D>("LazerTileset");
@@ -104,7 +104,7 @@ namespace ChanceOfPrecipitation {
             TextureManager.blocks["-"] = new BlockInfo("letters", new Rectangle(297, 0, 11, 17));
 
             TextureManager.textures["portal"] = Content.Load<Texture2D>("Portal");
-            TextureManager.blocks["portal"] = new BlockInfo("portal", new Rectangle(0, 0, 16, 16), scale);
+            TextureManager.blocks["portal"] = new BlockInfo("portal", new Rectangle(0, 0, 32, 32), scale / 2);
 
             for (var i = 0; i < 26; i++)
                 TextureManager.blocks[Convert.ToChar(i + 97).ToString()] = new BlockInfo("letters", new Rectangle(i * 11, 0, 11, 17));
