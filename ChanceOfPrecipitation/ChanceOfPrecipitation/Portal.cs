@@ -26,18 +26,16 @@ namespace ChanceOfPrecipitation {
 
             key = Keys.E;
             text = new Text("press " + key + " to activate", Vector2.Zero);
-            text.SetPos(bounds.Center.X - text.width / 2, bounds.y - 10);
+            text.SetPos(bounds.Center.X - text.width / 2, bounds.y - bounds.height);
         }
 
         public override void Draw(SpriteBatch sb) {
             sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), info.src, Color.White);
-
-            if (playerHover && (activated == null || activated == true))
-                text.Draw(sb);
+            text.Draw(sb);
         }
 
         public override void Update(List<GameObject> objects) {
-
+            text.IsVisible = playerHover && (activated == null || activated == true);
         }
 
         public void Collide(ICollidable c) {
@@ -46,9 +44,13 @@ namespace ChanceOfPrecipitation {
                     playerHover = true;
 
                     if (Playing.Instance.state.IsKeyDown(key) && !Playing.Instance.lastState.IsKeyDown(key)) {
-                        if (activated == null) activated = false;
-                        if ((bool) !activated) activated = true;
-                        if ((bool) activated) Pressed();
+                        if (activated.HasValue) {
+                            if (!activated.Value) activated = true;
+                            else Pressed();
+                        }
+                        else {
+                            activated = false;
+                        }
                     }
                 } else {
                     playerHover = false;
