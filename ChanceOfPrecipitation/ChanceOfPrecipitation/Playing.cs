@@ -24,8 +24,8 @@ namespace ChanceOfPrecipitation {
 
         public Vector2 offset = Vector2.Zero;
 
-        public Vector2 spawnRange = new Vector2(500, 300);
-        public Vector2 noSpawnRange = new Vector2(100, 50);
+        public Vector2 spawnRange = new Vector2(1000, 300);
+        public Vector2 noSpawnRange = new Vector2(200, 50);
         private int ticksToSpawn = 0;
         private int minTicksToSpawn = 360;
         private int ticksToSpawnRange = 120;
@@ -35,7 +35,8 @@ namespace ChanceOfPrecipitation {
             instance = this;
             random = new Random();
             lastState = state = Keyboard.GetState();
-            players = new List<Player>() { new Player(0, 0, 16, 32) };
+            players = new List<Player>();
+            /*players = new List<Player>() {};
 
             objects.Add(players[0]);
             objects.Add(new Block(0, 600,  "stage1_platform_top_left"));
@@ -49,9 +50,10 @@ namespace ChanceOfPrecipitation {
             //objects.Add(new TestBoss(600, 0));
             objects.Add(new ItemEntity<DamageUpgrade>(100, 550, DamageUpgrade.type));
 
-            objects.Add(new ItemShop(150, 460, new DamageUpgrade(), new HealingUpgrade(), new MoneyUpgrade(), 10, 30));
+            objects.Add(new ItemShop(150, 460, new DamageUpgrade(), new HealingUpgrade(), new MoneyUpgrade(), 10, 30));*/
 
             //objects.Add(new Coin(200, 495));
+            LoadStage("level");
         }
 
         public void Draw(SpriteBatch sb) {
@@ -131,5 +133,20 @@ namespace ChanceOfPrecipitation {
             enemy.SetPos(ans.x, ans.y);
             objects.Add(enemy);
         }
+
+        void LoadStage(string stage) {
+            Level l = Level.levels[stage];
+            foreach (var x in l.blocks) {
+                if (x.type == "player") {
+                    var p = new Player(x.position.X, x.position.Y, 16, 32);
+                    players.Add(p);
+                    objects.Add(p);
+                }
+                else {
+                    objects.Add(new Block(x.position.X, x.position.Y, x.type));
+                }
+            }
+        }
+
     }
 }
