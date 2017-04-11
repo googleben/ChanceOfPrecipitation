@@ -23,7 +23,7 @@ namespace ChanceOfPrecipitation
 
         private List<Character> Characters;
 
-        public FloatingIndicator(FloatingIndicatorBuilder builder, int Character, Vector2 position) : this(builder, Character.ToString(), position) { }
+        public FloatingIndicator(FloatingIndicatorBuilder builder, int number, Vector2 position) : this(builder, number.ToString(), position) { }
 
         public FloatingIndicator(FloatingIndicatorBuilder builder, string text, Vector2 position) {
             this.position = new Vector2(position.X - builder.OscillationDist, position.Y);
@@ -47,7 +47,7 @@ namespace ChanceOfPrecipitation
             life.Elapsed += Delete;
 
             Characters = new List<Character>();
-            var nums = Character.ToString().ToCharArray();
+            var nums = Character.ToCharArray();
             foreach (var c in nums) {
                 Characters.Add(new Character(c.ToString(), scale, color, isStatic));
             }
@@ -81,7 +81,7 @@ namespace ChanceOfPrecipitation
 
         public override void Draw(SpriteBatch sb)
         {
-            //var nums = Character.ToString().ToCharArray();
+            //var nums = number.ToString().ToCharArray();
 
             
             foreach (var n in Characters) n.Draw(sb);

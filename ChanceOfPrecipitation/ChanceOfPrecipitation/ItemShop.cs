@@ -17,7 +17,6 @@ namespace ChanceOfPrecipitation
 
         public bool BoughtItem { get; set; }
 
-        // TODO: ADD CURRENCY
         public ItemShop(float x, float y, Item a, Item b, Item c, int minCost, int maxCost) {
             itemA = new ItemStand(this, a, x, y, Playing.random.Next(minCost, maxCost));
             itemB = new ItemStand(this, b, x + 24 * SizeMultiplier, y, Playing.random.Next(minCost, maxCost));
