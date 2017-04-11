@@ -51,6 +51,13 @@ namespace ChanceOfPrecipitation
             foreach (var c in nums) {
                 Characters.Add(new Character(c.ToString(), scale, color, isStatic));
             }
+            var x = position.X;
+
+            foreach (var n in Characters)
+            {
+                n.SetPos(x, position.Y);
+                x += n.bounds.width + spacing;
+            }
         }
 
         public override void Update(List<GameObject> objects)

@@ -108,6 +108,7 @@ namespace ChanceOfPrecipitation {
 
             for (var i = 0; i < 26; i++)
                 TextureManager.blocks[Convert.ToChar(i + 97).ToString()] = new BlockInfo("letters", new Rectangle(i * 11, 0, 11, 17));
+            new Level(File.ReadAllText("Content/level.txt"), "level");
         }
 
         protected override void UnloadContent() {

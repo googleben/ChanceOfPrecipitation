@@ -70,6 +70,7 @@
     <Compile Include="ItemShop.cs" />
     <Compile Include="Lazer.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="Level.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="MoneyDisplay.cs" />
     <Compile Include="Player.cs" />
