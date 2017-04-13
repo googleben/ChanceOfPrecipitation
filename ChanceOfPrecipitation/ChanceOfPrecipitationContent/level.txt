@@ -98,4 +98,5 @@ stage1_platform_top_middle 3072 100
 stage1_platform_top_middle 3104 100
 stage1_platform_top_middle 3136 100
 stage1_platform_top_middle 3168 100
+shop 150 -44 damage healing money
 player 0 50

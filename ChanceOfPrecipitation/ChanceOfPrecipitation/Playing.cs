@@ -137,14 +137,7 @@ namespace ChanceOfPrecipitation {
         void LoadStage(string stage) {
             Level l = Level.levels[stage];
             foreach (var x in l.blocks) {
-                if (x.type == "player") {
-                    var p = new Player(x.position.X, x.position.Y, 16, 32);
-                    players.Add(p);
-                    objects.Add(p);
-                }
-                else {
-                    objects.Add(new Block(x.position.X, x.position.Y, x.type));
-                }
+                x.Build(this);
             }
         }
 

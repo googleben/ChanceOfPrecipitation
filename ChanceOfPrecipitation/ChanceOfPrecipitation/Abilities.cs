@@ -202,6 +202,7 @@ namespace ChanceOfPrecipitation {
         private readonly Texture2D texture;
 
         public const int Width = 3;
+        private int life = 60 * 15;
 
         private readonly ICollidable origin;
 
@@ -219,6 +220,8 @@ namespace ChanceOfPrecipitation {
 
         public override void Update(List<GameObject> objects) {
             bounds.x += speed;
+            life--;
+            if (life == 0) Destroy();
         }
 
         public RectangleF Bounds() {
