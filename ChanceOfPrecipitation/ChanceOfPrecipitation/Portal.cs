@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace ChanceOfPrecipitation {
     public class Portal : GameObject, ICollider {
-        private BlockInfo info;
+        private TextureInfo info;
         private Texture2D texture;
         private RectangleF bounds;
         private bool? activated;

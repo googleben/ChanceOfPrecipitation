@@ -9,7 +9,7 @@ namespace ChanceOfPrecipitation
         public float scale;
         public RectangleF bounds;
         public Texture2D texture;
-        public BlockInfo info;
+        public TextureInfo info;
         public string type;
         public Color color;
         public bool isStatic;

@@ -6,12 +6,12 @@ namespace ChanceOfPrecipitation
     public static class TextureManager
     {
         public static Dictionary<string, Texture2D> textures;
-        public static Dictionary<string, BlockInfo> blocks;
+        public static Dictionary<string, TextureInfo> blocks;
 
         static TextureManager()
         {
             textures = new Dictionary<string, Texture2D>();
-            blocks = new Dictionary<string, BlockInfo>();
+            blocks = new Dictionary<string, TextureInfo>();
         }
     }
 }
