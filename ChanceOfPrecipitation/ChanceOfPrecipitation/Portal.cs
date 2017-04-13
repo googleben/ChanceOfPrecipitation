@@ -11,8 +11,13 @@ namespace ChanceOfPrecipitation {
         private TextureInfo info;
         private Texture2D texture;
         private RectangleF bounds;
-        private bool? activated;
         private bool playerHover;
+        private BossEnemy boss;
+
+        // null: has not been activated yet
+        // false: has been activated and the boss is alive
+        // true: the boss is dead and can proceed to the next stage
+        private bool? activated;
 
         private Text text;
         private Keys key;
@@ -36,6 +41,10 @@ namespace ChanceOfPrecipitation {
 
         public override void Update(List<GameObject> objects) {
             text.IsVisible = playerHover && (activated == null || activated == true);
+
+            if (activated.HasValue)
+                if (!activated.Value && boss.ToDestroy)
+                    activated = true;
         }
 
         public void Collide(ICollidable c) {
@@ -45,12 +54,14 @@ namespace ChanceOfPrecipitation {
 
                     if (Playing.Instance.state.IsKeyDown(key) && !Playing.Instance.lastState.IsKeyDown(key)) {
                         if (activated.HasValue) {
-                            if (!activated.Value) activated = true;
-                            else Pressed();
+                            if (activated.Value) Pressed();
                         }
                         else {
                             activated = false;
+                            boss = new TestBoss(bounds.x - 32, bounds.y - 128);
+                            Playing.Instance.objects.Add(boss);
                         }
+                        Console.WriteLine(activated);
                     }
                 } else {
                     playerHover = false;
@@ -60,6 +71,7 @@ namespace ChanceOfPrecipitation {
 
         public void Pressed() {
             // TODO: do watevr her
+            Console.WriteLine("PRESSED");
         }
     }
 }
