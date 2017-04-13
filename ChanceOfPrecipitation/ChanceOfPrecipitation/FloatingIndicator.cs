@@ -10,10 +10,7 @@ namespace ChanceOfPrecipitation
         private Vector2 position;
         private readonly float scale;
         private readonly float upSpeed;
-        private readonly bool oscillates;
-        private float oscillationDist;
-        private readonly Timer oscillationPeriod;
-        private readonly Timer life;
+        private int life;
         private readonly string Character;
         private int direction = 1;
         private bool isStatic;
@@ -26,25 +23,16 @@ namespace ChanceOfPrecipitation
         public FloatingIndicator(FloatingIndicatorBuilder builder, int number, Vector2 position) : this(builder, number.ToString(), position) { }
 
         public FloatingIndicator(FloatingIndicatorBuilder builder, string text, Vector2 position) {
-            this.position = new Vector2(position.X - builder.OscillationDist, position.Y);
+            this.position = new Vector2(position.X, position.Y);
             scale = builder.Scale / 2.5f;
             upSpeed = builder.UpSpeed;
-            oscillates = builder.Oscillates;
-            oscillationDist = builder.OscillationDist;
-            oscillationPeriod = new Timer(builder.OscillationPeriod);
-            life = new Timer(builder.Life);
+            life = builder.Life;
             color = builder.Color;
             Character = text;
             isStatic = builder.IsStatic;
             spacing = builder.Spacing;
 
             if (isStatic) upSpeed = 0;
-
-            oscillationPeriod.Start();
-            life.Start();
-
-            oscillationPeriod.Elapsed += ChangeDirection;
-            life.Elapsed += Delete;
 
             Characters = new List<Character>();
             var nums = Character.ToCharArray();
@@ -65,24 +53,12 @@ namespace ChanceOfPrecipitation
             position.Y -= upSpeed;
             var x = position.X;
 
+            life--;
+            if (life <= 0) Destroy();
+
             foreach (var n in Characters) {
                 n.SetPos(x, position.Y);
                 x += n.bounds.width + spacing;
-            }
-
-            if (oscillates)
-            {
-                position.X += direction > 0
-                    ? (float) (oscillationDist / oscillationPeriod.Interval * 100)
-                    : (float) (-oscillationDist / oscillationPeriod.Interval * 100);
-
-                oscillationDist /= 1.01f;
-            }
-            else
-            {
-                //var shrink = (float)(upSpeed / life.Interval * 100);
-                //scale -= shrink;
-                //position.X += shrink * 10;
             }
         }
 
@@ -93,20 +69,5 @@ namespace ChanceOfPrecipitation
             
             foreach (var n in Characters) n.Draw(sb);
         }
-
-        private void Delete(object sender, ElapsedEventArgs e)
-        {
-            Destroy();
-            oscillationPeriod.Stop();
-            life.Stop();
-        }
-
-        private void ChangeDirection(object sender, ElapsedEventArgs e)
-        {
-            direction *= -1;
-        }
-
-    }
-
-    
+    }  
 }
