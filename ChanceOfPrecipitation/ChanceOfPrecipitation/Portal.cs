@@ -24,7 +24,7 @@ namespace ChanceOfPrecipitation {
 
         public Portal(float x, float y) {
             info = TextureManager.blocks["portal"];
-            texture = new TextureDrawer(info.texName, 10);
+            texture = new TextureDrawer(info, 10);
             bounds = new RectangleF(x, y, info.src.Width * info.scale, info.src.Height * info.scale);
 
             activated = null;
@@ -69,7 +69,7 @@ namespace ChanceOfPrecipitation {
         }
 
         public void Pressed() {
-            // TODO: do watevr her
+            Console.WriteLine("PRESSED");
         }
     }
 }
