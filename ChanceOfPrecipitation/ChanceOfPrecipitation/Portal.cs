@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 namespace ChanceOfPrecipitation {
     public class Portal : GameObject, ICollider {
         private TextureInfo info;
-        private Texture2D texture;
+        private TextureDrawer texture;
         private RectangleF bounds;
         private bool playerHover;
         private BossEnemy boss;
@@ -24,7 +24,7 @@ namespace ChanceOfPrecipitation {
 
         public Portal(float x, float y) {
             info = TextureManager.blocks["portal"];
-            texture = TextureManager.textures[info.texName];
+            texture = new TextureDrawer(info.texName, 10);
             bounds = new RectangleF(x, y, info.src.Width * info.scale, info.src.Height * info.scale);
 
             activated = null;
@@ -35,7 +35,7 @@ namespace ChanceOfPrecipitation {
         }
 
         public override void Draw(SpriteBatch sb) {
-            sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), info.src, Color.White);
+            texture.Draw(sb, (Rectangle) (bounds + Playing.Instance.offset));
             text.Draw(sb);
         }
 
@@ -61,7 +61,6 @@ namespace ChanceOfPrecipitation {
                             boss = new TestBoss(bounds.x - 32, bounds.y - 128);
                             Playing.Instance.objects.Add(boss);
                         }
-                        Console.WriteLine(activated);
                     }
                 } else {
                     playerHover = false;
@@ -71,7 +70,6 @@ namespace ChanceOfPrecipitation {
 
         public void Pressed() {
             // TODO: do watevr her
-            Console.WriteLine("PRESSED");
         }
     }
 }

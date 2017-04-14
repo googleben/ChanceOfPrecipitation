@@ -104,7 +104,7 @@ namespace ChanceOfPrecipitation {
             TextureManager.blocks["-"] = new TextureInfo("letters", new Rectangle(297, 0, 11, 17));
 
             TextureManager.textures["portal"] = Content.Load<Texture2D>("Portal");
-            TextureManager.blocks["portal"] = new TextureInfo("portal", new Rectangle(0, 0, 32, 32), scale / 2);
+            TextureManager.blocks["portal"] = new TextureInfo("portal", new Rectangle(0, 0, 32, 32), scale / 2, 3);
 
             for (var i = 0; i < 26; i++)
                 TextureManager.blocks[Convert.ToChar(i + 97).ToString()] = new TextureInfo("letters", new Rectangle(i * 11, 0, 11, 17));

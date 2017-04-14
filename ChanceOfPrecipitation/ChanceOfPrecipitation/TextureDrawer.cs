@@ -11,8 +11,15 @@ namespace ChanceOfPrecipitation {
         private Rectangle srcBounds;
         private readonly int frames;
         private int currentFrame;
+        private readonly int delay;
+        private int currentDelay;
 
-        public TextureDrawer(string name) {
+        public TextureDrawer(string name) : this(name, 5) { }
+
+        public TextureDrawer(string name, int delay) {
+            this.delay = delay;
+            currentDelay = delay;
+
             var info = TextureManager.blocks[name];
 
             texture = TextureManager.textures[info.texName];
@@ -21,12 +28,19 @@ namespace ChanceOfPrecipitation {
         }
 
         public void Draw(SpriteBatch sb, Rectangle bounds) {
-            if (currentFrame == frames) {
-                currentFrame = 1;
-                srcBounds.X = 0;
+            if (currentDelay <= 0) {
+                if (currentFrame == frames) {
+                    currentFrame = 1;
+                    srcBounds.X = 0;
+                }
+                else {
+                    currentFrame++;
+                    srcBounds.X += srcBounds.Width;
+                }
+
+                currentDelay = delay;
             } else {
-                currentFrame++;
-                srcBounds.X += srcBounds.Width;
+                currentDelay--;
             }
 
             sb.Draw(texture, bounds, srcBounds, Color.White);
