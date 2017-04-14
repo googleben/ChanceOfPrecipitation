@@ -33,12 +33,12 @@ namespace ChanceOfPrecipitation
             bounds.y = y;
         }
 
-        public void Draw(SpriteBatch sb)
+        public void Draw(SpriteBatch sb, float alpha = 1)
         {
             if (isStatic)
                 sb.Draw(texture, (Rectangle)bounds, info.src, color);
             else
-                sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), info.src, color);
+                sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), info.src, color * alpha);
         }
 
     }

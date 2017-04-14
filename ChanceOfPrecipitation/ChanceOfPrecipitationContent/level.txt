@@ -1,4 +1,4 @@
-stage1_platform_top_middle 0 100
+stage1_platform_top_left 0 100
 stage1_platform_top_middle 32 100
 stage1_platform_top_middle 64 100
 stage1_platform_top_middle 96 100
@@ -97,5 +97,5 @@ stage1_platform_top_middle 3040 100
 stage1_platform_top_middle 3072 100
 stage1_platform_top_middle 3104 100
 stage1_platform_top_middle 3136 100
-stage1_platform_top_middle 3168 100
+stage1_platform_top_right 3168 100
 player 0 50

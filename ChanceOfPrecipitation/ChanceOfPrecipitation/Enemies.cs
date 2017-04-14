@@ -52,6 +52,10 @@ namespace ChanceOfPrecipitation {
             texture = TextureManager.textures["Square"];
             abilities = new EnemyAbility[] { new EnemyMeleeAbility(this) };
         }
+
+        public new int Value() {
+            return 5 * Coin.Value;
+        }
     }
     #endregion
 }

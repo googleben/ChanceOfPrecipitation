@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Timers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,6 +12,7 @@ namespace ChanceOfPrecipitation
         private readonly float scale;
         private readonly float upSpeed;
         private int life;
+        private readonly int origLife;
         private readonly string Character;
         private int direction = 1;
         private bool isStatic;
@@ -26,7 +28,8 @@ namespace ChanceOfPrecipitation
             this.position = new Vector2(position.X, position.Y);
             scale = builder.Scale / 2.5f;
             upSpeed = builder.UpSpeed;
-            life = builder.Life;
+            origLife = builder.Life;
+            life = origLife;
             color = builder.Color;
             Character = text;
             isStatic = builder.IsStatic;
@@ -67,7 +70,7 @@ namespace ChanceOfPrecipitation
             //var nums = number.ToString().ToCharArray();
 
             
-            foreach (var n in Characters) n.Draw(sb);
+            foreach (var n in Characters) n.Draw(sb, (float)life / origLife);
         }
     }  
 }

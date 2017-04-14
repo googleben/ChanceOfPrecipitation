@@ -72,9 +72,8 @@ namespace ChanceOfPrecipitation
 
     }
 
-    public interface IValuable
-    {
-        int Value { get; }
+    public interface IValuable {
+        int Value();
         void DropCoins();
     }
 }

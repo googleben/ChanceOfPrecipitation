@@ -28,8 +28,6 @@ namespace ChanceOfPrecipitation
 
         protected Direction facing = Direction.Right;
 
-        public int Value => 2 * Coin.Value;
-
         protected float maxHealth;
         public float MaxHealth
         {
@@ -208,8 +206,12 @@ namespace ChanceOfPrecipitation
             return 1;
         }
 
+        public int Value() {
+            return 2 * Coin.Value;
+        }
+
         public void DropCoins() {
-            for (var i = 0; i < Value; i += Coin.Value)
+            for (var i = 0; i < Value(); i += Coin.Value)
                 Playing.Instance.objects.Add(new Coin(bounds.Center.X, bounds.Center.Y));
         }
 
