@@ -22,7 +22,7 @@ namespace ChanceOfPrecipitation
 
         public Ability abilityOne;
 
-        private readonly Texture2D texture;
+        private TextureDrawer texture;
 
         public float maxSpeed = 5f;
 
@@ -57,7 +57,7 @@ namespace ChanceOfPrecipitation
 
         public Player(float x, float y, float width, float height) {
             bounds = new RectangleF(x, y, width, height);
-            texture = TextureManager.textures["Square"];
+            texture = new TextureDrawer("playerIdle", 10);
 
             healthBar = new HealthBarBuilder() { Position = new Vector2(x, y), Width = (int)width + 10 }.Build();
 
@@ -77,11 +77,14 @@ namespace ChanceOfPrecipitation
             if (state.IsKeyDown(left)) {
                 facing = Direction.Left;
                 velocity.X = -maxSpeed;
+                ChangeAnimation("playerWalking", 2);
             } else if (state.IsKeyDown(right)) {
                 facing = Direction.Right;
                 velocity.X = maxSpeed;
+                ChangeAnimation("playerWalking", 2);
             } else {
                 velocity.X = 0;
+                ChangeAnimation("playerIdle", 10);
             }
 
             foreach (var i in items) i.Update(objects);
@@ -137,7 +140,7 @@ namespace ChanceOfPrecipitation
         }
 
         public override void Draw(SpriteBatch sb) {
-            sb.Draw(texture, (Rectangle)(bounds+Playing.Instance.offset), Color.White);
+            texture.Draw(sb, (Rectangle)(bounds + Playing.Instance.offset), Facing());
             foreach (var i in items) i.Draw(sb);
             healthBar.Draw(sb);
             moneyDisplay.Draw(sb);
@@ -210,6 +213,11 @@ namespace ChanceOfPrecipitation
 
         public Direction Facing() {
             return facing;
+        }
+
+        private void ChangeAnimation(string name, int delay) {
+            if (texture.name != name)
+                texture = new TextureDrawer(name, delay);
         }
 
         public void AddItem(Item i) {

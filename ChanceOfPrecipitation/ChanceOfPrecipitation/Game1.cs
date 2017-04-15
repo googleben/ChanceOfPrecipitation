@@ -104,13 +104,13 @@ namespace ChanceOfPrecipitation {
             TextureManager.blocks["-"] = new TextureInfo("letters", new Rectangle(297, 0, 11, 17));
 
             TextureManager.textures["portal"] = Content.Load<Texture2D>("Portal");
-            /*TextureManager.blocks["portal1"] = new TextureInfo("portal", new Rectangle(0, 0, 32, 32), scale / 2, 3);
-            TextureManager.blocks["portal2"] = new TextureInfo("portal", new Rectangle(0, 32, 32, 32), scale / 2, 3);
-            TextureManager.blocks["portal3"] = new TextureInfo("portal", new Rectangle(0, 64, 32, 32), scale / 2, 3);
-            TextureManager.blocks["portal4"] = new TextureInfo("portal", new Rectangle(0, 96, 32, 32), scale / 2, 3);*/
 
             for (var i = 0; i < 4; i++)
                 TextureManager.blocks["portal" + (i + 1)] = new TextureInfo("portal", new Rectangle(0, i * 32, 32, 32), scale / 2, 3);
+
+            TextureManager.textures["player"] = Content.Load<Texture2D>("Player");
+            TextureManager.blocks["playerIdle"] = new TextureInfo("player", new Rectangle(0, 0, 15, 32), 6);
+            TextureManager.blocks["playerWalking"] = new TextureInfo("player", new Rectangle(0, 32, 15, 32), 4);
 
             for (var i = 0; i < 26; i++)
                 TextureManager.blocks[Convert.ToChar(i + 97).ToString()] = new TextureInfo("letters", new Rectangle(i * 11, 0, 11, 17));
