@@ -23,8 +23,8 @@ namespace ChanceOfPrecipitation {
         private Keys key;
 
         public Portal(float x, float y) {
-            info = TextureManager.blocks["portal"];
-            texture = new TextureDrawer(info, 10);
+            info = TextureManager.blocks["portal1"];
+            texture = new TextureDrawer("portal1", 10);
             bounds = new RectangleF(x, y, info.src.Width * info.scale, info.src.Height * info.scale);
 
             activated = null;
@@ -43,8 +43,10 @@ namespace ChanceOfPrecipitation {
             text.IsVisible = playerHover && (activated == null || activated == true);
 
             if (activated.HasValue)
-                if (!activated.Value && boss.ToDestroy)
+                if (!activated.Value && boss.ToDestroy) {
                     activated = true;
+                    texture = new TextureDrawer("portal3", 10);
+                }
         }
 
         public void Collide(ICollidable c) {
@@ -54,9 +56,13 @@ namespace ChanceOfPrecipitation {
 
                     if (Playing.Instance.state.IsKeyDown(key) && !Playing.Instance.lastState.IsKeyDown(key)) {
                         if (activated.HasValue) {
-                            if (activated.Value) Pressed();
+                            if (activated.Value) {
+                                Pressed();
+                                texture = new TextureDrawer("portal4", 10);
+                            }
                         }
                         else {
+                            texture = new TextureDrawer("portal2", 10);
                             activated = false;
                             boss = new TestBoss(bounds.x - 32, bounds.y - 128);
                             Playing.Instance.objects.Add(boss);

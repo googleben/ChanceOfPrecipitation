@@ -14,16 +14,18 @@ namespace ChanceOfPrecipitation {
         private readonly int delay;
         private int currentDelay;
 
-        public TextureDrawer(TextureInfo info) : this(info, 5) { }
+        public TextureDrawer(string key) : this(key, 5) { }
 
         /// <summary>
         /// Initializes a new <see cref="TextureDrawer"./>
         /// </summary>
-        /// <param name="info">The <see cref="TextureInfo"/> for the animation or texture.</param>
+        /// <param name="key">The key for the <see cref="TextureInfo"/> for the animation or texture.</param>
         /// <param name="delay">The amount of game ticks that will pass between each frame change.</param>
-        public TextureDrawer(TextureInfo info, int delay) {
+        public TextureDrawer(string key, int delay) {
             this.delay = delay;
             currentDelay = delay;
+
+            var info = TextureManager.blocks[key];
 
             texture = TextureManager.textures[info.texName];
             srcBounds = info.src;
