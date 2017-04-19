@@ -110,7 +110,7 @@ namespace ChanceOfPrecipitation {
 
             TextureManager.textures["player"] = Content.Load<Texture2D>("Player");
             TextureManager.blocks["playerIdle"] = new TextureInfo("player", new Rectangle(0, 0, 15, 32), 6);
-            TextureManager.blocks["playerWalking"] = new TextureInfo("player", new Rectangle(0, 32, 15, 32), 4);
+            TextureManager.blocks["playerWalking"] = new TextureInfo("player", new Rectangle(0, 32, 15, 32), 8);
 
             for (var i = 0; i < 26; i++)
                 TextureManager.blocks[Convert.ToChar(i + 97).ToString()] = new TextureInfo("letters", new Rectangle(i * 11, 0, 11, 17));
