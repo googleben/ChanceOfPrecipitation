@@ -58,18 +58,15 @@ namespace ChanceOfPrecipitation
         public float scale;
         public string texName;
         public Rectangle src;
-        public int frames;
+        public int Frames { get; set; } = 1;
+        public int Delay { get; set; } = 10;
 
-        public TextureInfo(string texName, Rectangle src, int frames) : this(texName, src, 1, frames) { }
-        public TextureInfo(string texName, Rectangle src, float scale) : this(texName, src, scale, 1) { }
-        public TextureInfo(string texName, Rectangle src) : this(texName, src, 1, 1) {}
-        public TextureInfo(string texName, Rectangle src, float scale, int frames)  {
+        public TextureInfo(string texName, Rectangle src, float scale = 1)
+        {
             this.src = src;
             this.texName = texName;
             this.scale = scale;
-            this.frames = frames;
         }
-
     }
 
     public interface IValuable {

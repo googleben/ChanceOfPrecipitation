@@ -56,7 +56,7 @@ namespace ChanceOfPrecipitation
 
         public Player(float x, float y, float width, float height) {
             bounds = new RectangleF(x, y, width, height);
-            texture = new TextureDrawer("playerIdle", 10);
+            texture = new TextureDrawer("playerIdle");
 
             healthBar = new HealthBarBuilder() { Position = new Vector2(x, y), Width = (int)width + 10 }.Build();
 
@@ -76,14 +76,14 @@ namespace ChanceOfPrecipitation
             if (state.IsKeyDown(left)) {
                 facing = Direction.Left;
                 velocity.X = -maxSpeed;
-                ChangeAnimation("playerWalking", 2);
+                ChangeAnimation("playerWalking");
             } else if (state.IsKeyDown(right)) {
                 facing = Direction.Right;
                 velocity.X = maxSpeed;
-                ChangeAnimation("playerWalking", 2);
+                ChangeAnimation("playerWalking");
             } else {
                 velocity.X = 0;
-                ChangeAnimation("playerIdle", 10);
+                ChangeAnimation("playerIdle");
             }
 
             foreach (var i in items) i.Update(objects);
@@ -214,9 +214,9 @@ namespace ChanceOfPrecipitation
             return facing;
         }
 
-        private void ChangeAnimation(string name, int delay) {
+        private void ChangeAnimation(string name) {
             if (texture.name != name)
-                texture = new TextureDrawer(name, delay);
+                texture = new TextureDrawer(name);
         }
 
         public void AddItem(Item i) {

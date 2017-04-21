@@ -22,7 +22,7 @@ namespace ChanceOfPrecipitation {
 
         public Portal(float x, float y) {
             info = TextureManager.blocks["portal1"];
-            texture = new TextureDrawer("portal1", 10);
+            texture = new TextureDrawer("portal1");
             bounds = new RectangleF(x, y, info.src.Width * info.scale, info.src.Height * info.scale);
 
             activated = null;
@@ -43,7 +43,7 @@ namespace ChanceOfPrecipitation {
             if (activated.HasValue)
                 if (!activated.Value && boss.ToDestroy) {
                     activated = true;
-                    texture = new TextureDrawer("portal3", 10);
+                    texture = new TextureDrawer("portal3");
                 }
         }
 
@@ -56,11 +56,11 @@ namespace ChanceOfPrecipitation {
                         if (activated.HasValue) {
                             if (activated.Value) {
                                 Pressed();
-                                texture = new TextureDrawer("portal4", 10);
+                                texture = new TextureDrawer("portal4");
                             }
                         }
                         else {
-                            texture = new TextureDrawer("portal2", 10);
+                            texture = new TextureDrawer("portal2");
                             activated = false;
                             boss = new TestBoss(bounds.x - 32, bounds.y - 128);
                             Playing.Instance.objects.Add(boss);
