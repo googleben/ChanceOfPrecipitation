@@ -73,6 +73,10 @@ namespace ChanceOfPrecipitation
     }
 
     public interface IValuable {
+        /// <summary>
+        /// The value of the <see cref="IValuable"/>.
+        /// </summary>
+        /// <returns>The number of coins dropped by the <see cref="IValuable"/>.</returns>
         int Value();
         void DropCoins();
     }

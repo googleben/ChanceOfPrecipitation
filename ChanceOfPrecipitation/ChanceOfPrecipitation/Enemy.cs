@@ -157,7 +157,7 @@ namespace ChanceOfPrecipitation
             Playing.Instance.objects.Add(damageBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.y)));
 
             if (health <= 0) {
-                if (Playing.random.NextDouble() < chanceToDropItem()) {
+                if (Playing.random.NextDouble() < ChanceToDropItem()) {
                     var drop = Item.items[Playing.random.Next(Item.items.Count)].Clone();
                     (drop as IItemEntity)?.SetPos(bounds.Center.X, bounds.Center.Y);
                     Playing.Instance.objects.Add(drop);
@@ -199,19 +199,19 @@ namespace ChanceOfPrecipitation
             return facing;
         }
 
-        //chance to drop an item as a part of 1
-        //.1 = 10%
-        //1 = 100%
-        float chanceToDropItem() {
+        // Chance to drop an item as a part of 1
+        // .1 = 10%
+        // 1 = 100%
+        float ChanceToDropItem() {
             return 1;
         }
 
-        public int Value() {
-            return 2 * Coin.Value;
+        public virtual int Value() {
+            return 2;
         }
 
         public void DropCoins() {
-            for (var i = 0; i < Value(); i += Coin.Value)
+            for (var i = 0; i < Value(); i++)
                 Playing.Instance.objects.Add(new Coin(bounds.Center.X, bounds.Center.Y));
         }
 
