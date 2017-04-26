@@ -36,24 +36,8 @@ namespace ChanceOfPrecipitation {
             random = new Random();
             lastState = state = Keyboard.GetState();
             players = new List<Player>();
-            /*players = new List<Player>() {};
+            players.Add(new Player(0, 50, 16, 32));
 
-            objects.Add(players[0]);
-            objects.Add(new Block(0, 600,  "stage1_platform_top_left"));
-            objects.Add(new Block(1280 - 16, 600, "stage1_platform_top_right"));
-            for (var i = 32; i < 1280 - 32; i += 32) {
-                objects.Add(new Block(i, 600, "stage1_platform_top_middle"));
-            }
-
-            objects.Add(new BasicEnemy(600, 0));
-            objects.Add(new ShooterEnemy(800, 0));
-            //objects.Add(new TestBoss(600, 0));
-            objects.Add(new ItemEntity<DamageUpgrade>(100, 550, DamageUpgrade.type));
-
-            objects.Add(new ItemShop(150, 460, new DamageUpgrade(), new HealingUpgrade(), new MoneyUpgrade(), 10, 30));*/
-
-            //objects.Add(new Coin(200, 495));
-            objects.Add(new Portal(128, 68));
             LoadStage("level");
         }
 
@@ -136,10 +120,16 @@ namespace ChanceOfPrecipitation {
         }
 
         void LoadStage(string stage) {
+            objects.Clear();
             Level l = Level.levels[stage];
             foreach (var x in l.blocks) {
                 x.Build(this);
             }
+            foreach (var p in players) objects.Add(p);
+        }
+
+        public void NextStage() {
+            LoadStage("level");
         }
 
     }

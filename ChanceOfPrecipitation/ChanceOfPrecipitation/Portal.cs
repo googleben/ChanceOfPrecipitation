@@ -73,7 +73,7 @@ namespace ChanceOfPrecipitation {
         }
 
         public void Pressed() {
-            Console.WriteLine("PRESSED");
+            Playing.Instance.NextStage();
         }
     }
 }
