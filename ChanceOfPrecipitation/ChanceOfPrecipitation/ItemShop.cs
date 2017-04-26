@@ -52,7 +52,7 @@ namespace ChanceOfPrecipitation
         private readonly ItemShop origin;
         private readonly RectangleF bounds;
         private RectangleF itemBounds;
-        private readonly BlockInfo info;
+        private readonly TextureInfo info;
         private readonly Texture2D texture;
 
         private float origY;
@@ -150,7 +150,7 @@ namespace ChanceOfPrecipitation
         private Vector2 velocity;
         private readonly Texture2D texture;
         private RectangleF bounds;
-        private readonly BlockInfo info;
+        private readonly TextureInfo info;
 
         private FloatingIndicatorBuilder indicator;
 

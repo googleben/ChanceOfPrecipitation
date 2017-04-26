@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace ChanceOfPrecipitation {
     internal class Block : GameObject, ICollider {
         private readonly Texture2D texture;
-        private readonly BlockInfo info;
+        private readonly TextureInfo info;
         public RectangleF bounds;
         private string type;
 

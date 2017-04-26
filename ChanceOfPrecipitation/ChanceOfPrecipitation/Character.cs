@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace ChanceOfPrecipitation
@@ -9,7 +8,7 @@ namespace ChanceOfPrecipitation
         public float scale;
         public RectangleF bounds;
         public Texture2D texture;
-        public BlockInfo info;
+        public TextureInfo info;
         public string type;
         public Color color;
         public bool isStatic;
@@ -33,12 +32,12 @@ namespace ChanceOfPrecipitation
             bounds.y = y;
         }
 
-        public void Draw(SpriteBatch sb)
+        public void Draw(SpriteBatch sb, float alpha = 1)
         {
             if (isStatic)
                 sb.Draw(texture, (Rectangle)bounds, info.src, color);
             else
-                sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), info.src, color);
+                sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), info.src, color * alpha);
         }
 
     }

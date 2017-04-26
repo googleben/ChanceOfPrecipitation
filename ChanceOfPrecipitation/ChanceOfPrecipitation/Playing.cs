@@ -53,6 +53,7 @@ namespace ChanceOfPrecipitation {
             objects.Add(new ItemShop(150, 460, new DamageUpgrade(), new HealingUpgrade(), new MoneyUpgrade(), 10, 30));*/
 
             //objects.Add(new Coin(200, 495));
+            objects.Add(new Portal(128, 68));
             LoadStage("level");
         }
 

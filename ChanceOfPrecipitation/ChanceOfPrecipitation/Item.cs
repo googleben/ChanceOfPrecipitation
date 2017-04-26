@@ -10,7 +10,7 @@ namespace ChanceOfPrecipitation
         public static int space = 5;
         public Texture2D texture;
         public RectangleF bounds;
-        public readonly BlockInfo info;
+        public readonly TextureInfo info;
 
         public abstract void Update(List<GameObject> objects);
 
@@ -49,7 +49,7 @@ namespace ChanceOfPrecipitation
         private string type;
         private RectangleF bounds;
         private readonly Texture2D texture;
-        private readonly BlockInfo info;
+        private readonly TextureInfo info;
         private float origX;
         private float origY;
 

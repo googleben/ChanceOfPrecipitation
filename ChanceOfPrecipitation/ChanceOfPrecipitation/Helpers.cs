@@ -53,24 +53,28 @@ namespace ChanceOfPrecipitation
 
     }
 
-    public class BlockInfo {
+    public class TextureInfo {
 
         public float scale;
         public string texName;
         public Rectangle src;
+        public int Frames { get; set; } = 1;
+        public int Delay { get; set; } = 10;
 
-        public BlockInfo(string texName, Rectangle src) : this(texName, src, 1) {}
-        public BlockInfo(string texName, Rectangle src, float scale)  {
+        public TextureInfo(string texName, Rectangle src, float scale = 1)
+        {
             this.src = src;
             this.texName = texName;
             this.scale = scale;
         }
-
     }
 
-    public interface IValuable
-    {
-        int Value { get; }
+    public interface IValuable {
+        /// <summary>
+        /// The value of the <see cref="IValuable"/>.
+        /// </summary>
+        /// <returns>The number of coins dropped by the <see cref="IValuable"/>.</returns>
+        int Value();
         void DropCoins();
     }
 }
