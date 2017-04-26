@@ -1,3 +1,6 @@
+stage1_platform_middle -32 68
+stage1_platform_middle -32 36
+stage1_platform_middle 0 36
 stage1_platform_top_left 0 100
 stage1_platform_top_middle 32 100
 stage1_platform_top_middle 64 100
@@ -99,6 +102,7 @@ stage1_platform_top_middle 3104 100
 stage1_platform_top_middle 3136 100
 stage1_platform_top_middle 3168 100
 shop 150 -44 damage healing money
+portal 750 68
 stage1_platform_top_right 3168 100
 stage1_platform_middle_left 0 132
 stage1_platform_middle 32 132
@@ -300,4 +304,3 @@ stage1_platform_middle 3072 164
 stage1_platform_middle 3104 164
 stage1_platform_middle 3136 164
 stage1_platform_middle_right 3168 164
-player 0 50

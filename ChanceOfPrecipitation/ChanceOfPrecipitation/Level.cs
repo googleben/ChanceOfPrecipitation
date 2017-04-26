@@ -42,16 +42,16 @@ namespace ChanceOfPrecipitation
 
     class ShopPlacementInfo : IPlacementInfo {
         public Vector2 position;
-        private Item item1;
-        private Item item2;
-        private Item item3;
+        private string item1;
+        private string item2;
+        private string item3;
 
         public ShopPlacementInfo(float x, float y, string item1, string item2, string item3)
         {
             this.position = new Vector2(x, y);
-            this.item1 = buildItem(item1);
-            this.item2 = buildItem(item2);
-            this.item3 = buildItem(item3);
+            this.item1 = item1;
+            this.item2 = item2;
+            this.item3 = item3;
         }
 
         static Item buildItem(string name) {
@@ -64,7 +64,21 @@ namespace ChanceOfPrecipitation
 
         public void Build(Playing instance)
         {
-            instance.objects.Add(new ItemShop(position.X, position.Y, item1, item2, item3, 20, 50));
+            instance.objects.Add(new ItemShop(position.X, position.Y, buildItem(item1), buildItem(item2), buildItem(item3), 20, 50));
+        }
+    }
+
+    class PortalPlacementInfo : IPlacementInfo {
+        public Vector2 position;
+
+        public PortalPlacementInfo(float x, float y)
+        {
+            this.position = new Vector2(x, y);
+        }
+
+        public void Build(Playing instance)
+        {
+            instance.objects.Add(new Portal(position.X, position.Y));
         }
     }
 
@@ -98,6 +112,8 @@ namespace ChanceOfPrecipitation
                     blocks.Add(new ShopPlacementInfo(x, y, item1, item2, item3));
                 } else if (type == "player") {
                     blocks.Add(new PlayerPlacementInfo(x, y));
+                } else if (type == "portal") {
+                    blocks.Add(new PortalPlacementInfo(x, y));
                 } else {
                     blocks.Add(new BlockPlacementInfo(type, x, y));
                 }
