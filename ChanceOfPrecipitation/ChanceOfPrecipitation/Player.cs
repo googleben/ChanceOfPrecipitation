@@ -92,7 +92,7 @@ namespace ChanceOfPrecipitation
                 velocity.Y = -jumpSpeed;
             }
 
-            if (state.IsKeyDown(abilityOneKey)) abilityOne.Fire(objects); // TODO: Add ability
+            if (state.IsKeyDown(abilityOneKey)) abilityOne.Fire(objects);
 
             collision = Collision.None;
 

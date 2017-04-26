@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -54,7 +55,7 @@ namespace ChanceOfPrecipitation
         public override void Update(List<GameObject> objects) {
             life--;
 
-            if (life <= 0 || (origin as Enemy)?.health<=0)
+            if (life <= 0 || (origin as Enemy)?.health <= 0)
                 Destroy();
         }
 
@@ -62,10 +63,10 @@ namespace ChanceOfPrecipitation
             var offset = Playing.Instance.offset;
             if (Facing() == Direction.Right)
                 for (var i = 0; i < bounds.width; i++)
-                    sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int)Bounds().x + i + (int)offset.X, (int)Bounds().y + (int)offset.Y, 1, 5), i == (int)bounds.width - 1 ? lazerEndSource : lazerSegmentSource, Color.White);
+                    sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int) Bounds().x + i + (int) offset.X, (int) Bounds().y + (int) offset.Y, 1, 5), i == (int) bounds.width - 1 ? lazerEndSource : lazerSegmentSource, Color.White);
             else
                 for (var i = 0; i > bounds.width * -1; i--)
-                    sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int)Bounds().x - i + (int)offset.X, (int)Bounds().y + (int)offset.Y, 1, 5), i == (int)bounds.width + 1 ? lazerEndSource : lazerSegmentSource, Color.White);
+                    sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int) Bounds().x - i + (int) offset.X, (int) Bounds().y + (int) offset.Y, 1, 5), i == (int)(bounds.width * -1) + 1 ? lazerEndSource : lazerSegmentSource, Color.White);
         }
 
         public RectangleF Bounds() {

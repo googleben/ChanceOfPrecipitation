@@ -6,7 +6,7 @@ namespace ChanceOfPrecipitation {
     #region Enemies
     public class BasicEnemy : Enemy {
         public BasicEnemy(float x, float y) : base(x, y, 16, 32) {
-            texture = TextureManager.textures["Square"];
+            texture = TextureManager.textures["enemy"];
             abilities = new EnemyAbility[] { new EnemyMeleeAbility(this), new EnemyLazerAbility(this), };
         }
     }
@@ -24,10 +24,7 @@ namespace ChanceOfPrecipitation {
         public TestBoss(float x, float y) : base(x, y, 64, 128) {
             texture = TextureManager.textures["Square"];
             abilities = new EnemyAbility[] { new EnemyMeleeAbility(this) };
-        }
-
-        public override int Value() {
-            return 5;
+            value = 5;
         }
     }
     #endregion

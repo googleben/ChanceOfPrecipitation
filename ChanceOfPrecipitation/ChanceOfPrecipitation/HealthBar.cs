@@ -48,8 +48,9 @@ namespace ChanceOfPrecipitation
             
         }
 
-        public override void Draw(SpriteBatch sb)
-        {
+        public override void Draw(SpriteBatch sb) {
+            if (currentHealth < 0) currentHealth = 0;
+
             //System.Console.WriteLine(borderWidth);
             sb.Draw(TextureManager.textures["Square"], BorderBounds, borderColor);
             sb.Draw(TextureManager.textures["Square"], HealthBounds, healthColor);

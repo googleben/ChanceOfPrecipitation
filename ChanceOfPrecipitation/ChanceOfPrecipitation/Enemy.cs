@@ -18,6 +18,8 @@ namespace ChanceOfPrecipitation
 
         protected Texture2D texture;
 
+        public int value = 2;
+
         public float maxSpeed = 2f;
 
         public float jumpSpeed = 10f;
@@ -206,8 +208,8 @@ namespace ChanceOfPrecipitation
             return 1;
         }
 
-        public virtual int Value() {
-            return 2;
+        public int Value() {
+            return value;
         }
 
         public void DropCoins() {
