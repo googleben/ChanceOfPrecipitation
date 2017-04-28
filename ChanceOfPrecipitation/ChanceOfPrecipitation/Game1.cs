@@ -115,6 +115,11 @@ namespace ChanceOfPrecipitation {
             TextureManager.textures["enemy"] = Content.Load<Texture2D>("Enemy");
             TextureManager.blocks["enemy"] = new TextureInfo("enemy", new Rectangle(0, 0, 16, 32));
 
+            TextureManager.textures["rope"] = Content.Load<Texture2D>("Square");
+            TextureManager.blocks["ropeTop"] = new TextureInfo("rope", new Rectangle(0, 0, 16, 16));
+            TextureManager.blocks["ropeMid"] = new TextureInfo("rope", new Rectangle(0, 0, 16, 16));
+            TextureManager.blocks["ropeBot"] = new TextureInfo("rope", new Rectangle(0, 0, 16, 16));
+
             for (var i = 0; i < 26; i++)
                 TextureManager.blocks[Convert.ToChar(i + 97).ToString()] = new TextureInfo("letters", new Rectangle(i * 11, 0, 11, 17));
             new Level(File.ReadAllText("Content/level.txt"), "level");

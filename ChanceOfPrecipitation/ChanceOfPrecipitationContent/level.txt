@@ -1,6 +1,4 @@
-stage1_platform_middle -32 68
-stage1_platform_middle -32 36
-stage1_platform_middle 0 36
+rope 0 68 10
 stage1_platform_top_left 0 100
 stage1_platform_top_middle 32 100
 stage1_platform_top_middle 64 100

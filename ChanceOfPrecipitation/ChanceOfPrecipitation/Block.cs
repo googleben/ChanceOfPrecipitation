@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace ChanceOfPrecipitation {
-    internal class Block : GameObject, ICollider {
+    public class Block : GameObject, ICollider {
         private readonly Texture2D texture;
         private readonly TextureInfo info;
         public RectangleF bounds;
@@ -35,6 +35,80 @@ namespace ChanceOfPrecipitation {
                 c.Collide(i.y > bounds.y+1 ? Collision.Top : Collision.Bottom, i.height, this);
             }
         }
+    }
 
+    public class Rope : GameObject, ICollider
+    {
+        private int length;
+
+        RopeSegment head;
+
+        public Rope(float x, float y, int length) {
+            this.length = length;
+
+            head = new RopeSegment(x, y, "ropeTop");
+
+            for (var i = 1; i < length; i++)
+            {
+                head.next = new RopeSegment(x, y + 32 * i, "ropeMid");
+                head.next.prev = head;
+                head = head.next;
+            }
+
+            head.next = new RopeSegment(x, head.bounds.y + 32, "ropeBot");
+            head.next.prev = head;
+            head = head.next;
+            while (head.prev != null) head = head.prev;
+        }
+
+        public override void Update(List<GameObject> objects)
+        {
+            for (var curr = head; curr != null; curr = curr.next)
+            {
+                curr.Update(objects);
+            }
+        }
+
+        public override void Draw(SpriteBatch sb)
+        {
+            for (var curr = head; curr !=null ; curr = curr.next) {
+                curr.Draw(sb);
+            }
+        }
+
+        public void Collide(ICollidable c)
+        {
+            
+        }
+    }
+
+    public class RopeSegment : GameObject, ICollider {
+        public RectangleF bounds;
+        TextureInfo info;
+        Texture2D texture;
+
+        public RopeSegment next;
+        public RopeSegment prev;
+
+        public RopeSegment(float x, float y, string info) {
+            this.info = TextureManager.blocks[info];
+            texture = TextureManager.textures[this.info.texName];
+            bounds = new RectangleF(x + 14, y, 4, 32);
+        }
+
+        public override void Update(List<GameObject> objects)
+        {
+            
+        }
+
+        public override void Draw(SpriteBatch sb)
+        {
+            sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), info.src, Color.White);
+        }
+
+        public void Collide(ICollidable c)
+        {
+            
+        }
     }
 }

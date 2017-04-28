@@ -25,6 +25,23 @@ namespace ChanceOfPrecipitation
         }
     }
 
+    class RopePlacementInfo : IPlacementInfo
+    {
+        private int length;
+        public Vector2 position;
+
+        public RopePlacementInfo(float x, float y, int length)
+        {
+            this.length = length;
+            position = new Vector2(x, y);
+        }
+
+        public void Build(Playing instance)
+        {
+            instance.objects.Add(new Rope(position.X, position.Y, length));
+        }
+    }
+
     class PlayerPlacementInfo : IPlacementInfo {
         public Vector2 position;
 
@@ -114,12 +131,16 @@ namespace ChanceOfPrecipitation
                     blocks.Add(new PlayerPlacementInfo(x, y));
                 } else if (type == "portal") {
                     blocks.Add(new PortalPlacementInfo(x, y));
+                } else if (type == "rope") {
+                    scanner.MoveNext();
+                    int length = (int)scanner.Current(typeof(int));
+                    blocks.Add(new RopePlacementInfo(x, y, length));
                 } else {
                     blocks.Add(new BlockPlacementInfo(type, x, y));
                 }
                 
             }
-            if (levels==null) levels = new Dictionary<string, Level>();
+            if (levels == null) levels = new Dictionary<string, Level>();
             levels[name] = this;
 
             scanner.Dispose();
