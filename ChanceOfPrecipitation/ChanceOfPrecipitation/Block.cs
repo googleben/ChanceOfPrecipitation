@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -64,21 +65,19 @@ namespace ChanceOfPrecipitation {
         public override void Update(List<GameObject> objects)
         {
             for (var curr = head; curr != null; curr = curr.next)
-            {
                 curr.Update(objects);
-            }
         }
 
         public override void Draw(SpriteBatch sb)
         {
-            for (var curr = head; curr !=null ; curr = curr.next) {
+            for (var curr = head; curr != null; curr = curr.next)
                 curr.Draw(sb);
-            }
         }
 
         public void Collide(ICollidable c)
         {
-            
+            for (var curr = head; curr != null; curr = curr.next)
+                curr.Collide(c);
         }
     }
 
@@ -108,7 +107,50 @@ namespace ChanceOfPrecipitation {
 
         public void Collide(ICollidable c)
         {
-            
+            if (c is Player)
+            {
+                var p = c as Player;
+                if (c.Bounds().Intersects(bounds))
+                {
+                    var state = Playing.Instance.state;
+
+                    if (state.IsKeyDown(p.jump))
+                    {
+                        p.ropeCollide = false;
+                        foreach (var s in Playing.Instance.objects.OfType<ICollider>().Where(a => !(a is Rope)).ToList())
+                            foreach (var x in Playing.Instance.objects.OfType<ICollidable>().ToList())
+                                s.Collide(x);
+
+                        if (!p.ropeCollide)
+                        {
+                            p.rope = null;
+                            p.Jump();
+                        }
+                    }
+                    else if (p.rope != prev || p.rope != next)
+                    {
+                        if (state.IsKeyDown(p.down) || state.IsKeyDown(p.up))
+                            p.rope = this;
+                    }
+                }
+
+                if (p.rope == this)
+                {
+                    if (c.Bounds().Bottom < bounds.Top)
+                    {
+                        p.rope = prev;
+                    }
+                    else if (c.Bounds().Top > bounds.Bottom)
+                    {
+                        p.rope = next;
+                    }
+                }
+            }
+        }
+
+        public override string ToString()
+        {
+            return "" + bounds.Center;
         }
     }
 }

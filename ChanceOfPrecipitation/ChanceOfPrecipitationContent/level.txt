@@ -1,4 +1,3 @@
-rope 0 68 10
 stage1_platform_top_left 0 100
 stage1_platform_top_middle 32 100
 stage1_platform_top_middle 64 100
@@ -302,3 +301,4 @@ stage1_platform_middle 3072 164
 stage1_platform_middle 3104 164
 stage1_platform_middle 3136 164
 stage1_platform_middle_right 3168 164
+rope 0 68 10

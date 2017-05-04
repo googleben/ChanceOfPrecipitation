@@ -89,7 +89,7 @@ namespace ChanceOfPrecipitation {
             }
 
             if (ticksToSpawn == 0) {
-                SpawnEnemy();
+                //SpawnEnemy();
                 ticksToSpawn = minTicksToSpawn + random.Next(ticksToSpawnRange);
             }
             ticksToSpawn--;

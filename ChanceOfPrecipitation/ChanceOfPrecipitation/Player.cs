@@ -15,14 +15,17 @@ namespace ChanceOfPrecipitation
 
         private Keys left = Keys.Left;
         private Keys right = Keys.Right;
-        private Keys up = Keys.Up;
-        private Keys down = Keys.Down;
-        private Keys jump = Keys.Space;
+        public Keys up = Keys.Up;
+        public Keys down = Keys.Down;
+        public Keys jump = Keys.Space;
         private Keys abilityOneKey = Keys.J;
 
         public Ability abilityOne;
 
         private TextureDrawer texture;
+
+        public RopeSegment rope;
+        public bool ropeCollide;
 
         public float maxSpeed = 5f;
 
@@ -67,10 +70,32 @@ namespace ChanceOfPrecipitation
             damageBuilder = new FloatingIndicatorBuilder() { Color = Color.Red };
             moneyDisplay = new MoneyDisplay(new Vector2(15, 15));
             items = new List<Item>();
+
+            rope = null;
         }
 
         public override void Update(List<GameObject> objects) {
             var state = Playing.Instance.state;
+
+            if (rope != null) {
+                if (state.IsKeyDown(up))
+                    velocity.Y = -jumpSpeed / 2;
+                else if (state.IsKeyDown(down))
+                    velocity.Y = jumpSpeed / 2;
+                else
+                    velocity = Vector2.Zero;
+
+                bounds.x -= bounds.Center.X - rope.bounds.Center.X;
+
+                foreach (var i in items) i.Update(objects);
+
+                UpdatePosition(true);
+                UpdateHealthBar();
+                UpdatePassiveHealing();
+                UpdateViewport();
+                ChangeAnimation("playerIdle");
+                return;
+            }
 
             abilityOne.Update();
             
@@ -90,53 +115,86 @@ namespace ChanceOfPrecipitation
             foreach (var i in items) i.Update(objects);
 
             if (state.IsKeyDown(jump) && collision.HasFlag(Collision.Bottom)) {
-                velocity.Y = -jumpSpeed;
+                Jump();
             }
 
             if (state.IsKeyDown(abilityOneKey)) abilityOne.Fire(objects);
 
             collision = Collision.None;
 
-            velocity += Playing.Instance.gravity;
-            velocity.Y = MathHelper.Clamp(velocity.Y, -15, 15);
-            bounds.x += velocity.X;
-            bounds.y += velocity.Y;
+            UpdatePosition(false);
 
-            Playing.Instance.offset.X = 1280 / 2 - bounds.Center.X;
-            Playing.Instance.offset.Y = 720 / 2 - bounds.Center.Y;
+            UpdateViewport();
 
+            UpdateHealthBar();
+
+            UpdatePassiveHealing();
+        }
+
+        public void UpdateHealthBar()
+        {
             healthBar.AlignHorizontally((Rectangle)(bounds + Playing.Instance.offset));
             healthBar.SetY((bounds + Playing.Instance.offset).y - 20);
             healthBar.SetHealth(health);
+        }
 
-            if (!shouldHeal) {
+        public void UpdatePosition(bool onRope) {
+            if (!onRope)
+                velocity += Playing.Instance.gravity;
+
+            velocity.Y = MathHelper.Clamp(velocity.Y, -15, 15);
+            bounds.x += velocity.X;
+            bounds.y += velocity.Y;
+        }
+
+        public void UpdateViewport()
+        {
+            Playing.Instance.offset.X = 1280 / 2 - bounds.Center.X;
+            Playing.Instance.offset.Y = 720 / 2 - bounds.Center.Y;
+        }
+
+        public void UpdatePassiveHealing()
+        {
+            if (!shouldHeal)
+            {
                 shouldHealTimer--;
 
                 isHealing = false;
 
-                if (shouldHealTimer <= 0) {
+                if (shouldHealTimer <= 0)
+                {
                     shouldHealTimer = ShouldHealTimerReset;
 
                     if (health < MaxHealth) shouldHeal = true;
                 }
-            } else {
+            }
+            else
+            {
                 isHealing = true;
             }
 
             if (isHealing) healTimer--;
 
-            if (healTimer <= 0) {
+            if (healTimer <= 0)
+            {
                 healTimer = HealTimerReset;
                 Heal(passiveHealingAmount);
             }
 
-            if (health >= MaxHealth) {
+            if (health >= MaxHealth)
+            {
                 shouldHeal = false;
 
-                if (health > MaxHealth) {
+                if (health > MaxHealth)
+                {
                     health = MaxHealth;
                 }
             }
+        }
+
+        public void Jump()
+        {
+            velocity.Y = -jumpSpeed;
         }
 
         public override void Draw(SpriteBatch sb) {
@@ -191,6 +249,13 @@ namespace ChanceOfPrecipitation
 
         public void Collide(Collision side, float amount, ICollider origin)
         {
+            if (rope != null)
+            {
+                ropeCollide = true;
+
+                return;
+            }
+
             collision |= side;
 
             if (side == Collision.Right) {
