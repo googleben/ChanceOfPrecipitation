@@ -52,17 +52,22 @@ namespace ChanceOfPrecipitation
     class RopePlacementInfo : IPlacementInfo
     {
         private int length;
-        public Vector2 position;
 
-        public RopePlacementInfo(float x, float y, int length)
+        public RopePlacementInfo(float x, float y, int length) : base(x,y)
         {
             this.length = length;
-            position = new Vector2(x, y);
         }
 
-        public void Build(Playing instance)
+        public override void Build(Playing instance)
         {
             instance.objects.Add(new Rope(position.X, position.Y, length));
+        }
+
+        public override RectangleF Bounds()
+        {
+            var sr = TextureManager.blocks["ropeMid"];
+            var sc = sr.src;
+            return new RectangleF(position.X, position.Y, sc.Width * sr.scale, sc.Height * sr.scale * length);
         }
     }
 
