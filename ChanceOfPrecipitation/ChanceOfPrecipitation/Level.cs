@@ -7,21 +7,45 @@ using Microsoft.Xna.Framework;
 namespace ChanceOfPrecipitation
 {
 
-    interface IPlacementInfo {
-        void Build(Playing instance);
+    abstract class IPlacementInfo : ICloneable {
+        public Vector2 position;
+
+        public IPlacementInfo(float x, float y)
+        {
+            this.position = new Vector2(x, y);
+        }
+
+        public abstract void Build(Playing instance);
+        public abstract RectangleF Bounds();
+
+        public void Offset(Vector2 amount)
+        {
+            position += amount;
+        }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
     }
 
     class BlockPlacementInfo : IPlacementInfo {
         public string type;
-        public Vector2 position;
 
-        public BlockPlacementInfo(string type, float x, float y) {
+        public BlockPlacementInfo(string type, float x, float y) : base(x, y) {
             this.type = type;
             this.position = new Vector2(x, y);
         }
 
-        public void Build(Playing instance) {
+        public override void Build(Playing instance) {
             instance.objects.Add(new Block(position.X, position.Y, type));
+        }
+
+        public override RectangleF Bounds()
+        {
+            var sr = TextureManager.blocks[type];
+            var sc = sr.src;
+            return new RectangleF(position.X, position.Y, sc.Width * sr.scale, sc.Height * sr.scale);
         }
     }
 
@@ -43,27 +67,30 @@ namespace ChanceOfPrecipitation
     }
 
     class PlayerPlacementInfo : IPlacementInfo {
-        public Vector2 position;
 
-        public PlayerPlacementInfo(float x, float y)
+        public PlayerPlacementInfo(float x, float y) : base(x, y)
         {
             this.position = new Vector2(x, y);
         }
 
-        public void Build(Playing instance) {
+        public override void Build(Playing instance) {
             Player p = new Player(position.X, position.Y, 16, 32);
             instance.objects.Add(p);
             instance.players.Add(p);
         }
+
+        public override RectangleF Bounds()
+        {
+            return new RectangleF(position.X, position.Y, 16, 32);
+        }
     }
 
     class ShopPlacementInfo : IPlacementInfo {
-        public Vector2 position;
         private string item1;
         private string item2;
         private string item3;
 
-        public ShopPlacementInfo(float x, float y, string item1, string item2, string item3)
+        public ShopPlacementInfo(float x, float y, string item1, string item2, string item3) : base(x, y)
         {
             this.position = new Vector2(x, y);
             this.item1 = item1;
@@ -79,23 +106,33 @@ namespace ChanceOfPrecipitation
             return ans;
         }
 
-        public void Build(Playing instance)
+        public override void Build(Playing instance)
         {
             instance.objects.Add(new ItemShop(position.X, position.Y, buildItem(item1), buildItem(item2), buildItem(item3), 20, 50));
         }
+
+        public override RectangleF Bounds()
+        {
+            return new RectangleF(position.X, position.Y, 192, 144);
+        }
+
     }
 
     class PortalPlacementInfo : IPlacementInfo {
-        public Vector2 position;
 
-        public PortalPlacementInfo(float x, float y)
+        public PortalPlacementInfo(float x, float y) : base(x, y)
         {
             this.position = new Vector2(x, y);
         }
 
-        public void Build(Playing instance)
+        public override void Build(Playing instance)
         {
             instance.objects.Add(new Portal(position.X, position.Y));
+        }
+
+        public override RectangleF Bounds()
+        {
+            return new RectangleF(position.X, position.Y, 32, 32);
         }
     }
 

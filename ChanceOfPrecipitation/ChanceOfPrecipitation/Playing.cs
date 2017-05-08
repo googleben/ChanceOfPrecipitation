@@ -30,13 +30,15 @@ namespace ChanceOfPrecipitation {
         private int minTicksToSpawn = 360;
         private int ticksToSpawnRange = 120;
 
+        ProceduralGenerator pgen = new ProceduralGenerator();
+
         public Playing() {
             objects = new List<GameObject>();
             instance = this;
             random = new Random();
             lastState = state = Keyboard.GetState();
             players = new List<Player>();
-            players.Add(new Player(0, 50, 16, 32));
+            players.Add(new Player(64, -100, 16, 32));
 
             objects.Add(players[0]);
             objects.Add(new Block(0, 600,  "stage1_platform_top_left"));
@@ -48,7 +50,8 @@ namespace ChanceOfPrecipitation {
             objects.Add(new BasicEnemy(600, 0));
             objects.Add(new ItemEntity<DamageUpgrade>(100, 550, DamageUpgrade.type));
 
-            LoadStage("level");
+            //LoadStage("level");
+            GenStage();
         }
 
         public void Draw(SpriteBatch sb) {
@@ -135,6 +138,14 @@ namespace ChanceOfPrecipitation {
             foreach (var x in l.blocks) {
                 x.Build(this);
             }
+            foreach (var p in players) objects.Add(p);
+        }
+
+        void GenStage()
+        {
+            objects.Clear();
+            var l = pgen.GenLevel();
+            foreach (var x in l) x.Build(this);
             foreach (var p in players) objects.Add(p);
         }
 

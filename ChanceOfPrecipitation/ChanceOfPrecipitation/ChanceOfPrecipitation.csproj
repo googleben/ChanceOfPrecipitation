@@ -76,6 +76,7 @@
     <Compile Include="Player.cs" />
     <Compile Include="Playing.cs" />
     <Compile Include="Portal.cs" />
+    <Compile Include="ProceduralGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
