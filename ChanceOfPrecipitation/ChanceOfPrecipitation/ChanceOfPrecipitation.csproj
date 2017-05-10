@@ -60,6 +60,7 @@
     <Compile Include="Abilities.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="Character.cs" />
+    <Compile Include="Editor.cs" />
     <Compile Include="Enemies.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="FloatingIndicator.cs" />
