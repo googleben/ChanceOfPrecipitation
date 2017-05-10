@@ -194,7 +194,7 @@ namespace ChanceOfPrecipitation {
     }
     #endregion
 
-    public class Bullet : GameObject, ICollider {
+    public class Bullet : GameObject, ICollider, ICollidable {
         private RectangleF bounds;
         private readonly float damage;
         private readonly float speed;
@@ -230,7 +230,7 @@ namespace ChanceOfPrecipitation {
 
         public void Collide(ICollidable other) {
             var i = RectangleF.Intersect(bounds, other.Bounds());
-            if (i.width == 0 || i.height == 0) return;
+            if (i.width == 0 || i.height == 0 || other == this) return;
             Destroy();
             if (other is IEntity)
                 if (other != origin) (other as IEntity).Damage(damage);
@@ -240,6 +240,11 @@ namespace ChanceOfPrecipitation {
             return speed < 0 ? Direction.Left : Direction.Right;
         }
 
+        public void Collide(Collision side, float amount, ICollider origin)
+        {
+            if (origin != this)
+                Destroy();
+        }
     }
 
 
