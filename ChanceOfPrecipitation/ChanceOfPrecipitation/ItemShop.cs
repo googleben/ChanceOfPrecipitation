@@ -192,11 +192,11 @@ namespace ChanceOfPrecipitation
 
         public void Collide(Collision side, float amount, ICollider origin) {
             if (side == Collision.Right) {
-                bounds.x -= amount;
+                bounds.x += amount;
                 velocity.X *= VelDamper;
             }
             else if (side == Collision.Left) {
-                bounds.x += amount;
+                bounds.x -= amount;
                 velocity.X *= VelDamper;
             }
             else if (side == Collision.Top) {
