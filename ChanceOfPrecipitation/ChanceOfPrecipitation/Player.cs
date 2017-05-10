@@ -259,11 +259,11 @@ namespace ChanceOfPrecipitation
             collision |= side;
 
             if (side == Collision.Right) {
-                bounds.x -= amount;
+                bounds.x += amount;
                 velocity.X = 0;
             }
             else if (side == Collision.Left) {
-                bounds.x += amount;
+                bounds.x -= amount;
                 velocity.X = 0;
             }
             else if (side == Collision.Top) {

@@ -11,24 +11,43 @@ namespace ChanceOfPrecipitation
 
         public static List<PBlock> bases;
         public static List<PBlock> additions;
+        Random rand;
 
         public ProceduralGenerator()
         {
+            rand = new Random();
             bases = new List<PBlock>();
             additions = new List<PBlock>();
             bases.Add(new PBlock(
                 new List<Exit>() {
-                    new Exit(-32, 32, false),
-                    new Exit(96, 32, false)
+                    new Exit(-32, -32, false),
+                    new Exit(64, -32, true),
+                    new Exit(256, -32, false)
                 }, 
                 new List<IPlacementInfo>() {
                     new BlockPlacementInfo("stage1_platform_top_middle", 0, 0),
                     new BlockPlacementInfo("stage1_platform_top_middle", 32, 0),
                     new BlockPlacementInfo("stage1_platform_top_middle", 64, 0),
-                    new BlockPlacementInfo("stage1_platform_top_middle", 96, 0)
+                    new BlockPlacementInfo("stage1_platform_top_middle", 96, 0),
+                    new BlockPlacementInfo("stage1_platform_top_middle", 128, 0),
+                    new BlockPlacementInfo("stage1_platform_top_middle", 160, 0),
+                    new BlockPlacementInfo("stage1_platform_top_middle", 192, 0),
+                    new BlockPlacementInfo("stage1_platform_top_middle", 224, 0),
+                    new BlockPlacementInfo("stage1_platform_top_middle", 256, 0),
+                    new BlockPlacementInfo("stage1_platform_top_middle", 64, -32)
                 }
             ));
-            bases.Add(new PBlock(
+            additions.Add(new PBlock(
+                new List<Exit>()
+                {
+                    new Exit(0, 0, true)
+                },
+                new List<IPlacementInfo>()
+                {
+                    new BlockPlacementInfo("stage1_platform_top_middle", 0, -32)
+                }
+            ));
+            /*bases.Add(new PBlock(
                 new List<Exit>() {
                     new Exit(-32, 32, false),
                     new Exit(96, 96, false)
@@ -39,13 +58,14 @@ namespace ChanceOfPrecipitation
                     new BlockPlacementInfo("stage1_platform_top_middle", 64, 64),
                     new BlockPlacementInfo("stage1_platform_top_middle", 96, 64)
                 }
-            ));
+            ));*/
         }
 
         public List<IPlacementInfo> GenLevel()
         {
             PLevel ans = new PLevel();
             for (int i = 0; i < 10; i++) ans.GenBase();
+            for (int i = 0; rand.Next(i) < 5; i++) ans.GenPiece();
             return ans.Build();
         }
 
@@ -93,20 +113,61 @@ namespace ChanceOfPrecipitation
             blocks.Add(ans);
         }
 
-        void GenPiece(List<PBlock> l)
+        public void GenPiece()
         {
-            for (int i = 0; i < l.Count; i++)
+            Console.WriteLine("piece");
+            int count = allBlocks.Count;
+            for (int i = 0; i<10 && count==allBlocks.Count; i++)
             {
-                var b = l[i];
+                GenPiece(ChooseRandom(blocks));
+            } 
+        }
+
+        public void GenPiece(List<PBlock> l)
+        {
+            int mainInd = rand.Next(l.Count-1);
+            for (int i = mainInd+1; true; i++)
+            {
+                if (i >= l.Count) i = 0;
+                if (i == mainInd && l.Count!=1) break;
+                var b = l[i%l.Count];
                 List<Exit> exits = b.exits;
                 if (i == 0) exits = exits.Where(e => e.vertical).ToList();
+                if (exits.Count == 0)
+                {
+                    if (l.Count == 1) break;
+                    continue;
+                }
                 int tries = 0;
                 bool done = false;
                 while (tries++ < 10 && !done)
                 {
                     Exit s = ChooseRandom(exits);
-
+                    List<PBlock> choices = ProceduralGenerator.additions.Where(x => (s.vertical ? x.HasVertical : x.HasHorizontal)).ToList();
+                    int startInd = rand.Next(choices.Count);
+                    PBlock ans = choices[startInd];
+                    for (int ind = startInd+1; ind!=startInd && !done; ind++)
+                    {
+                        if (ind >= choices.Count) ind = 0;
+                        foreach (Exit ex in ans.exits.Where(x => x.vertical==s.vertical))
+                        {
+                            PBlock cop = (PBlock)ans.Clone();
+                            var offset = s.GetOffset(ex);
+                            cop.Offset(offset);
+                            if (!allBlocks.Any(pb => pb.Intersects(cop)))
+                            {
+                                Console.WriteLine("add");
+                                done = true;
+                                l.Add(cop);
+                                cop.exits.Remove(ex + offset);
+                                b.exits.Remove(s);
+                            }
+                        }
+                        ans = choices[ind];
+                        if (choices.Count == 1) break;
+                    }
                 }
+                if (l.Count == 1) break;
             }
         }
 
@@ -149,6 +210,9 @@ namespace ChanceOfPrecipitation
         public RectangleF bounds;
         public List<Exit> exits;
         public List<IPlacementInfo> placement;
+
+        public bool HasVertical => exits.Exists(e => e.vertical);
+        public bool HasHorizontal => exits.Exists(e => !e.vertical);
 
         public PBlock(List<Exit> exits, List<IPlacementInfo> placement)
         {

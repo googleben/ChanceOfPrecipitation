@@ -31,7 +31,7 @@ namespace ChanceOfPrecipitation {
             var i = RectangleF.Intersect(bounds, c.Bounds());
             if (Math.Abs(i.width) < Tol || Math.Abs(i.height) < Tol) return;
             if (i.width < i.height) {
-                c.Collide(i.x < bounds.x ? Collision.Right : Collision.Left, i.width, this);
+                c.Collide(i.x > bounds.x+1 ? Collision.Right : Collision.Left, i.width, this);
             } else {
                 c.Collide(i.y > bounds.y+1 ? Collision.Top : Collision.Bottom, i.height, this);
             }
