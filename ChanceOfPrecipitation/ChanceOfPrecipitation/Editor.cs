@@ -272,6 +272,16 @@ namespace ChanceOfPrecipitation {
                 }
                 if (!found && tool != null) tool.OnClick(pos);
             }
+            if (mstate.RightButton.HasFlag(ButtonState.Pressed))
+            {
+                Point clickPos = new Point((int)(((float)mstate.X / Game1.Instance.settings.screenWidth) * 1280), (int)(((float)mstate.Y / Game1.Instance.settings.screenHeight) * 720));
+                Point pos = new Point(clickPos.X - (clickPos.X % 32) + Editor.viewport.X, clickPos.Y - (clickPos.Y % 32) + Editor.viewport.Y);
+                for (int i = Editor.Instance.objects.Count - 1; i >= 0; i--)
+                {
+                    var b = (Rectangle)Editor.Instance.objects[i].bounds;
+                    if (b.X == pos.X && b.Y == pos.Y) Editor.Instance.objects.RemoveAt(i);
+                }
+            }
 
             return this;
         }
