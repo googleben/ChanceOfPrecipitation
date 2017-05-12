@@ -90,9 +90,7 @@ namespace ChanceOfPrecipitation
                 foreach (var i in items) i.Update(objects);
 
                 UpdatePosition(true);
-                UpdateHealthBar();
                 UpdatePassiveHealing();
-                UpdateViewport();
                 ChangeAnimation("playerIdle");
                 return;
             }
@@ -124,17 +122,13 @@ namespace ChanceOfPrecipitation
 
             UpdatePosition(false);
 
-            UpdateViewport();
-
-            UpdateHealthBar();
-
             UpdatePassiveHealing();
         }
 
         public void UpdateHealthBar()
         {
-            healthBar.AlignHorizontally((Rectangle)(bounds + Playing.Instance.offset));
-            healthBar.SetY((bounds + Playing.Instance.offset).y - 20);
+            healthBar.AlignHorizontally((Rectangle)(bounds));
+            healthBar.SetY((bounds).y - 20);
             healthBar.SetHealth(health);
         }
 

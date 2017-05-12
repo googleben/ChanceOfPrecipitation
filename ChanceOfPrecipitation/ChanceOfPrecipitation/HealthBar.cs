@@ -4,6 +4,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ChanceOfPrecipitation
 {
+
+    public static class RectEntension
+    {
+        public static Rectangle add(this Rectangle r, Vector2 amount)
+        {
+            return new Rectangle((int)(r.X + amount.X), (int)(r.Y + amount.Y), r.Width, r.Height);
+        }
+    }
+
     public class HealthBar : GameObject
     {
         //TODO: Clean up and reduce coupling
@@ -50,11 +59,11 @@ namespace ChanceOfPrecipitation
 
         public override void Draw(SpriteBatch sb) {
             if (currentHealth < 0) currentHealth = 0;
-
-            //System.Console.WriteLine(borderWidth);
-            sb.Draw(TextureManager.textures["Square"], BorderBounds, borderColor);
-            sb.Draw(TextureManager.textures["Square"], HealthBounds, healthColor);
-            sb.Draw(TextureManager.textures["Square"], DamageBounds, damageColor);
+            var off = Playing.Instance.offset;
+            System.Console.WriteLine(off);
+            sb.Draw(TextureManager.textures["Square"], BorderBounds.add(off), borderColor);
+            sb.Draw(TextureManager.textures["Square"], HealthBounds.add(off), healthColor);
+            sb.Draw(TextureManager.textures["Square"], DamageBounds.add(off), damageColor);
         }
 
         public void Heal(float amount)

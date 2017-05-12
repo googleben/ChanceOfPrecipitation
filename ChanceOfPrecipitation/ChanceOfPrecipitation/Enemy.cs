@@ -97,8 +97,6 @@ namespace ChanceOfPrecipitation
 
             collision = Collision.None;
 
-            if (!canMove) velocity = Vector2.Zero;
-
             UpdatePosition();
 
             UpdateHealthBar();
@@ -107,6 +105,7 @@ namespace ChanceOfPrecipitation
         protected void UpdatePosition() {
             velocity += Playing.Instance.gravity;
             velocity.Y = MathHelper.Clamp(velocity.Y, -15, 15);
+            if (!canMove) velocity = Vector2.Zero;
             bounds.x += velocity.X;
             bounds.y += velocity.Y;
         }
@@ -124,8 +123,8 @@ namespace ChanceOfPrecipitation
         protected void UpdateHealthBar() {
             if (!healthBar.IsBoss)
             {
-                healthBar.AlignHorizontally((Rectangle)(bounds + Playing.Instance.offset));
-                healthBar.SetY((bounds + Playing.Instance.offset).y - 20);
+                healthBar.AlignHorizontally((Rectangle)(bounds));
+                healthBar.SetY((bounds.y - 20));
             }
         }
 

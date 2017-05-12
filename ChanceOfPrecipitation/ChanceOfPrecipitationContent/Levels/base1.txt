@@ -1,0 +1,23 @@
+stage1_platform_top_middle 256 352
+stage1_platform_top_middle 288 352
+stage1_platform_top_middle 320 352
+stage1_platform_top_middle 352 352
+stage1_platform_top_middle 384 352
+stage1_platform_top_middle 416 352
+stage1_platform_top_middle 608 352
+stage1_platform_top_middle 640 352
+stage1_platform_top_middle 672 352
+stage1_platform_top_middle 704 352
+stage1_platform_top_middle 736 352
+stage1_platform_top_left 448 320
+stage1_platform_top_middle 480 320
+stage1_platform_top_middle 512 320
+stage1_platform_top_middle 544 320
+stage1_platform_top_right 576 320
+stage1_platform_middle_left 448 352
+stage1_platform_middle_right 576 352
+stage1_platform_middle 480 352
+stage1_platform_middle 512 352
+stage1_platform_middle 544 352
+exit 224 320 false
+exit 736 320 false

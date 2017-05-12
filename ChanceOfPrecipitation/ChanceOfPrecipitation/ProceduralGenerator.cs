@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace ChanceOfPrecipitation
 {
@@ -18,7 +20,10 @@ namespace ChanceOfPrecipitation
             rand = new Random();
             bases = new List<PBlock>();
             additions = new List<PBlock>();
-            bases.Add(new PBlock(
+
+            bases.Add(loadBlock(File.ReadAllText("Content/Levels/base1.txt")));
+
+            /*bases.Add(new PBlock(
                 new List<Exit>() {
                     new Exit(-32, -32, false),
                     new Exit(64, -32, true),
@@ -46,7 +51,7 @@ namespace ChanceOfPrecipitation
                 {
                     new BlockPlacementInfo("stage1_platform_top_middle", 0, -32)
                 }
-            ));
+            ));*/
             /*bases.Add(new PBlock(
                 new List<Exit>() {
                     new Exit(-32, 32, false),
@@ -67,6 +72,63 @@ namespace ChanceOfPrecipitation
             for (int i = 0; i < 10; i++) ans.GenBase();
             for (int i = 0; rand.Next(i) < 5; i++) ans.GenPiece();
             return ans.Build();
+        }
+
+        public PBlock loadBlock(string raw)
+        {
+            var blocks = new List<IPlacementInfo>();
+            var exits = new List<Exit>();
+            var split = Regex.Split(raw, "\\s+");
+            var scanner = split.Select<string, Func<Type, object>>((string s) => {
+                return t =>
+                (s as IConvertible).ToType(t, System.Globalization.CultureInfo.InvariantCulture);
+            }).GetEnumerator();
+            while (scanner.MoveNext())
+            {
+                string type = (string)scanner.Current(typeof(string));
+                scanner.MoveNext();
+                float x = (float)scanner.Current(typeof(float));
+                scanner.MoveNext();
+                float y = (float)scanner.Current(typeof(float));
+
+                if (type == "shop")
+                {
+                    scanner.MoveNext();
+                    string item1 = (string)scanner.Current(typeof(string));
+                    scanner.MoveNext();
+                    string item2 = (string)scanner.Current(typeof(string));
+                    scanner.MoveNext();
+                    string item3 = (string)scanner.Current(typeof(string));
+                    blocks.Add(new ShopPlacementInfo(x, y, item1, item2, item3));
+                }
+                else if (type == "player")
+                {
+                    blocks.Add(new PlayerPlacementInfo(x, y));
+                }
+                else if (type == "portal")
+                {
+                    blocks.Add(new PortalPlacementInfo(x, y));
+                }
+                else if (type == "rope")
+                {
+                    scanner.MoveNext();
+                    int length = (int)scanner.Current(typeof(int));
+                    blocks.Add(new RopePlacementInfo(x, y, length));
+                }
+                else if (type=="exit")
+                {
+                    scanner.MoveNext();
+                    bool vertical = (bool)scanner.Current(typeof(bool));
+                    exits.Add(new Exit(x, y, vertical));
+                }
+                else
+                {
+                    blocks.Add(new BlockPlacementInfo(type, x, y));
+                }
+
+            }
+            scanner.Dispose();
+            return new PBlock(exits, blocks);
         }
 
     }
@@ -108,6 +170,8 @@ namespace ChanceOfPrecipitation
                 next.exits.RemoveAt(0);
 
 
+            } else {
+                next.Offset(new Exit(0, 0, false).GetOffset(next.exits.First()));
             }
             ans.Add(next);
             blocks.Add(ans);
