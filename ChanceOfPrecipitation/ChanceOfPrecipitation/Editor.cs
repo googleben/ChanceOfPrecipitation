@@ -71,7 +71,7 @@ namespace ChanceOfPrecipitation {
                 var b = (Rectangle) Editor.Instance.objects[i].bounds;
                 if (b.X == pos.X && b.Y == pos.Y) Editor.Instance.objects.RemoveAt(i);
             }
-            Editor.Instance.objects.Add(new Block(pos.X, pos.Y, sprite));
+            Editor.Instance.objects.Add(new EditorBlock(pos.X, pos.Y, sprite));
         }
 
     }
@@ -98,13 +98,13 @@ namespace ChanceOfPrecipitation {
 
         public override void PickedUp() {
             string file = "";
-            foreach (Block o in Editor.Instance.objects) {
+            foreach (EditorBlock o in Editor.Instance.objects) {
                 if (o.type.Contains("Exit"))
-                    file += "exit " + o.bounds.x + " " + o.bounds.y + " " + (o.type.Contains("Vert") ? "true" : "false") + "\n";
+                    file += "exit " + o.bounds.X + " " + o.bounds.Y + " " + (o.type.Contains("Vert") ? "true" : "false") + "\n";
                 else if (o.type.Contains("rope"))
-                    file += "rope " + o.bounds.x + " " + o.bounds.y + " 10";
+                    file += "rope " + o.bounds.X + " " + o.bounds.Y + " 10";
                 else
-                    file += o.type + " " + o.bounds.x + " " + o.bounds.y + "\n";
+                    file += o.type + " " + o.bounds.X + " " + o.bounds.Y + "\n";
             }
 
             if (file.Length > 0)
@@ -113,6 +113,31 @@ namespace ChanceOfPrecipitation {
             Console.WriteLine(file);
         }
 
+    }
+
+    class EditorBlock : GameObject
+    {
+
+        public Rectangle bounds;
+        public string type;
+        private readonly Texture2D texture;
+        private readonly TextureInfo info;
+
+        public EditorBlock(int x, int y, string type)
+        {
+            this.type = type;
+
+            info = TextureManager.blocks[type];
+            texture = TextureManager.textures[info.texName];
+            bounds = new Rectangle(x, y, (int)(info.src.Width * info.scale), (int)(info.src.Height * info.scale));
+        }
+
+        public override void Draw(SpriteBatch sb)
+        {
+            sb.Draw(texture, new Rectangle(bounds.X - Editor.viewport.X, bounds.Y - Editor.viewport.Y, bounds.Width, bounds.Height), info.src, Color.White);
+        }
+
+        public override void Update(List<GameObject> objects) {}
     }
 
     class Editor : IGameState {
@@ -135,7 +160,7 @@ namespace ChanceOfPrecipitation {
         public static MouseState mstate;
         public static MouseState mlastState;
 
-        public List<Block> objects;
+        public List<EditorBlock> objects;
         public List<EditorTool> tools;
 
         private static Editor instance;
@@ -144,7 +169,7 @@ namespace ChanceOfPrecipitation {
         public EditorTool tool;
 
         public Editor() {
-            objects = new List<Block>();
+            objects = new List<EditorBlock>();
             state = lastState = Keyboard.GetState();
             mstate = mlastState = Mouse.GetState();
 
@@ -237,10 +262,10 @@ namespace ChanceOfPrecipitation {
             if (mstate.LeftButton.HasFlag(ButtonState.Pressed)) {
                 Point pos = new Point((int)(((float)mstate.X / Game1.Instance.settings.screenWidth) * 1280), (int)(((float)mstate.Y / Game1.Instance.settings.screenHeight) * 720));
                 bool found = false;
-                if (!mlastState.LeftButton.HasFlag(ButtonState.Pressed)) foreach (EditorTool t in tools) {
+                foreach (EditorTool t in tools) {
                     if (t.enabled && t.bounds.Contains(pos)) {
                         tool = t;
-                        t.PickedUp();
+                        if (!mlastState.LeftButton.HasFlag(ButtonState.Pressed)) t.PickedUp();
                         found = true;
                         break;
                     }
