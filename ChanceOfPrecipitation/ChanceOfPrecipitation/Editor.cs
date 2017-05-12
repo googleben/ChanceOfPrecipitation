@@ -234,10 +234,10 @@ namespace ChanceOfPrecipitation {
 
             mlastState = mstate;
             mstate = Mouse.GetState();
-            if (mstate.LeftButton.HasFlag(ButtonState.Pressed) && !mlastState.LeftButton.HasFlag(ButtonState.Pressed)) {
+            if (mstate.LeftButton.HasFlag(ButtonState.Pressed)) {
                 Point pos = new Point((int)(((float)mstate.X / Game1.Instance.settings.screenWidth) * 1280), (int)(((float)mstate.Y / Game1.Instance.settings.screenHeight) * 720));
                 bool found = false;
-                foreach (EditorTool t in tools) {
+                if (!mlastState.LeftButton.HasFlag(ButtonState.Pressed)) foreach (EditorTool t in tools) {
                     if (t.enabled && t.bounds.Contains(pos)) {
                         tool = t;
                         t.PickedUp();

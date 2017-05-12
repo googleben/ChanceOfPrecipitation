@@ -202,11 +202,13 @@ namespace ChanceOfPrecipitation
             else if (side == Collision.Top) {
                 bounds.y += amount;
                 velocity.Y *= VelDamper;
+                if (velocity.Y < 0) velocity.Y = -velocity.Y;
             }
             else if (side == Collision.Bottom) {
                 bounds.y -= amount;
                 velocity.X *= -VelDamper;
                 velocity.Y *= VelDamper;
+                if (velocity.Y > 0) velocity.Y = -velocity.Y;
             }
         }
 
