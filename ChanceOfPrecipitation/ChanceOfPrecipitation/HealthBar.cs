@@ -60,7 +60,6 @@ namespace ChanceOfPrecipitation
         public override void Draw(SpriteBatch sb) {
             if (currentHealth < 0) currentHealth = 0;
             var off = Playing.Instance.offset;
-            System.Console.WriteLine(off);
             sb.Draw(TextureManager.textures["Square"], BorderBounds.add(off), borderColor);
             sb.Draw(TextureManager.textures["Square"], HealthBounds.add(off), healthColor);
             sb.Draw(TextureManager.textures["Square"], DamageBounds.add(off), damageColor);

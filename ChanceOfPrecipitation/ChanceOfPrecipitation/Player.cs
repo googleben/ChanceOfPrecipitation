@@ -78,6 +78,7 @@ namespace ChanceOfPrecipitation
             var state = Playing.Instance.state;
 
             if (rope != null) {
+                velocity.X = 0;
                 if (state.IsKeyDown(up))
                     velocity.Y = -jumpSpeed / 2;
                 else if (state.IsKeyDown(down))

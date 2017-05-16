@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.IO;
 
 namespace ChanceOfPrecipitation {
     internal class MenuOption {
@@ -107,7 +108,7 @@ namespace ChanceOfPrecipitation {
         public override void GenerateOptions() {
             options.Add(new MenuOption("Play", () => Playing.Instance));
             options.Add(new MenuOption("Settings", () => new SettingsMenu(this)));
-            options.Add(new MenuOption("Make", () => Editor.Instance));
+            options.Add(new MenuOption("Make", () => new EditorMenu(this)));
             base.GenerateOptions();
         }
 
@@ -138,6 +139,34 @@ namespace ChanceOfPrecipitation {
                 return this;
             }));
             options.Add(new MenuOption("Apply", () => { Game1.Instance.ApplySettings(); return this; }));
+        }
+
+    }
+
+    internal class EditorMenu : Menu {
+
+        public EditorMenu(Menu fromMenu) : base(fromMenu) { }
+
+        public override void GenerateOptions() {
+            base.GenerateOptions();
+            options.Add(new MenuOption("Load Level", () => new LoadMenu(this)));
+        }
+
+    }
+
+    internal class LoadMenu : Menu {
+
+        public LoadMenu(Menu fromMenu) : base(fromMenu) { }
+
+        public override void GenerateOptions() {
+            base.GenerateOptions();
+            var levels = Directory.GetFiles("Content\\Levels");
+            foreach (string s in levels) {
+                options.Add(new MenuOption(s, () => {
+                    Editor.Instance.LoadLevel(s);
+                    return Editor.Instance;
+                }));
+            }
         }
 
     }

@@ -70,7 +70,7 @@ namespace ChanceOfPrecipitation
         public List<IPlacementInfo> GenLevel()
         {
             PLevel ans = new PLevel();
-            for (int i = 0; i < 10; i++) ans.GenBase();
+            for (int i = 0; i < 2; i++) ans.GenBase();
             for (int i = 0; rand.Next(i) < 5; i++) ans.GenPiece();
             return ans.Build();
         }
@@ -216,6 +216,7 @@ namespace ChanceOfPrecipitation
                         if (ind >= choices.Count) ind = 0;
                         foreach (Exit ex in ans.exits.Where(x => x.vertical==s.vertical))
                         {
+                            if (done) break;
                             PBlock cop = (PBlock)ans.Clone();
                             var offset = s.GetOffset(ex);
                             cop.Offset(offset);
@@ -232,6 +233,7 @@ namespace ChanceOfPrecipitation
                         if (choices.Count == 1) break;
                     }
                 }
+                if (done) break;
                 if (l.Count == 1) break;
             }
         }

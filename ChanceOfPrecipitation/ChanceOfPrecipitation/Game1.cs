@@ -130,6 +130,11 @@ namespace ChanceOfPrecipitation {
             TextureManager.textures["EraserTool"] = Content.Load<Texture2D>("Tools/EraserTool");
             TextureManager.blocks["EraserTool"] = new TextureInfo("EraserTool", new Rectangle(0, 0, 32, 32));
 
+            TextureManager.textures["Plus"] = Content.Load<Texture2D>("Tools/Plus");
+            TextureManager.blocks["Plus"] = new TextureInfo("Plus", new Rectangle(0, 0, 32, 32));
+            TextureManager.textures["Minus"] = Content.Load<Texture2D>("Tools/Minus");
+            TextureManager.blocks["Minus"] = new TextureInfo("Minus", new Rectangle(0, 0, 32, 32));
+
             for (var i = 0; i < 26; i++)
                 TextureManager.blocks[Convert.ToChar(i + 97).ToString()] = new TextureInfo("letters", new Rectangle(i * 11, 0, 11, 17));
             new Level(File.ReadAllText("Content/Levels/level.txt"), "level");
