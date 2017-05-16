@@ -169,13 +169,14 @@ namespace ChanceOfPrecipitation
             if (blocks.Count!=0)
             {
                 PBlock last = blocks.Last().First();
-                Exit e = last.exits.Last();
-                var amount = e.GetOffset(next.exits.First());
+                Exit e = last.exits.Where(x => !x.vertical).OrderBy(x => x.x).Last();
+                var e2 = next.exits.Where(x => !x.vertical).OrderBy(x => x.x).First();
+                var amount = e.GetOffset(e2);
                 Console.WriteLine(amount);
                 next.Offset(amount);
                 //last.Bind(next);
                 last.exits.Remove(e);
-                next.exits.RemoveAt(0);
+                next.exits.Remove(e2);
 
 
             } else {
