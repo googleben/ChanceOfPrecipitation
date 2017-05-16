@@ -42,5 +42,5 @@ stage1_platform_top_left 384 192
 stage1_platform_middle_left 384 224
 stage1_platform_middle_left 384 256
 stage1_platform_bottom_left 384 288
-rope 448 160 5
+rope 448 160 6
 exit 448 352 true
