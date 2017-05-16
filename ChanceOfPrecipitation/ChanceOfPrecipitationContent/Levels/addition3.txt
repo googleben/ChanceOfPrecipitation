@@ -139,5 +139,5 @@ stage1_platform_middle 768 320
 stage1_platform_middle 768 352
 rope 384 160 13
 exit 384 576 true
-exit 192 160 false
 exit 928 160 false
+exit 160 160 false
