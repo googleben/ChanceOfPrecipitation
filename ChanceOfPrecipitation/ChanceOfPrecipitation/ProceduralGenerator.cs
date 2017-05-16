@@ -31,9 +31,7 @@ namespace ChanceOfPrecipitation
                 if (s.Substring("Content/Levels/".Length).StartsWith("addition")) {
                     additions.Add(LoadBlock(File.ReadAllText(s)));
                 }
-            }
-
-            /*bases.Add(new PBlock(
+            }            /*bases.Add(new PBlock(
                 new List<Exit>() {
                     new Exit(-32, -32, false),
                     new Exit(64, -32, true),
@@ -189,7 +187,6 @@ namespace ChanceOfPrecipitation
 
         public void GenPiece()
         {
-            Console.WriteLine("piece");
             int count = allBlocks.Count;
             for (int i = 0; i<10 && count==allBlocks.Count; i++)
             {
@@ -200,7 +197,8 @@ namespace ChanceOfPrecipitation
         public void GenPiece(List<PBlock> l)
         {
             int mainInd = rand.Next(l.Count-1);
-            for (int i = mainInd+1; true; i++)
+            int iter = 0;
+            for (int i = mainInd+1; iter<l.Count; i++, iter++)
             {
                 if (i >= l.Count) i = 0;
                 if (i == mainInd && l.Count!=1) break;
@@ -220,7 +218,8 @@ namespace ChanceOfPrecipitation
                     List<PBlock> choices = ProceduralGenerator.additions.Where(x => (s.vertical ? x.HasVertical : x.HasHorizontal)).ToList();
                     int startInd = rand.Next(choices.Count);
                     PBlock ans = choices[startInd];
-                    for (int ind = startInd+1; ind!=startInd && !done; ind++)
+                    int iter2 = 0;
+                    for (int ind = startInd+1; ind!=startInd && !done && iter2<choices.Count; ind++, iter2++)
                     {
                         if (ind >= choices.Count) ind = 0;
                         foreach (Exit ex in ans.exits.Where(x => x.vertical==s.vertical))
@@ -234,8 +233,6 @@ namespace ChanceOfPrecipitation
                                 Console.WriteLine("add");
                                 done = true;
                                 l.Add(cop);
-                                cop.exits.Remove(ex + offset);
-                                b.exits.Remove(s);
                             }
                         }
                         ans = choices[ind];
@@ -301,9 +298,9 @@ namespace ChanceOfPrecipitation
         {
             var b = placement.ConvertAll(p => p.Bounds());
             float minX = b.ConvertAll(r => r.x).Min();
-            float maxX = b.ConvertAll(r => r.x + r.width).Min();
+            float maxX = b.ConvertAll(r => r.x + r.width).Max();
             float minY = b.ConvertAll(r => r.y).Min();
-            float maxY = b.ConvertAll(r => r.y + r.height).Min();
+            float maxY = b.ConvertAll(r => r.y + r.height).Max();
             this.bounds = new RectangleF(minX, minY, maxX - minX, maxY - minY);
         }
 
