@@ -134,6 +134,8 @@ namespace ChanceOfPrecipitation {
             TextureManager.blocks["Plus"] = new TextureInfo("Plus", new Rectangle(0, 0, 32, 32));
             TextureManager.textures["Minus"] = Content.Load<Texture2D>("Tools/Minus");
             TextureManager.blocks["Minus"] = new TextureInfo("Minus", new Rectangle(0, 0, 32, 32));
+            TextureManager.textures["ClearTool"] = Content.Load<Texture2D>("Tools/ClearTool");
+            TextureManager.blocks["ClearTool"] = new TextureInfo("ClearTool", new Rectangle(0, 0, 32, 32));
 
             for (var i = 0; i < 26; i++)
                 TextureManager.blocks[Convert.ToChar(i + 97).ToString()] = new TextureInfo("letters", new Rectangle(i * 11, 0, 11, 17));

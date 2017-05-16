@@ -120,6 +120,18 @@ namespace ChanceOfPrecipitation {
 
     }
 
+    public class ClearTool : EditorTool {
+        public ClearTool(int x, int y, int width, int height) : base(x, y, width, height, "ClearTool") { }
+
+        public override void OnClick(Point clickPos) {
+
+        }
+
+        public override void PickedUp() {
+            Editor.Instance.objects.Clear();
+        }
+    }
+
     public class RopeModTool : EditorTool {
 
         bool add;
@@ -226,6 +238,8 @@ namespace ChanceOfPrecipitation {
         private static Editor instance;
         public static Editor Instance { get { if (instance == null) instance = new Editor(); return instance; } private set { instance = value; } }
 
+        public static bool InstanceExists => instance != null;
+
         public EditorTool tool;
 
         public static string currentFile;
@@ -241,6 +255,8 @@ namespace ChanceOfPrecipitation {
 
             SaveTool savetool = new SaveTool(128, 720 - 32, 32, 32);
             tools.Add(savetool);
+            ClearTool cleartool = new ClearTool(96, 720 - 32, 32, 32);
+            tools.Add(cleartool);
             
             BlockTool block;
             block = new BlockTool(0, 0, 32, 32, "stage1_platform_top_left");
