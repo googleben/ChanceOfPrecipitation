@@ -1,0 +1,19 @@
+stage1_platform_top_right 608 352
+stage1_platform_top_middle 576 352
+stage1_platform_top_middle 544 352
+stage1_platform_top_middle 512 352
+stage1_platform_top_left 480 352
+stage1_platform_middle 512 384
+stage1_platform_middle 544 384
+stage1_platform_middle 576 384
+stage1_platform_middle_left 480 384
+stage1_platform_bottom_middle 512 416
+stage1_platform_bottom_middle 544 416
+stage1_platform_bottom_middle 576 416
+stage1_platform_middle_right 608 384
+stage1_platform_bottom_right 608 416
+stage1_platform_bottom_left 480 416
+rope 512 320 5
+exit 512 480 true
+exit 608 320 false
+exit 416 320 false

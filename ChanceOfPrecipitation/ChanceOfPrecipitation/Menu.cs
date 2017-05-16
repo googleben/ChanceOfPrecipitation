@@ -25,11 +25,11 @@ namespace ChanceOfPrecipitation {
 
         public static KeyboardState lastState = Keyboard.GetState();
 
-        private int index;
+        protected int index;
 
         protected List<MenuOption> options;
 
-        private readonly Menu fromMenu;
+        protected readonly Menu fromMenu;
 
         public Menu(Menu fromMenu) {
             font = Game1.fonts["MenuFont"];
@@ -51,7 +51,7 @@ namespace ChanceOfPrecipitation {
             }
         }
 
-        public IGameState Update() {
+        public virtual IGameState Update() {
             var state = Keyboard.GetState();
             if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !lastState.IsKeyDown(Keys.Enter)) {
                 lastState = state;
@@ -150,6 +150,7 @@ namespace ChanceOfPrecipitation {
         public override void GenerateOptions() {
             base.GenerateOptions();
             options.Add(new MenuOption("Load Level", () => new LoadMenu(this)));
+            options.Add(new MenuOption("New Level", () => new NewMenu(this)));
         }
 
     }
@@ -160,13 +161,91 @@ namespace ChanceOfPrecipitation {
 
         public override void GenerateOptions() {
             base.GenerateOptions();
-            var levels = Directory.GetFiles("Content\\Levels");
+            var levels = Directory.GetFiles("Content/Levels");
             foreach (string s in levels) {
-                options.Add(new MenuOption(s, () => {
+                options.Add(new MenuOption(s.Substring("Content/Levels/".Length), () => {
                     Editor.Instance.LoadLevel(s);
                     return Editor.Instance;
                 }));
             }
+        }
+
+    }
+
+    internal class NewMenu : Menu {
+
+        MenuOption header;
+        MenuOption textField;
+        MenuOption back;
+        MenuOption enter;
+        int backIndex;
+        int enterIndex;
+
+        public NewMenu(Menu fromMenu) : base(fromMenu) { }
+
+        public override void GenerateOptions() {
+            header = new MenuOption("Enter a file name", () => this);
+            options.Add(header);
+            textField = new MenuOption("_", () => this);
+            options.Add(textField);
+            enter = new MenuOption("Create", () => {
+                if (textField.text.Length == 1) return this;
+                Editor.currentFile = "Content/Levels/" + textField.text.Substring(0, textField.text.Length-1);
+                Editor.Instance.objects.Clear();
+                return Editor.Instance;
+            });
+            options.Add(enter);
+            enterIndex = options.Count - 1;
+            index = enterIndex;
+
+            base.GenerateOptions();
+            back = options[options.Count - 1];
+            backIndex = options.Count - 1;
+        }
+
+        public override IGameState Update() {
+            var state = Keyboard.GetState();
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !lastState.IsKeyDown(Keys.Enter)) {
+                lastState = state;
+                return options[index].makeState.Invoke();
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape) && !lastState.IsKeyDown(Keys.Escape)) {
+                lastState = state;
+                if (fromMenu != null) return fromMenu;
+                Game1.Instance.Quit();
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Down) && !lastState.IsKeyDown(Keys.Down)) {
+                if (index == backIndex) index = enterIndex;
+                else index = backIndex;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) && !lastState.IsKeyDown(Keys.Up)) {
+                if (index == backIndex) index = enterIndex;
+                else index = backIndex;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Back) && !lastState.IsKeyDown(Keys.Back)) {
+                if (textField.text.Length > 1)
+                    textField.text = textField.text.Substring(0, textField.text.Length - 2) + "_";
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.OemPeriod) && !lastState.IsKeyDown(Keys.OemPeriod)) {
+                if (textField.text.Length > 1)
+                    textField.text = textField.text.Substring(0, textField.text.Length - 1) + "._";
+            }
+            for (int i = (int)Keys.A; i<=(int)Keys.Z; i++) {
+                if (Keyboard.GetState().IsKeyDown((Keys)i) && !lastState.IsKeyDown((Keys)i)) {
+                    textField.text = textField.text.Substring(0, textField.text.Length - 1)+
+                        (char)(i+(Keyboard.GetState().IsKeyDown(Keys.LeftShift) || Keyboard.GetState().IsKeyDown(Keys.LeftShift) ? 0 : 'a'-'A')) + "_";
+                }
+            }
+            for (int i = (int)Keys.D0; i <= (int)Keys.D9; i++) {
+                if (Keyboard.GetState().IsKeyDown((Keys)i) && !lastState.IsKeyDown((Keys)i)) {
+                    textField.text = textField.text.Substring(0, textField.text.Length - 1) +
+                        (char)(i) + "_";
+                }
+            }
+
+            lastState = state;
+
+            return this;
         }
 
     }

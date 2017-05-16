@@ -21,8 +21,17 @@ namespace ChanceOfPrecipitation
             bases = new List<PBlock>();
             additions = new List<PBlock>();
 
-            bases.Add(LoadBlock(File.ReadAllText("Content/Levels/base1.txt")));
-            additions.Add(LoadBlock(File.ReadAllText("Content/Levels/addition1.txt")));
+            //bases.Add(LoadBlock(File.ReadAllText("Content/Levels/base1.txt")));
+            //additions.Add(LoadBlock(File.ReadAllText("Content/Levels/addition1.txt")));
+
+            foreach (var s in Directory.EnumerateFiles("Content/Levels/")) {
+                if (s.Substring("Content/Levels/".Length).StartsWith("base")) {
+                    bases.Add(LoadBlock(File.ReadAllText(s)));
+                }
+                if (s.Substring("Content/Levels/".Length).StartsWith("addition")) {
+                    additions.Add(LoadBlock(File.ReadAllText(s)));
+                }
+            }
 
             /*bases.Add(new PBlock(
                 new List<Exit>() {
