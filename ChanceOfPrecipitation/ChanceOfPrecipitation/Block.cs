@@ -49,7 +49,7 @@ namespace ChanceOfPrecipitation {
         public Rope(float x, float y, int length) {
             this.length = length;
 
-            head = new RopeSegment(x, y, "ropeTop");
+            head = new RopeSegment(x, y, "ropeTop", true);
 
             for (var i = 1; i < length; i++)
             {
@@ -91,10 +91,13 @@ namespace ChanceOfPrecipitation {
         public RopeSegment next;
         public RopeSegment prev;
 
-        public RopeSegment(float x, float y, string info) {
+        public RopeSegment(float x, float y, string info, bool isHead = false) {
             this.info = TextureManager.blocks[info];
             texture = TextureManager.textures[this.info.texName];
-            bounds = new RectangleF(x + 14, y, 4, 32);
+            if (!isHead)
+                bounds = new RectangleF(x + 14, y, 4, 32);
+            else
+                bounds = new RectangleF(x + 14, y + 26, 4, 6);
         }
 
         public override void Update(List<GameObject> objects)
@@ -112,7 +115,7 @@ namespace ChanceOfPrecipitation {
             if (c is Player)
             {
                 var p = c as Player;
-                if (c.Bounds().Intersects(bounds))
+                if (p.Bounds().Intersects(bounds))
                 {
                     var state = Playing.Instance.state;
 
@@ -138,21 +141,16 @@ namespace ChanceOfPrecipitation {
 
                 if (p.rope == this)
                 {
-                    if (c.Bounds().Bottom < bounds.Top)
+                    if (p.Bounds().Bottom < bounds.Top)
                     {
                         p.rope = prev;
                     }
-                    else if (c.Bounds().Top > bounds.Bottom)
+                    else if (p.Bounds().Top > bounds.Bottom)
                     {
                         p.rope = next;
                     }
                 }
             }
-        }
-
-        public override string ToString()
-        {
-            return "" + bounds.Center;
         }
     }
 }
