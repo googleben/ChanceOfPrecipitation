@@ -31,6 +31,8 @@ namespace ChanceOfPrecipitation {
 
         protected readonly Menu fromMenu;
 
+        float offset = 0;
+
         public Menu(Menu fromMenu) {
             font = Game1.fonts["MenuFont"];
             index = 0;
@@ -42,11 +44,21 @@ namespace ChanceOfPrecipitation {
         public void Draw(SpriteBatch sb) {
             var ypos = 20;
             var space = ypos;
-
+            float y = 0;
+            for (var i = 0; i < index; i++)
+            {
+                var opt = options[i];
+                var m = font.MeasureString(opt.text);
+                y = m.Y;
+                ypos += space + (int)m.Y;
+            }
+            if (ypos > 720 - y) offset = ypos - (720 - y);
+            else offset = 0;
+            ypos = 2;
             for (var i = 0; i < options.Count; i++) {
                 var opt = options[i];
                 var m = font.MeasureString(opt.text);
-                sb.DrawString(font, opt.text, new Vector2(Game1.BufferWidth / 2 - m.X / 2, ypos), i == index ? Color.White : Color.Gray);
+                sb.DrawString(font, opt.text, new Vector2(Game1.BufferWidth / 2 - m.X / 2, ypos-offset), i == index ? Color.White : Color.Gray);
                 ypos += space + (int)m.Y;
             }
         }
