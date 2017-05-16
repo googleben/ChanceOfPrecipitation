@@ -14,7 +14,7 @@ namespace ChanceOfPrecipitation {
 
         public Settings settings;
 
-        public static Dictionary<String, SpriteFont> fonts = new Dictionary<string, SpriteFont>();
+        public static Dictionary<string, SpriteFont> fonts = new Dictionary<string, SpriteFont>();
 
         public static Game1 Instance { get; private set; }
 

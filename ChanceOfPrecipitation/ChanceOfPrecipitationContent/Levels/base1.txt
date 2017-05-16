@@ -20,4 +20,5 @@ stage1_platform_middle 480 352
 stage1_platform_middle 512 352
 stage1_platform_middle 544 352
 exit 224 320 false
+exit 512 256 true
 exit 736 320 false

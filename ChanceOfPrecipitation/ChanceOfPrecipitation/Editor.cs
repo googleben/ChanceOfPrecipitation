@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.Text.RegularExpressions;
+using System.IO;
 
 namespace ChanceOfPrecipitation {
 
@@ -286,29 +288,48 @@ namespace ChanceOfPrecipitation {
             return this;
         }
 
-        public void LoadLevel(string level) {
-            objects.Clear();
-            try {
-                using (System.IO.StreamReader file = new System.IO.StreamReader(@"Content/Levels" + level + ".lvl")) {
-                    int low = 0;
-                    int high = 0;
-                    int left = 0;
-                    int right = 0;
-                    while (!file.EndOfStream) {
-                        string line = file.ReadLine();
-                        var sp = line.Split(' ');
-                        BlockTool t = new BlockTool(int.Parse(sp[1]), int.Parse(sp[2]), 32, 32, sp[0]);
-                        var b = t.bounds;
-                        if (b.X < left) left = b.X;
-                        if (b.Y < low) low = b.Y;
-                        if (b.X+32 > right) right = b.X+32;
-                        if (b.Y+32 > high) high = b.Y+32;
-                    }
+        public void LoadLevel(string raw) {
+            var split = Regex.Split(raw, "\\s+");
+            var scanner = split.Select<string, Func<Type, object>>((string s) => {
+                return t =>
+                (s as IConvertible).ToType(t, System.Globalization.CultureInfo.InvariantCulture);
+            }).GetEnumerator();
+            while (scanner.MoveNext()) {
+                string type = (string)scanner.Current(typeof(string));
+                scanner.MoveNext();
+                float x = (float)scanner.Current(typeof(float));
+                scanner.MoveNext();
+                float y = (float)scanner.Current(typeof(float));
+
+                /*if (type == "shop") {
+                    scanner.MoveNext();
+                    string item1 = (string)scanner.Current(typeof(string));
+                    scanner.MoveNext();
+                    string item2 = (string)scanner.Current(typeof(string));
+                    scanner.MoveNext();
+                    string item3 = (string)scanner.Current(typeof(string));
+                    blocks.Add(new ShopPlacementInfo(x, y, item1, item2, item3));
                 }
+                else if (type == "player") {
+                    blocks.Add(new PlayerPlacementInfo(x, y));
+                }
+                else if (type == "portal") {
+                    blocks.Add(new PortalPlacementInfo(x, y));
+                }*/
+                if (type == "ropeMid") {
+                    objects.Add(new EditorBlock((int)x, (int)y, "ropeMid"));
+                }
+                else if (type == "exit") {
+                    scanner.MoveNext();
+                    bool vertical = (bool)scanner.Current(typeof(bool));
+                    objects.Add(new EditorBlock((int)x, (int)y, vertical ? "VertExit" : "HorExit"));
+                }
+                else {
+                    objects.Add(new EditorBlock((int)x, (int)y, type));
+                }
+
             }
-            catch (Exception e) {
-                Console.WriteLine(e.Message);
-            }
+            scanner.Dispose();
         }
 
     }

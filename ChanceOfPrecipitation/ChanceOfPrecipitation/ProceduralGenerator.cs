@@ -21,7 +21,8 @@ namespace ChanceOfPrecipitation
             bases = new List<PBlock>();
             additions = new List<PBlock>();
 
-            bases.Add(loadBlock(File.ReadAllText("Content/Levels/base1.txt")));
+            bases.Add(LoadBlock(File.ReadAllText("Content/Levels/base1.txt")));
+            additions.Add(LoadBlock(File.ReadAllText("Content/Levels/addition1.txt")));
 
             /*bases.Add(new PBlock(
                 new List<Exit>() {
@@ -74,7 +75,7 @@ namespace ChanceOfPrecipitation
             return ans.Build();
         }
 
-        public PBlock loadBlock(string raw)
+        public PBlock LoadBlock(string raw)
         {
             var blocks = new List<IPlacementInfo>();
             var exits = new List<Exit>();
