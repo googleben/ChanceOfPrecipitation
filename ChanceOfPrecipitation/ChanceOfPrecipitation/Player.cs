@@ -74,7 +74,7 @@ namespace ChanceOfPrecipitation
             rope = null;
         }
 
-        public override void Update(List<GameObject> objects) {
+        public override void Update(EventList<GameObject> objects) {
             var state = Playing.Instance.state;
 
             if (rope != null) {
@@ -87,6 +87,9 @@ namespace ChanceOfPrecipitation
                     velocity = Vector2.Zero;
 
                 bounds.x -= bounds.Center.X - rope.bounds.Center.X;
+
+                //update rope
+                rope.UpdatePlayer(this);
 
                 foreach (var i in items) i.Update(objects);
 

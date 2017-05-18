@@ -23,7 +23,7 @@ namespace ChanceOfPrecipitation {
             sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), info.src, Color.White);
         }
 
-        public override void Update(List<GameObject> objects) {
+        public override void Update(EventList<GameObject> objects) {
             
         }
 
@@ -73,7 +73,7 @@ namespace ChanceOfPrecipitation {
             while (head.prev != null) head = head.prev;
         }
 
-        public override void Update(List<GameObject> objects)
+        public override void Update(EventList<GameObject> objects)
         {
             for (var curr = head; curr != null; curr = curr.next)
                 curr.Update(objects);
@@ -113,7 +113,7 @@ namespace ChanceOfPrecipitation {
                 bounds = new RectangleF(x + 14, y + 26, 4, 6);
         }
 
-        public override void Update(List<GameObject> objects)
+        public override void Update(EventList<GameObject> objects)
         {
             
         }
@@ -132,12 +132,10 @@ namespace ChanceOfPrecipitation {
                 {
                     var state = Playing.Instance.state;
 
-                    if (state.IsKeyDown(p.jump) && p.rope != null)
+                    /*if (state.IsKeyDown(p.jump) && p.rope != null)
                     {
                         p.ropeCollide = false;
-                        foreach (var s in Playing.Instance.objects.OfType<ICollider>().Where(a => !(a is Rope)).ToList())
-                            foreach (var x in Playing.Instance.objects.OfType<ICollidable>().ToList())
-                                s.Collide(x);
+                        Playing.Instance.quad.RunCollision(x => !(x is Rope));
 
                         if (!p.ropeCollide)
                         {
@@ -149,10 +147,12 @@ namespace ChanceOfPrecipitation {
                     {
                         if (state.IsKeyDown(p.down) || state.IsKeyDown(p.up))
                             p.rope = this;
-                    }
+                    }*/
+                    if (p.rope==null && (state.IsKeyDown(p.down) || state.IsKeyDown(p.up)))
+                        p.rope = this;
                 }
 
-                if (p.rope == this)
+                /*if (p.rope == this)
                 {
                     if (p.Bounds().Bottom < bounds.Top)
                     {
@@ -162,6 +162,26 @@ namespace ChanceOfPrecipitation {
                     {
                         p.rope = next;
                     }
+                }*/
+            }
+        }
+
+        public void UpdatePlayer(Player p) {
+            if (Playing.Instance.state.IsKeyDown(p.jump) && p.rope != null) {
+                p.ropeCollide = false;
+                Playing.Instance.quad.RunCollision(x => !(x is Rope));
+
+                if (!p.ropeCollide) {
+                    p.rope = null;
+                    p.Jump();
+                }
+            }
+            else {
+                if (p.Bounds().Bottom < bounds.Top) {
+                    p.rope = prev;
+                }
+                else if (p.Bounds().Top > bounds.Bottom) {
+                    p.rope = next;
                 }
             }
         }

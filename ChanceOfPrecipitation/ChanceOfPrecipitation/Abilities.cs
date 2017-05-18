@@ -9,7 +9,7 @@ namespace ChanceOfPrecipitation {
 
         internal int cd;
 
-        public virtual void Fire(List<GameObject> objects) {
+        public virtual void Fire(EventList<GameObject> objects) {
             cd = Cooldown();
         }
 
@@ -38,7 +38,7 @@ namespace ChanceOfPrecipitation {
             return players.Any(p => p.Bounds().Intersects(origin.Bounds())) && cd <= 0;
         }
 
-        public override void Fire(List<GameObject> objects) => objects.OfType<Player>().ToList().ForEach(p => {
+        public override void Fire(EventList<GameObject> objects) => objects.OfType<Player>().ToList().ForEach(p => {
             if (origin.Facing() == Direction.Left && p.Bounds().Center.X <= origin.Bounds().Center.X || origin.Facing() == Direction.Right && p.Bounds().Center.X >= origin.Bounds().Center.X)
                 p.Damage(10);
 
@@ -81,7 +81,7 @@ namespace ChanceOfPrecipitation {
             return ans;
         }
 
-        public override void Fire(List<GameObject> objects) {
+        public override void Fire(EventList<GameObject> objects) {
             if (cd > 0) return;
             base.Fire(objects);
 
@@ -115,7 +115,7 @@ namespace ChanceOfPrecipitation {
             return ans;
         }
 
-        public override void Fire(List<GameObject> objects) {
+        public override void Fire(EventList<GameObject> objects) {
             objects.Add(new Bullet(origin, origin.Facing() == Direction.Left ? origin.Bounds().x - Bullet.Width : origin.Bounds().Right, origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, damage));
             base.Fire(objects);
         }
@@ -136,7 +136,7 @@ namespace ChanceOfPrecipitation {
             this.origin = origin;
         }
 
-        public override void Fire(List<GameObject> objects) {
+        public override void Fire(EventList<GameObject> objects) {
             if (cd == 0) {
                 objects.Add(new Bullet(origin, origin.Facing() == Direction.Left ? origin.Bounds().x - Bullet.Width : origin.Bounds().Right, origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, damage));
                 base.Fire(objects);
@@ -159,7 +159,7 @@ namespace ChanceOfPrecipitation {
             this.origin = origin;
         }
 
-        public override void Fire(List<GameObject> objects) {
+        public override void Fire(EventList<GameObject> objects) {
             if (cd == 0) {
                 objects.Add(new BurstFireDummyObject(origin, damage));
                 base.Fire(objects);
@@ -182,7 +182,7 @@ namespace ChanceOfPrecipitation {
                 //do nothing
             }
 
-            public override void Update(List<GameObject> objects) {
+            public override void Update(EventList<GameObject> objects) {
                 if (count%Interval==0) {
                     objects.Add(new Bullet(origin, origin.Facing() == Direction.Left ? origin.Bounds().x - Bullet.Width : origin.Bounds().Right, origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, damage));
                 }
@@ -218,7 +218,7 @@ namespace ChanceOfPrecipitation {
             sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), Color.White);
         }
 
-        public override void Update(List<GameObject> objects) {
+        public override void Update(EventList<GameObject> objects) {
             bounds.x += speed;
             life--;
             if (life == 0) Destroy();

@@ -37,7 +37,7 @@ namespace ChanceOfPrecipitation {
             text.Draw(sb);
         }
 
-        public override void Update(List<GameObject> objects) {
+        public override void Update(EventList<GameObject> objects) {
             text.IsVisible = playerHover && (activated == null || activated == true);
 
             if (activated.HasValue)
@@ -74,6 +74,10 @@ namespace ChanceOfPrecipitation {
 
         public void Pressed() {
             Playing.Instance.NextStage();
+        }
+
+        public RectangleF Bounds() {
+            return bounds;
         }
     }
 }

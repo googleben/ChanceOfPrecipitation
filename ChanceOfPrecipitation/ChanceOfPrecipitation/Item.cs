@@ -68,7 +68,7 @@ namespace ChanceOfPrecipitation
             velocity = new Vector2();
         }
 
-        public override void Update(List<GameObject> objects) {
+        public override void Update(EventList<GameObject> objects) {
             velocity.X += ((float) rand.NextDouble() - .5f) * .01f;
             velocity.Y += ((float)rand.NextDouble() - .5f) * .01f;
             velocity.X = MathHelper.Clamp(velocity.X, -.5f, .5f);

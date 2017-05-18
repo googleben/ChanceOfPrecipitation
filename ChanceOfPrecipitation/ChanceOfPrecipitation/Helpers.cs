@@ -27,7 +27,7 @@ namespace ChanceOfPrecipitation
             ToDestroy = true;
         }
 
-        public abstract void Update(List<GameObject> objects);
+        public abstract void Update(EventList<GameObject> objects);
         public abstract void Draw(SpriteBatch sb);
     }
 
@@ -50,6 +50,8 @@ namespace ChanceOfPrecipitation
     public interface ICollider {
 
         void Collide(ICollidable c);
+
+        RectangleF Bounds();
 
     }
 
@@ -77,4 +79,18 @@ namespace ChanceOfPrecipitation
         int Value();
         void DropCoins();
     }
+
+    public class EventList<T> : List<T> {
+
+        public event EventHandler OnAdd;
+
+        public new void Add(T item) {
+            if (OnAdd != null) {
+                OnAdd(item, null);
+            }
+            base.Add(item);
+        }
+
+    }
+
 }

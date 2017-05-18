@@ -74,12 +74,12 @@ namespace ChanceOfPrecipitation
             ));*/
         }
 
-        public List<IPlacementInfo> GenLevel()
+        public PLevel GenLevel()
         {
             PLevel ans = new PLevel();
-            for (int i = 0; i < 2; i++) ans.GenBase();
+            for (int i = 0; i < 5; i++) ans.GenBase();
             for (int i = 0; rand.Next(i) < 5; i++) ans.GenPiece();
-            return ans.Build();
+            return ans;
         }
 
         public PBlock LoadBlock(string raw)
@@ -248,6 +248,15 @@ namespace ChanceOfPrecipitation
         public List<IPlacementInfo> Build()
         {
             return allBlocks.ConvertAll(pb => pb.placement).SelectMany(a => a).ToList();
+        }
+
+        public RectangleF Bounds() {
+            var b = allBlocks.ConvertAll(p => p.bounds);
+            float minX = b.ConvertAll(r => r.x).Min();
+            float maxX = b.ConvertAll(r => r.x + r.width).Max();
+            float minY = b.ConvertAll(r => r.y).Min();
+            float maxY = b.ConvertAll(r => r.y + r.height).Max();
+            return new RectangleF(minX, minY, maxX - minX, maxY - minY);
         }
 
     }

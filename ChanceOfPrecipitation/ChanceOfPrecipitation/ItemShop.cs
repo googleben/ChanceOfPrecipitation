@@ -26,7 +26,7 @@ namespace ChanceOfPrecipitation
             bounds = new RectangleF(x, y, info.src.Width * info.scale * SizeMultiplier, info.src.Height * info.scale * SizeMultiplier);
         }
 
-        public override void Update(List<GameObject> objects) {
+        public override void Update(EventList<GameObject> objects) {
             itemA.Update(objects);
             itemB.Update(objects);
             itemC.Update(objects);
@@ -42,6 +42,10 @@ namespace ChanceOfPrecipitation
             itemA.Collide(c);
             itemB.Collide(c);
             itemC.Collide(c);
+        }
+
+        public RectangleF Bounds() {
+            return bounds;
         }
     }
 
@@ -101,7 +105,7 @@ namespace ChanceOfPrecipitation
             errorBuilder = new FloatingIndicatorBuilder() { Scale = 1 };
         }
 
-        public override void Update(List<GameObject> objects) {
+        public override void Update(EventList<GameObject> objects) {
             multiplier = origin.BoughtItem ? 0.25f : 1f;
 
             waveCounter += Wavelength;
@@ -139,6 +143,10 @@ namespace ChanceOfPrecipitation
             }
 
         }
+
+        public RectangleF Bounds() {
+            return bounds;
+        }
     }
 
     public class Coin : GameObject, ICollidable, ICollider {
@@ -166,7 +174,7 @@ namespace ChanceOfPrecipitation
             indicator = new FloatingIndicatorBuilder() { Color = Color.Gold };
         }
 
-        public override void Update(List<GameObject> objects) {
+        public override void Update(EventList<GameObject> objects) {
             velocity += Playing.Instance.gravity;
 
             bounds.x += velocity.X;

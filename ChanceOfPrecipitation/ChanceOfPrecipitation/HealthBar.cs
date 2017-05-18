@@ -52,7 +52,7 @@ namespace ChanceOfPrecipitation
             currentHealth = maxHealth;
         }
 
-        public override void Update(List<GameObject> objects)
+        public override void Update(EventList<GameObject> objects)
         {
             
         }

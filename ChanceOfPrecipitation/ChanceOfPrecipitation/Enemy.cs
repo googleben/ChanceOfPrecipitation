@@ -61,7 +61,7 @@ namespace ChanceOfPrecipitation
             this.maxSpeed = maxSpeed;
         }
 
-        public override void Update(List<GameObject> objects) {
+        public override void Update(EventList<GameObject> objects) {
             Player target = null;
             var min = float.PositiveInfinity;
             foreach (var p in Playing.Instance.players) {
@@ -110,7 +110,7 @@ namespace ChanceOfPrecipitation
             bounds.y += velocity.Y;
         }
 
-        protected void UpdateAbilities(List<GameObject> objects) {
+        protected void UpdateAbilities(EventList<GameObject> objects) {
             foreach (var e in abilities)
             {
                 e.Update();

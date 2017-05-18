@@ -13,7 +13,7 @@ namespace ChanceOfPrecipitation {
 
         public static Playing Instance => instance ?? new Playing();
 
-        public List<GameObject> objects;
+        public EventList<GameObject> objects;
 
         public Vector2 gravity = new Vector2(0, 1);
 
@@ -32,8 +32,10 @@ namespace ChanceOfPrecipitation {
 
         ProceduralGenerator pgen = new ProceduralGenerator();
 
+        public QuadTree quad;
+
         public Playing() {
-            objects = new List<GameObject>();
+            objects = new EventList<GameObject>();
             instance = this;
             random = new Random();
             lastState = state = Keyboard.GetState();
@@ -88,11 +90,10 @@ namespace ChanceOfPrecipitation {
                 }
             }
 
-            
 
-            foreach (var s in statics) {
-                foreach (var c in collidables) s.Collide(c);
-            }
+
+            quad.RunCollision();
+            quad.CheckDynamics();
 
             if (ticksToSpawn == 0) {
                 SpawnEnemy();
@@ -148,8 +149,16 @@ namespace ChanceOfPrecipitation {
         {
             objects.Clear();
             var l = pgen.GenLevel();
-            foreach (var x in l) x.Build(this);
+            var b = l.Build();
+            foreach (var x in b) x.Build(this);
             foreach (var p in players) objects.Add(p);
+            var size = l.Bounds();
+            quad = new QuadTree(size.x, size.y-1000, size.width, size.height+1000, objects.OfType<ICollider>().ToList(), null);
+            objects.OfType<ICollidable>().ToList().ForEach(quad.AddDynamic);
+            objects.OnAdd += (e, args) => {
+                if (e is ICollidable) quad.AddDynamic(e as ICollidable);
+                else if (e is ICollider) quad.AddStatic(e as ICollider);
+            };
         }
 
         public void NextStage() {

@@ -52,7 +52,7 @@ namespace ChanceOfPrecipitation
 
         }
 
-        public override void Update(List<GameObject> objects) {
+        public override void Update(EventList<GameObject> objects) {
             life--;
 
             if (life <= 0 || (origin as Enemy)?.health <= 0)
