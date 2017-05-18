@@ -36,9 +36,10 @@ namespace ChanceOfPrecipitation
 
             //Console.WriteLine(origin.Bounds().Center.Y);
 
-            bounds = new RectangleF(origin.Bounds().Center.X + origin.Bounds().width / (left ? -2 : 2), origin.Bounds().Center.Y, 1, 5);
+            bounds = new RectangleF(left ? origin.Bounds().x : origin.Bounds().x+origin.Bounds().width, origin.Bounds().Center.Y, 1, 5);
 
-            if (left) bounds.x--;
+            if (left)
+                bounds.x--;
 
             while (!collided && bounds.width < range) {
                 bounds.width++;
@@ -63,10 +64,10 @@ namespace ChanceOfPrecipitation
             var offset = Playing.Instance.offset;
             if (Facing() == Direction.Right)
                 for (var i = 0; i < bounds.width; i++)
-                    sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int) Bounds().x + i + (int) offset.X, (int) Bounds().y + (int) offset.Y, 1, 5), i == (int) bounds.width - 1 ? lazerEndSource : lazerSegmentSource, Color.White);
+                    sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int)Bounds().x + i + (int)offset.X, (int)Bounds().y + (int)offset.Y, 1, 5), i == (int)bounds.width - 1 ? lazerEndSource : lazerSegmentSource, Color.White);
             else
-                for (var i = 0; i > bounds.width * -1; i--)
-                    sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int) Bounds().x - i + (int) offset.X, (int) Bounds().y + (int) offset.Y, 1, 5), i == (int)(bounds.width * -1) + 1 ? lazerEndSource : lazerSegmentSource, Color.White);
+                for (var i = 0; i < bounds.width; i++)
+                    sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int)Bounds().x + i + (int)offset.X, (int)Bounds().y + (int)offset.Y, 1, 5), i == 0 ? lazerEndSource : lazerSegmentSource, Color.White);
         }
 
         public RectangleF Bounds() {
