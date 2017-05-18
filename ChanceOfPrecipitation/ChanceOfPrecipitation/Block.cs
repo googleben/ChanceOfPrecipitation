@@ -38,16 +38,25 @@ namespace ChanceOfPrecipitation {
                 c.Collide(i.y > bounds.y+1 ? Collision.Top : Collision.Bottom, i.height, this);
             }
         }
+
+        public RectangleF Bounds() {
+            return bounds;
+        }
+
     }
 
     public class Rope : GameObject, ICollider
     {
         private int length;
+        private float x;
+        private float y;
 
         RopeSegment head;
 
         public Rope(float x, float y, int length) {
             this.length = length;
+            this.x = x;
+            this.y = y;
 
             head = new RopeSegment(x, y, "ropeTop", true);
 
@@ -80,6 +89,10 @@ namespace ChanceOfPrecipitation {
         {
             for (var curr = head; curr != null; curr = curr.next)
                 curr.Collide(c);
+        }
+
+        public RectangleF Bounds() {
+            return new RectangleF(x, y, 4, 6 + (32 * length));
         }
     }
 
@@ -119,7 +132,7 @@ namespace ChanceOfPrecipitation {
                 {
                     var state = Playing.Instance.state;
 
-                    if (state.IsKeyDown(p.jump))
+                    if (state.IsKeyDown(p.jump) && p.rope != null)
                     {
                         p.ropeCollide = false;
                         foreach (var s in Playing.Instance.objects.OfType<ICollider>().Where(a => !(a is Rope)).ToList())
@@ -151,6 +164,10 @@ namespace ChanceOfPrecipitation {
                     }
                 }
             }
+        }
+
+        public RectangleF Bounds() {
+            return bounds;
         }
     }
 }
