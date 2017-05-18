@@ -153,7 +153,7 @@ namespace ChanceOfPrecipitation {
             foreach (var x in b) x.Build(this);
             foreach (var p in players) objects.Add(p);
             var size = l.Bounds();
-            quad = new QuadTree(size.x, size.y-1000, size.width, size.height+1000, objects.OfType<ICollider>().ToList(), null);
+            quad = new QuadTree(size.x-1000, size.y-1000, size.width+1000, size.height+1000, objects.OfType<ICollider>().ToList(), null);
             objects.OfType<ICollidable>().ToList().ForEach(quad.AddDynamic);
             objects.OnAdd += (e, args) => {
                 if (e is ICollidable) quad.AddDynamic(e as ICollidable);
