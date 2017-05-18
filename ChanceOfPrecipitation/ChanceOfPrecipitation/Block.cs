@@ -167,7 +167,7 @@ namespace ChanceOfPrecipitation {
         }
 
         public void UpdatePlayer(Player p) {
-            if (Playing.Instance.state.IsKeyDown(p.jump) && p.rope != null) {
+            if (Playing.Instance.state.IsKeyDown(p.jump) && !Playing.Instance.lastState.IsKeyDown(p.jump) && p.rope != null) {
                 p.ropeCollide = false;
                 Playing.Instance.quad.RunCollision(x => !(x is Rope));
 

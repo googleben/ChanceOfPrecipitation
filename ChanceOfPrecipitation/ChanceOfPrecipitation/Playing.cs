@@ -116,7 +116,10 @@ namespace ChanceOfPrecipitation {
             var enemy = new BasicEnemy(0, 0);
             var height = enemy.Bounds().height;
             var width = enemy.Bounds().width;
-            var blocks = objects.OfType<Block>();
+            var blocks = new List<Block>();
+            var qss = new List<QuadTree>();
+            foreach (var r in spawnAreas) quad.GetPos(r).ForEach(qss.Add);
+            foreach (var q in qss) q.statics.OfType<Block>().ToList().ForEach(x => blocks.Add(x as Block));
             var spawns = new List<RectangleF>();
             foreach (var b in blocks) {
                 var bounds = b.bounds;
@@ -124,7 +127,11 @@ namespace ChanceOfPrecipitation {
                 var works = true;
                 foreach (var x in spawnAreas) if (!spawn.Intersects(x)) { works = false; break; }
                 foreach (var x in spawnRestrictions) if (!works || spawn.Intersects(x)) { works = false; break; }
-                if (works) foreach (var x in blocks) if (x.bounds.Intersects(spawn)) { works = false; break; }
+                if (works)
+                {
+                    var qs = quad.GetPos(spawn);
+                    foreach (var q in qs) if (q.DoesCollide(spawn)) { works = false; Console.WriteLine("eek"); break; }
+                }
                 if (!works) continue;
                 spawns.Add(spawn);
             }

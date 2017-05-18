@@ -115,5 +115,26 @@ namespace ChanceOfPrecipitation {
             else foreach (QuadTree q in nodes) q.RunCollision(pred);
         }
 
+        public bool DoesCollide(RectangleF r)
+        {
+            foreach (var s in statics) if (s.Bounds().Intersects(r)) return true;
+            return false;
+        }
+
+        public List<QuadTree> GetPos(RectangleF r)
+        {
+            if (r.Intersects(bounds))
+            {
+                List<QuadTree> ans = new List<QuadTree>();
+                if (nodes == null) ans.Add(this);
+                else
+                {
+                    foreach (var n in nodes) n.GetPos(r).ForEach(ans.Add);
+                }
+                return ans;
+            }
+            return new List<QuadTree>();
+        }
+
     }
 }
