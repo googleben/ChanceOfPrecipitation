@@ -74,6 +74,7 @@ namespace ChanceOfPrecipitation {
                 origin.Facing() == Direction.Right && p.Bounds().Center.X > origin.Bounds().Center.X) &&
                 Math.Abs(p.Bounds().Center.X - origin.Bounds().Center.X) < 50 &&
                 Math.Abs(p.Bounds().Center.Y - origin.Bounds().Center.Y) < range &&
+                ((origin as Enemy).collision | Collision.Bottom) != 0 &&
                 cd <= 0)
                     ans = true;
             });

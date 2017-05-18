@@ -21,6 +21,9 @@ namespace ChanceOfPrecipitation
         private Keys abilityOneKey = Keys.J;
 
         public Ability abilityOne;
+        public Ability abilityTwo;
+        public Ability abilityThree;
+        public Ability abilityFour;
 
         private TextureDrawer texture;
 
@@ -65,6 +68,9 @@ namespace ChanceOfPrecipitation
             healthBar = new HealthBarBuilder() { Position = new Vector2(x, y), Width = (int)width + 10 }.Build();
 
             abilityOne = new BurstFireAbility(this);
+            abilityTwo = new BurstFireAbility(this);
+            abilityThree = new BurstFireAbility(this);
+            abilityFour = new BurstFireAbility(this);
 
             healBuilder = new FloatingIndicatorBuilder() { Color = Color.Green };
             damageBuilder = new FloatingIndicatorBuilder() { Color = Color.Red };

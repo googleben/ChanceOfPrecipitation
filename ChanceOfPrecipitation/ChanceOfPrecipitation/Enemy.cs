@@ -9,7 +9,7 @@ namespace ChanceOfPrecipitation
     {
         protected RectangleF bounds;
         protected Vector2 velocity;
-        protected Collision collision;
+        public Collision collision;
 
         protected HealthBar healthBar;
         protected Color color;
