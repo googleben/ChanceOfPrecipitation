@@ -17,3 +17,4 @@ rope 512 320 5
 exit 512 480 true
 exit 608 320 false
 exit 416 320 false
+exit 576 288 true

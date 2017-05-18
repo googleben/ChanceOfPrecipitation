@@ -219,13 +219,6 @@ namespace ChanceOfPrecipitation {
 
         public static Rectangle viewport;
 
-        public static Texture2D background;
-        public static Texture2D sprites;
-
-        public static Texture2D playerSheet;
-
-        ContentManager content;
-
         public static KeyboardState state;
         public static KeyboardState lastState;
 

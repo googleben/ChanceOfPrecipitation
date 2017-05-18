@@ -141,3 +141,5 @@ rope 384 160 13
 exit 384 576 true
 exit 928 160 false
 exit 160 160 false
+exit 416 128 true
+exit 736 128 true

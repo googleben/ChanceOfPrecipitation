@@ -12,7 +12,6 @@ namespace ChanceOfPrecipitation
         private int life;
         private readonly int origLife;
         private readonly string Character;
-        private int direction = 1;
         private bool isStatic;
         private int spacing;
 
