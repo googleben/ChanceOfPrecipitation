@@ -77,12 +77,6 @@ namespace ChanceOfPrecipitation {
         public IGameState Update() {
 
             if (!update) return this;
-            if (players[0].Bounds().y > 64)
-            {
-                printQuad(quad);
-                Console.WriteLine();
-            }
-                
 
             lastState = state;
             state = Keyboard.GetState();
@@ -147,7 +141,7 @@ namespace ChanceOfPrecipitation {
                 if (works)
                 {
                     var qs = quad.GetPos(spawn);
-                    foreach (var q in qs) if (q.DoesCollide(spawn)) { works = false; Console.WriteLine("eek"); break; }
+                    foreach (var q in qs) if (q.DoesCollide(spawn)) { works = false; break; }
                 }
                 if (!works) continue;
                 spawns.Add(spawn);
@@ -181,7 +175,6 @@ namespace ChanceOfPrecipitation {
             foreach (var p in players) objects.Add(p);
             var size = l.Bounds();
             quad = new QuadTree(size.x-1000, size.y-1000, size.width+2000, size.height+2000, objects.OfType<ICollider>().ToList(), null);
-            //quad = new QuadTree(float.NegativeInfinity, float.NegativeInfinity, float.PositiveInfinity, float.PositiveInfinity, objects.OfType<ICollider>().ToList(), null);
             objects.OfType<ICollidable>().ToList().ForEach(quad.AddDynamic);
             objects.OnAdd += (e, args) => {
                 if (e is ICollidable) quad.AddDynamic(e as ICollidable);

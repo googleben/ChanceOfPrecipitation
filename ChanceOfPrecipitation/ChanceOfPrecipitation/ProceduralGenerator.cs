@@ -183,6 +183,14 @@ namespace ChanceOfPrecipitation
             } else {
                 next.Offset(new Exit(0, 0, false).GetOffset(next.exits.First()));
             }
+            var bottom = next.bounds.Bottom;
+            for (int i = (int)next.bounds.x; i<next.bounds.Right; i+=32)
+            {
+                for (int j = 0; j<20; j++)
+                {
+                    next.placement.Add(new FacadePlacementInfo("stage1_platform_middle", i, (32 * j) + bottom));
+                }
+            }
             ans.Add(next);
             blocks.Add(ans);
         }
@@ -191,8 +199,31 @@ namespace ChanceOfPrecipitation
         {
             var leftPlacement = new List<IPlacementInfo>();
             for (int i = 0; i < 100; i++) leftPlacement.Add(new BlockPlacementInfo("stage1_platform_middle_right", 0, -32 * i));
+            for (int i = 1; i < 100; i++) leftPlacement.Add(new FacadePlacementInfo("stage1_platform_middle", 0, 32 * i));
+            for (int i = 1; i<20; i++)
+            {
+                for (int j = -100; j<100; j++)
+                {
+                    leftPlacement.Add(new FacadePlacementInfo("stage1_platform_middle", i*-32, 32 * j));
+                }
+            }
             PBlock leftWall = new PBlock(new List<Exit>(), leftPlacement);
             blocks[0].Add(leftWall);
+
+            var r = blocks.Last().First();
+            var x = r.bounds.Right;
+            var rightPlacement = new List<IPlacementInfo>();
+            for (int i = 0; i < 100; i++) rightPlacement.Add(new BlockPlacementInfo("stage1_platform_middle_left", x, -32 * i));
+            for (int i = 1; i < 100; i++) rightPlacement.Add(new FacadePlacementInfo("stage1_platform_middle", x, 32 * i));
+            for (int i = 1; i < 20; i++)
+            {
+                for (int j = -100; j < 100; j++)
+                {
+                    rightPlacement.Add(new FacadePlacementInfo("stage1_platform_middle", x + i * 32, 32 * j));
+                }
+            }
+            PBlock rightWall = new PBlock(new List<Exit>(), rightPlacement);
+            blocks.Last().Add(rightWall);
         }
 
         public void GenPiece()

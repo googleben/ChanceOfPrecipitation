@@ -49,6 +49,28 @@ namespace ChanceOfPrecipitation
         }
     }
 
+    class FacadePlacementInfo : IPlacementInfo
+    {
+        public string type;
+
+        public FacadePlacementInfo(string type, float x, float y) : base(x, y) {
+            this.type = type;
+            this.position = new Vector2(x, y);
+        }
+
+        public override void Build(Playing instance)
+        {
+            instance.objects.Add(new Facade(position.X, position.Y, type));
+        }
+
+        public override RectangleF Bounds()
+        {
+            var sr = TextureManager.blocks[type];
+            var sc = sr.src;
+            return new RectangleF(position.X, position.Y, sc.Width * sr.scale, sc.Height * sr.scale);
+        }
+    }
+
     class RopePlacementInfo : IPlacementInfo
     {
         private int length;
