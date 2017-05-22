@@ -10,6 +10,8 @@ namespace ChanceOfPrecipitation
     public class HUD : GameObject
     {
         Rectangle bounds;
+        Texture2D tex;
+        TextureInfo info;
 
         Player player;
 
@@ -26,7 +28,10 @@ namespace ChanceOfPrecipitation
             three = player.abilityThree;
             four = player.abilityFour;
 
-            bounds = new Rectangle(1280 / 2, 720 - 150, 300, 100);
+            info = TextureManager.blocks["HUD"];
+            tex = TextureManager.textures[info.texName];
+
+            bounds = new Rectangle(1280 / 2, 720 - 150, info.src.Width, info.src.Height);
             bounds.X -= bounds.Width / 2;
         }
 
@@ -37,7 +42,7 @@ namespace ChanceOfPrecipitation
 
         public override void Draw(SpriteBatch sb)
         {
-            
+            sb.Draw(tex, bounds, Color.White);
         }
     }
 }

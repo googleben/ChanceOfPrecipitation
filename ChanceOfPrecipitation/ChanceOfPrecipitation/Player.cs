@@ -25,6 +25,8 @@ namespace ChanceOfPrecipitation
         public Ability abilityThree;
         public Ability abilityFour;
 
+        public HUD hud;
+
         private TextureDrawer texture;
 
         public RopeSegment rope;
@@ -71,6 +73,7 @@ namespace ChanceOfPrecipitation
             abilityTwo = new BurstFireAbility(this);
             abilityThree = new BurstFireAbility(this);
             abilityFour = new BurstFireAbility(this);
+            hud = new HUD(this);
 
             healBuilder = new FloatingIndicatorBuilder() { Color = Color.Green };
             damageBuilder = new FloatingIndicatorBuilder() { Color = Color.Red };
@@ -96,6 +99,8 @@ namespace ChanceOfPrecipitation
 
                 //update rope
                 rope.UpdatePlayer(this);
+
+                hud.Update(objects);
 
                 foreach (var i in items) i.Update(objects);
 
@@ -206,7 +211,7 @@ namespace ChanceOfPrecipitation
             foreach (var i in items) i.Draw(sb);
             healthBar.Draw(sb);
             moneyDisplay.Draw(sb);
-            
+            hud.Draw(sb);
         }
         
         public RectangleF Bounds() {

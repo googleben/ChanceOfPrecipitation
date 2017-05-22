@@ -10,10 +10,10 @@ namespace ChanceOfPrecipitation
 {
     class ProceduralGenerator
     {
-
         public static List<PBlock> bases;
         public static List<PBlock> additions;
         Random rand;
+        int numBlocks = 50;
 
         public ProceduralGenerator()
         {
@@ -78,7 +78,7 @@ namespace ChanceOfPrecipitation
         {
             PLevel ans = new PLevel();
             for (int i = 0; i < 5; i++) ans.GenBase();
-            for (int i = 0; rand.Next(i) < 25; i++) ans.GenPiece();
+            for (int i = 0; rand.Next(i) < numBlocks; i++) ans.GenPiece();
             return ans;
         }
 
