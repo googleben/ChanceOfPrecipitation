@@ -78,6 +78,7 @@ namespace ChanceOfPrecipitation
         {
             PLevel ans = new PLevel();
             for (int i = 0; i < 5; i++) ans.GenBase();
+            ans.GenWalls();
             for (int i = 0; rand.Next(i) < 25; i++) ans.GenPiece();
             return ans;
         }
@@ -186,6 +187,14 @@ namespace ChanceOfPrecipitation
             blocks.Add(ans);
         }
 
+        public void GenWalls()
+        {
+            var leftPlacement = new List<IPlacementInfo>();
+            for (int i = 0; i < 100; i++) leftPlacement.Add(new BlockPlacementInfo("stage1_platform_middle_right", 0, -32 * i));
+            PBlock leftWall = new PBlock(new List<Exit>(), leftPlacement);
+            blocks[0].Add(leftWall);
+        }
+
         public void GenPiece()
         {
             int count = allBlocks.Count;
@@ -229,6 +238,7 @@ namespace ChanceOfPrecipitation
                             PBlock cop = (PBlock)ans.Clone();
                             var offset = s.GetOffset(ex);
                             cop.Offset(offset);
+                            
                             if (!allBlocks.Any(pb => pb.Intersects(cop)))
                             {
                                 Console.WriteLine("add");

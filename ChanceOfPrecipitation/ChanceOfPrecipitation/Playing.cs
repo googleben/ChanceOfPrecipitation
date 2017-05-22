@@ -34,13 +34,15 @@ namespace ChanceOfPrecipitation {
 
         public QuadTree quad;
 
+        bool update = true;
+
         public Playing() {
             objects = new EventList<GameObject>();
             instance = this;
             random = new Random();
             lastState = state = Keyboard.GetState();
             players = new List<Player>();
-            players.Add(new Player(64, -100, 16, 32));
+            players.Add(new Player(64, -180, 16, 32));
 
             objects.Add(players[0]);
             objects.Add(new Block(0, 600,  "stage1_platform_top_left"));
@@ -54,6 +56,7 @@ namespace ChanceOfPrecipitation {
 
             //LoadStage("level");
             GenStage();
+            
         }
 
         public void Draw(SpriteBatch sb) {
@@ -65,7 +68,21 @@ namespace ChanceOfPrecipitation {
             foreach (var p in players) if (p.health>0) p.Draw(sb);
         }
 
+        void printQuad(QuadTree q)
+        {
+            if (q.nodes != null) foreach (var n in q.nodes) printQuad(n);
+            else if (q.dynamics.Count!=0) Console.WriteLine(q.dynamics.Count+" "+q.statics.Count);
+        }
+
         public IGameState Update() {
+
+            if (!update) return this;
+            if (players[0].Bounds().y > 64)
+            {
+                printQuad(quad);
+                Console.WriteLine();
+            }
+                
 
             lastState = state;
             state = Keyboard.GetState();
@@ -152,20 +169,25 @@ namespace ChanceOfPrecipitation {
             foreach (var p in players) objects.Add(p);
         }
 
+        PLevel l;
+
         void GenStage()
         {
+            update = false;
             objects.Clear();
-            var l = pgen.GenLevel();
+            l = pgen.GenLevel();
             var b = l.Build();
             foreach (var x in b) x.Build(this);
             foreach (var p in players) objects.Add(p);
             var size = l.Bounds();
-            quad = new QuadTree(size.x-1000, size.y-1000, size.width+1000, size.height+1000, objects.OfType<ICollider>().ToList(), null);
+            quad = new QuadTree(size.x-1000, size.y-1000, size.width+2000, size.height+2000, objects.OfType<ICollider>().ToList(), null);
+            //quad = new QuadTree(float.NegativeInfinity, float.NegativeInfinity, float.PositiveInfinity, float.PositiveInfinity, objects.OfType<ICollider>().ToList(), null);
             objects.OfType<ICollidable>().ToList().ForEach(quad.AddDynamic);
             objects.OnAdd += (e, args) => {
                 if (e is ICollidable) quad.AddDynamic(e as ICollidable);
                 else if (e is ICollider) quad.AddStatic(e as ICollider);
             };
+            update = true;
         }
 
         public void NextStage() {
