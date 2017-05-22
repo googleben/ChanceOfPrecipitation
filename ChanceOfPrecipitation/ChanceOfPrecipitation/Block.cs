@@ -190,4 +190,30 @@ namespace ChanceOfPrecipitation {
             return bounds;
         }
     }
+
+    public class Facade : GameObject
+    {
+        private readonly Texture2D texture;
+        private readonly TextureInfo info;
+        public RectangleF bounds;
+        public string type;
+
+        public Facade(float x, float y, string type)
+        {
+            this.type = type;
+
+            info = TextureManager.blocks[type];
+            texture = TextureManager.textures[info.texName];
+            bounds = new RectangleF(x, y, info.src.Width * info.scale, info.src.Height * info.scale);
+        }
+
+        public override void Draw(SpriteBatch sb)
+        {
+            sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), info.src, Color.White);
+        }
+
+        public override void Update(EventList<GameObject> objects) {}
+
+    }
+
 }
