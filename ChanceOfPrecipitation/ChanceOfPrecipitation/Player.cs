@@ -99,6 +99,8 @@ namespace ChanceOfPrecipitation
                 else
                     velocity = Vector2.Zero;
 
+                UpdateAbilities();
+
                 bounds.x -= bounds.Center.X - rope.bounds.Center.X;
 
                 //update rope
@@ -114,10 +116,7 @@ namespace ChanceOfPrecipitation
                 return;
             }
 
-            abilityOne.Update();
-            abilityTwo.Update();
-            abilityThree.Update();
-            abilityFour.Update();
+            UpdateAbilities();
 
             if (state.IsKeyDown(left)) {
                 facing = Direction.Left;
@@ -162,6 +161,14 @@ namespace ChanceOfPrecipitation
             velocity.Y = MathHelper.Clamp(velocity.Y, -15, 15);
             bounds.x += velocity.X;
             bounds.y += velocity.Y;
+        }
+
+        public void UpdateAbilities()
+        {
+            abilityOne.Update();
+            abilityTwo.Update();
+            abilityThree.Update();
+            abilityFour.Update();
         }
 
         public void UpdateViewport()
