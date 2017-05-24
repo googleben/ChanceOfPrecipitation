@@ -149,6 +149,70 @@ namespace ChanceOfPrecipitation {
 
     }
 
+    public class PenetratingAbility : Ability {
+
+        private readonly ICollidable origin;
+        public int damage = 50;
+
+        public override int Cooldown() {
+            return 240;
+        }
+
+        public PenetratingAbility(ICollidable origin) {
+            this.origin = origin;
+        }
+
+        public override void Fire(EventList<GameObject> objects) {
+            if (cd == 0) {
+                HashSet<ICollidable> hit = new HashSet<ICollidable>();
+                bool left = origin.Facing() == Direction.Left;
+                float x = left ? origin.Bounds().x : origin.Bounds().Right;
+                float y = origin.Bounds().Center.Y;
+                bool done = false;
+                while (!done) {
+                    RectangleF r = new RectangleF(left ? x - 31 : x, y, 31, 5);
+                    x += left ? -31 : 31;
+                    List<QuadTree> qs = Playing.Instance.quad.GetPos(r);
+                    if (qs.Count == 0) done = true;
+                    foreach (QuadTree q in qs) {
+                        if (q.DoesCollide(r)) done = true;
+                        for (int i = 0; i<q.dynamics.Count; i++) {
+                            var e = q.dynamics[i];
+                            if (e is Enemy && !hit.Contains(e) && e.Bounds().Intersects((r))) {
+                                hit.Add(e);
+                                (e as Enemy).Damage(damage);
+                            }
+                        }
+                    }
+                }
+                objects.Add(new MuzzleFlashDummyObject(origin));
+                base.Fire(objects);
+            }
+        }
+
+        private class MuzzleFlashDummyObject : GameObject {
+            private readonly ICollidable origin;
+            private int life = 10;
+            private Texture2D tex;
+
+            public MuzzleFlashDummyObject(ICollidable origin) {
+                this.origin = origin;
+                this.tex = TextureManager.textures["MuzzleFlash"];
+            }
+
+            public override void Draw(SpriteBatch sb) {
+                var left = origin.Facing() == Direction.Left;
+                var b = origin.Bounds();
+                sb.Draw(tex, (Rectangle)(new RectangleF(left ? b.x - tex.Width : b.Right, b.Center.Y, tex.Width, tex.Height)+Playing.Instance.offset), null, Color.White, 0, Vector2.Zero, left ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            }
+
+            public override void Update(EventList<GameObject> objects) {
+                if (life-- == 0) Destroy();
+            }
+        }
+
+    }
+
     public class BurstFireAbility : Ability {
 
         private readonly ICollidable origin;
@@ -232,6 +296,7 @@ namespace ChanceOfPrecipitation {
         }
 
         public void Collide(ICollidable other) {
+            if (ToDestroy) return;
             var i = RectangleF.Intersect(bounds, other.Bounds());
             if (i.width == 0 || i.height == 0 || other == this) return;
             Destroy();

@@ -91,16 +91,17 @@ namespace ChanceOfPrecipitation
                 p.AddTriangle(new Vector3(x + 45, y - 45, 0), new Vector3(x + 90, y, 0), t);
             }
             if (percent > .375f) {
-                //second triangle
+                //third triangle
                 Vector3 t = percent > .625f ? new Vector3(x, y - 90, 0) : new Vector3(x + 90 - (90 * ((percent-.375f) / .25f)), y - 90, 0);
                 p.AddTriangle(new Vector3(x + 45, y - 45, 0), new Vector3(x + 90, y-90, 0), t);
             }
             if (percent > .625f) {
-                //third triangle
+                //fourth triangle
                 Vector3 t = percent > .875f ? new Vector3(x, y, 0) : new Vector3(x, y - (90-(90 * ((percent-.625f)/.25f))), 0);
                 p.AddTriangle(new Vector3(x + 45, y - 45, 0), new Vector3(x, y - 90, 0), t);
             }
             if (percent > .875) {
+                //fifth triangle
                 Vector3 t = new Vector3(x + (45 * ((percent-.875f)/.125f)), y, 0);
                 p.AddTriangle(new Vector3(x + 45, y - 45, 0), new Vector3(x, y, 0), t);
             }

@@ -13,7 +13,6 @@ namespace ChanceOfPrecipitation
         private readonly RectangleF bounds;
         private readonly Direction facing;
 
-        private bool collided;
         private int life;
 
         private readonly Rectangle lazerSegmentSource = new Rectangle(0, 0, 1, 5);
@@ -41,14 +40,9 @@ namespace ChanceOfPrecipitation
             if (left)
                 bounds.x--;
 
-            while (!collided && bounds.width < range) {
+            while (bounds.width < range) {
                 bounds.width++;
                 if (left) bounds.x--;
-
-                blocks.ForEach(b => {
-                    if (b.bounds.Intersects(Bounds()))
-                        collided = true;
-                });
             }
 
         }

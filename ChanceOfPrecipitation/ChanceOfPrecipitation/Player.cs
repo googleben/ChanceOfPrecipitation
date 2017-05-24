@@ -73,7 +73,7 @@ namespace ChanceOfPrecipitation
             healthBar = new HealthBarBuilder() { Position = new Vector2(x, y), Width = (int)width + 10 }.Build();
 
             abilityOne = new BurstFireAbility(this);
-            abilityTwo = new BurstFireAbility(this);
+            abilityTwo = new PenetratingAbility(this);
             abilityThree = new BurstFireAbility(this);
             abilityFour = new BurstFireAbility(this);
             hud = new HUD(this);
