@@ -51,6 +51,7 @@ namespace ChanceOfPrecipitation
             damageColor = builder.DamageColor;
 
             isBoss = builder.IsBoss;
+            isPlayer = builder.IsPlayer;
 
             currentHealth = maxHealth;
         }

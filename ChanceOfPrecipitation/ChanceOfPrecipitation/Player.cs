@@ -220,7 +220,6 @@ namespace ChanceOfPrecipitation
             moneyDisplay.Draw(sb);
             hud.Draw(sb);
             healthBar.Draw(sb);
-            Console.WriteLine(healthBar.BorderBounds);
         }
         
         public RectangleF Bounds() {

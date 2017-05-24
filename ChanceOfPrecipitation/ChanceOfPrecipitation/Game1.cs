@@ -69,6 +69,7 @@ namespace ChanceOfPrecipitation {
             TextureManager.blocks["1"] = new TextureInfo("Numbers", new Rectangle(0, 0, 5, 17));
             TextureManager.blocks["0"] = new TextureInfo("Numbers", new Rectangle(93, 0, 11, 17));
             TextureManager.blocks["$"] = new TextureInfo("Numbers", new Rectangle(104, 0, 11, 17));
+            TextureManager.blocks["/"] = new TextureInfo("Numbers", new Rectangle(115, 0, 11, 17));
             for (var i = 2; i <= 9; i++)
                 TextureManager.blocks[i.ToString()] = new TextureInfo("Numbers", new Rectangle(5 + (i - 2) * 11, 0, 11, 17));
 
