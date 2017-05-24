@@ -48,7 +48,7 @@ namespace ChanceOfPrecipitation
             bounds = new Rectangle(1280 / 2, 720 - 150, info.src.Width, info.src.Height);
             bounds.X -= bounds.Width / 2;
 
-            Game1.Instance.drawEnd += () => DrawCooldown();
+            //Game1.Instance.drawEnd += () => DrawCooldown();
         }
 
         public override void Update(EventList<GameObject> objects)

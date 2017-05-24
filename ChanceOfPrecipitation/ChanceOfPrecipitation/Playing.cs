@@ -80,7 +80,7 @@ namespace ChanceOfPrecipitation {
 
             lastState = state;
             state = Keyboard.GetState();
-            if (state.IsKeyDown(Keys.Escape)) {
+            if (state.IsKeyDown(Keys.Escape) || players.All(p => p.health <= 0)) {
                 Menu.lastState = state;
                 instance = null;
                 return new MainMenu();

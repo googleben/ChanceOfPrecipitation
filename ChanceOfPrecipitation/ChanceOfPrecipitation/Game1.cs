@@ -180,8 +180,6 @@ namespace ChanceOfPrecipitation {
             base.Update(gameTime);
         }
 
-        public event Action drawEnd = () => { };
-
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
@@ -204,7 +202,10 @@ namespace ChanceOfPrecipitation {
 
             GraphicsDevice.SetRenderTarget(null);
 
-            drawEnd();
+            if (state is Playing)
+            {
+                foreach (Player p in Playing.Instance.players) p.hud.DrawCooldown();
+            }
 
             
 

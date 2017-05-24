@@ -21,4 +21,37 @@ stage1_platform_middle 512 352
 stage1_platform_middle 544 352
 exit 224 320 false
 exit 512 256 true
-exit 736 320 false
+stage1_platform_top_middle 768 352
+stage1_platform_top_middle 800 352
+stage1_platform_top_middle 832 352
+stage1_platform_top_middle 864 160
+stage1_platform_top_middle 896 160
+stage1_platform_top_middle 928 160
+stage1_platform_top_middle 960 160
+stage1_platform_top_middle 992 160
+stage1_platform_top_middle 832 160
+stage1_platform_top_middle 800 160
+stage1_platform_top_left 768 160
+stage1_platform_bottom_left 768 192
+stage1_platform_bottom_middle 800 192
+stage1_platform_top_right 1024 160
+stage1_platform_bottom_right 1024 192
+stage1_platform_bottom_middle 992 192
+stage1_platform_bottom_middle 832 192
+stage1_platform_bottom_middle 864 192
+stage1_platform_bottom_middle 896 192
+stage1_platform_bottom_middle 928 192
+stage1_platform_bottom_middle 960 192
+rope 800 128 6
+exit 832 96 true
+stage1_platform_top_middle 864 352
+stage1_platform_top_middle 896 352
+stage1_platform_top_middle 928 352
+stage1_platform_top_middle 960 352
+stage1_platform_top_middle 992 352
+stage1_platform_top_middle 1024 352
+stage1_platform_top_middle 1056 352
+stage1_platform_top_middle 1088 352
+stage1_platform_top_middle 1120 352
+stage1_platform_top_middle 1152 352
+exit 1152 320 false
