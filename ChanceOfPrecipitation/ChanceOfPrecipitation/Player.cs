@@ -75,8 +75,8 @@ namespace ChanceOfPrecipitation
 
             abilityOne = new BurstFireAbility(this);
             abilityTwo = new PenetratingAbility(this);
-            abilityThree = new BurstFireAbility(this);
-            abilityFour = new BurstFireAbility(this);
+            abilityThree = new JumpAbility(this);
+            abilityFour = new FastFireAbility(this);
             hud = new HUD(this);
 
             healBuilder = new FloatingIndicatorBuilder() { Color = Color.Green };
@@ -212,6 +212,11 @@ namespace ChanceOfPrecipitation
         public void Jump()
         {
             velocity.Y = -jumpSpeed;
+        }
+
+        public void Jump(float scale)
+        {
+            velocity.Y = -jumpSpeed * scale;
         }
 
         public override void Draw(SpriteBatch sb) {

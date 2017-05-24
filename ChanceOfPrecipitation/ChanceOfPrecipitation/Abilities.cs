@@ -149,6 +149,89 @@ namespace ChanceOfPrecipitation {
 
     }
 
+    public class JumpAbility : Ability
+    {
+
+        private readonly ICollidable origin;
+
+        public override int Cooldown()
+        {
+            return 120;
+        }
+
+        public JumpAbility(ICollidable origin)
+        {
+            this.origin = origin;
+        }
+
+        public override void Fire(EventList<GameObject> objects)
+        {
+            if (cd == 0)
+            {
+                (origin as Player)?.Jump(2);
+                base.Fire(objects);
+            }
+        }
+
+    }
+
+    public class FastFireAbility : Ability
+    {
+
+        private readonly ICollidable origin;
+        public int damage = 10;
+
+        public override int Cooldown()
+        {
+            return 120;
+        }
+
+        public FastFireAbility(ICollidable origin)
+        {
+            this.origin = origin;
+        }
+
+        public override void Fire(EventList<GameObject> objects)
+        {
+            if (cd == 0)
+            {
+                objects.Add(new FastFireDummyObject(origin, damage));
+                base.Fire(objects);
+            }
+
+        }
+
+        private class FastFireDummyObject : GameObject
+        {
+            private const int Interval = 2;
+            private int count;
+            private readonly ICollidable origin;
+            private readonly int damage;
+
+            public FastFireDummyObject(ICollidable origin, int damage)
+            {
+                this.origin = origin;
+                this.damage = damage;
+            }
+
+            public override void Draw(SpriteBatch sb)
+            {
+                //do nothing
+            }
+
+            public override void Update(EventList<GameObject> objects)
+            {
+                if (count % Interval == 0)
+                {
+                    objects.Add(new Bullet(origin, origin.Facing() == Direction.Left ? origin.Bounds().x - Bullet.Width : origin.Bounds().Right, origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, damage));
+                }
+                if (count == Interval * 8) Destroy();
+                count++;
+            }
+        }
+
+    }
+
     public class PenetratingAbility : Ability {
 
         private readonly ICollidable origin;
