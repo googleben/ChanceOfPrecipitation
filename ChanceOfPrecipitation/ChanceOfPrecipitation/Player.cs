@@ -70,7 +70,8 @@ namespace ChanceOfPrecipitation
             bounds = new RectangleF(x, y, width, height);
             texture = new TextureDrawer("playerIdle");
 
-            healthBar = new HealthBarBuilder() { Position = new Vector2(x, y), Width = (int)width + 10 }.Build();
+            healthBar = new HealthBarBuilder() { IsPlayer = true }.Build();
+            healthBar.AlignHorizontally(new Rectangle(0, 0, 1280, 720));
 
             abilityOne = new BurstFireAbility(this);
             abilityTwo = new PenetratingAbility(this);
@@ -151,8 +152,6 @@ namespace ChanceOfPrecipitation
 
         public void UpdateHealthBar()
         {
-            healthBar.AlignHorizontally((Rectangle)(bounds));
-            healthBar.SetY((bounds).y - 20);
             healthBar.SetHealth(health);
         }
 
@@ -218,9 +217,10 @@ namespace ChanceOfPrecipitation
         public override void Draw(SpriteBatch sb) {
             texture.Draw(sb, (Rectangle)(bounds + Playing.Instance.offset), Facing());
             foreach (var i in items) i.Draw(sb);
-            healthBar.Draw(sb);
             moneyDisplay.Draw(sb);
             hud.Draw(sb);
+            healthBar.Draw(sb);
+            Console.WriteLine(healthBar.BorderBounds);
         }
         
         public RectangleF Bounds() {

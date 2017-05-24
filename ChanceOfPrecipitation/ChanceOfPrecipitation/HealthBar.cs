@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace ChanceOfPrecipitation
 {
 
-    public static class RectEntension
+    public static class RectExtension
     {
         public static Rectangle add(this Rectangle r, Vector2 amount)
         {
@@ -30,11 +30,14 @@ namespace ChanceOfPrecipitation
 
         private Rectangle HealthBounds => new Rectangle((int)(position.X + borderWidth), (int)(position.Y + borderWidth), HealthWidth - borderWidth*2, height - borderWidth * 2);
         private Rectangle DamageBounds => new Rectangle((int)(HealthWidth + position.X), (int)(position.Y + borderWidth), width - HealthWidth - borderWidth, height - borderWidth * 2);
-        private Rectangle BorderBounds => new Rectangle((int)position.X, (int)position.Y, width, height);
+        public Rectangle BorderBounds => new Rectangle((int)position.X, (int)position.Y, width, height);
         private int HealthWidth => (int)(currentHealth * width / maxHealth);
 
         private bool isBoss;
         public bool IsBoss => isBoss;
+
+        private bool isPlayer;
+        public bool IsPlayer => isPlayer;
 
         public HealthBar(HealthBarBuilder builder)
         {
@@ -60,6 +63,9 @@ namespace ChanceOfPrecipitation
         public override void Draw(SpriteBatch sb) {
             if (currentHealth < 0) currentHealth = 0;
             var off = Playing.Instance.offset;
+            if (isPlayer || isBoss)
+                off = Vector2.Zero;
+
             sb.Draw(TextureManager.textures["Square"], BorderBounds.add(off), borderColor);
             sb.Draw(TextureManager.textures["Square"], HealthBounds.add(off), healthColor);
             sb.Draw(TextureManager.textures["Square"], DamageBounds.add(off), damageColor);

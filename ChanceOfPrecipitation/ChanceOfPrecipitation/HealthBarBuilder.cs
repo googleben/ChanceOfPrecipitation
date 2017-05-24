@@ -29,6 +29,22 @@ namespace ChanceOfPrecipitation
             }
         }
 
+        private bool isPlayer;
+        public bool IsPlayer
+        {
+            get
+            {
+                return isPlayer;
+            }
+            set
+            {
+                isPlayer = true;
+                Width = 492;
+                Height = 28;
+                Position = new Vector2(0, 720 - 50);
+            }
+        }
+
         public HealthBarBuilder(Vector2 position, int width, int height)
         {
             Position = position;
