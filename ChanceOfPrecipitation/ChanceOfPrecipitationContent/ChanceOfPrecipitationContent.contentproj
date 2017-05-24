@@ -101,12 +101,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Levels\level.txt">
-      <Name>level</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Spritesheets\Portal.png">
       <Name>Portal</Name>
       <Importer>TextureImporter</Importer>
