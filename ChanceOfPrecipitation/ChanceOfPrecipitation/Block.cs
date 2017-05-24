@@ -32,7 +32,13 @@ namespace ChanceOfPrecipitation {
         public void Collide(ICollidable c) {
             var i = RectangleF.Intersect(bounds, c.Bounds());
             if (Math.Abs(i.width) < Tol || Math.Abs(i.height) < Tol) return;
-            if (i.width < i.height) {
+            //special case collisions
+
+            if (type == "stage1_platform_top_middle") c.Collide(Collision.Bottom, i.height, this);
+            else if (type == "stage1_platform_middle_left") c.Collide(Collision.Left, i.width, this);
+            else if (type == "stage1_platform_middle_right") c.Collide(Collision.Right, i.width, this);
+            else if (type == "stage1_platform_bottom_middle") c.Collide(Collision.Top, i.height, this);
+            else if (i.width < i.height) {
                 c.Collide(i.x > bounds.x+1 ? Collision.Right : Collision.Left, i.width, this);
             } else {
                 c.Collide(i.y > bounds.y+1 ? Collision.Top : Collision.Bottom, i.height, this);

@@ -19,6 +19,9 @@ namespace ChanceOfPrecipitation
         public Keys down = Keys.Down;
         public Keys jump = Keys.Space;
         private Keys abilityOneKey = Keys.J;
+        private Keys abilityTwoKey = Keys.K;
+        private Keys abilityThreeKey = Keys.L;
+        private Keys abilityFourKey = Keys.OemSemicolon;
 
         public Ability abilityOne;
         public Ability abilityTwo;
@@ -111,7 +114,10 @@ namespace ChanceOfPrecipitation
             }
 
             abilityOne.Update();
-            
+            abilityTwo.Update();
+            abilityThree.Update();
+            abilityFour.Update();
+
             if (state.IsKeyDown(left)) {
                 facing = Direction.Left;
                 velocity.X = -maxSpeed;
@@ -132,6 +138,9 @@ namespace ChanceOfPrecipitation
             }
 
             if (state.IsKeyDown(abilityOneKey)) abilityOne.Fire(objects);
+            if (state.IsKeyDown(abilityTwoKey)) abilityTwo.Fire(objects);
+            if (state.IsKeyDown(abilityThreeKey)) abilityThree.Fire(objects);
+            if (state.IsKeyDown(abilityFourKey)) abilityFour.Fire(objects);
 
             collision = Collision.None;
 

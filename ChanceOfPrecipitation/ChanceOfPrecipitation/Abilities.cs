@@ -69,6 +69,8 @@ namespace ChanceOfPrecipitation {
         public override bool ShouldFire(List<Player> players) {
             var ans = false;
 
+            if (!(origin as Enemy).collision.HasFlag(Collision.Bottom)) return false;
+
             players.ForEach(p => {
                 if ((origin.Facing() == Direction.Left && p.Bounds().Center.X < origin.Bounds().Center.X ||
                 origin.Facing() == Direction.Right && p.Bounds().Center.X > origin.Bounds().Center.X) &&
