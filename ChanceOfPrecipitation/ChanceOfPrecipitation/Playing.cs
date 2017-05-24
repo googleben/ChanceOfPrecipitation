@@ -181,6 +181,36 @@ namespace ChanceOfPrecipitation {
                 else if (e is ICollider) quad.AddStatic(e as ICollider);
             };
             update = true;
+            GenObjs();
+        }
+
+        public void GenObjs()
+        {
+            List<Block> possible = objects.OfType<Block>().Where(b => b.type == "stage1_platform_top_middle").ToList();
+            int placed = 0;
+            for (int times = 0; times < 20 && placed < 10; times++)
+            {
+                int iter = 0;
+                for (int i = random.Next(possible.Count); iter < possible.Count && placed < 10; i++, iter++)
+                {
+                    Block b = possible[i];
+                    RectangleF pos = new RectangleF(b.bounds.x, b.bounds.y - 144, 192, 144);
+                    var qs = quad.GetPos(pos);
+                    foreach (var q in qs) if (q.DoesCollide(pos)) continue;
+                    for (int j = 1; j<5; j++)
+                    {
+                        RectangleF here = new RectangleF(b.bounds.x + (32 * j), b.bounds.y, 32, 32);
+                        qs = quad.GetPos(here);
+                        foreach (var q in qs) if (!q.DoesCollide(here)) goto bottom;
+                    }
+                    placed++;
+                    ShopPlacementInfo p = new ShopPlacementInfo(pos.x, pos.y, "money", "damage", "healing");
+                    p.Build(this);
+                    Console.WriteLine("Shop");
+                    break;
+                    bottom:;
+                }
+            }
         }
 
         public void NextStage() {

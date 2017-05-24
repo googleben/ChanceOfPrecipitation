@@ -270,7 +270,7 @@ namespace ChanceOfPrecipitation
                             var offset = s.GetOffset(ex);
                             cop.Offset(offset);
                             
-                            if (!allBlocks.Any(pb => pb.Intersects(cop)))
+                            if (!allBlocks.Any(pb => pb.Intersects(cop)) && cop.bounds.y>-3200)
                             {
                                 Console.WriteLine("add");
                                 done = true;
