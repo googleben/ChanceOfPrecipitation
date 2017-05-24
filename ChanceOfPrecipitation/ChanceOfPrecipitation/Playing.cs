@@ -193,6 +193,7 @@ namespace ChanceOfPrecipitation {
                 int iter = 0;
                 for (int i = random.Next(possible.Count); iter < possible.Count && placed < 10; i++, iter++)
                 {
+                    if (i >= possible.Count) i = 0;
                     Block b = possible[i];
                     RectangleF pos = new RectangleF(b.bounds.x, b.bounds.y - 144, 192, 144);
                     var qs = quad.GetPos(pos);
