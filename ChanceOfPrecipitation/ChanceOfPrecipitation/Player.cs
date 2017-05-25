@@ -13,10 +13,10 @@ namespace ChanceOfPrecipitation
 
         private readonly HealthBar healthBar;
 
-        private Keys left = Keys.Left;
-        private Keys right = Keys.Right;
-        public Keys up = Keys.Up;
-        public Keys down = Keys.Down;
+        private Keys left = Keys.A;
+        private Keys right = Keys.D;
+        public Keys up = Keys.W;
+        public Keys down = Keys.S;
         public Keys jump = Keys.Space;
         private Keys abilityOneKey = Keys.J;
         private Keys abilityTwoKey = Keys.K;
