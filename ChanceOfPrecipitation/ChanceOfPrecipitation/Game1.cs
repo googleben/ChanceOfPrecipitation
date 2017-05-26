@@ -7,7 +7,6 @@ using System.Xml.Serialization;
 using System.IO;
 
 namespace ChanceOfPrecipitation {
-
     public class Game1 : Game {
         private readonly GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -34,6 +33,7 @@ namespace ChanceOfPrecipitation {
             Content.RootDirectory = "Content";
             Instance = this;
         }
+
         protected override void Initialize() {
             base.Initialize();
             ApplySettings();
@@ -52,7 +52,7 @@ namespace ChanceOfPrecipitation {
 
             var ser = new XmlSerializer(typeof(Settings));
             Stream f = File.OpenRead(@"Content/Settings.xml");
-            settings = (Settings)ser.Deserialize(f);
+            settings = (Settings) ser.Deserialize(f);
             f.Close();
             fonts.Add("MenuFont", Content.Load<SpriteFont>("Fonts/MenuFont"));
 
@@ -71,19 +71,30 @@ namespace ChanceOfPrecipitation {
             TextureManager.blocks["$"] = new TextureInfo("Numbers", new Rectangle(104, 0, 11, 17));
             TextureManager.blocks["/"] = new TextureInfo("Numbers", new Rectangle(115, 0, 11, 17));
             for (var i = 2; i <= 9; i++)
-                TextureManager.blocks[i.ToString()] = new TextureInfo("Numbers", new Rectangle(5 + (i - 2) * 11, 0, 11, 17));
+                TextureManager.blocks[i.ToString()] = new TextureInfo("Numbers",
+                    new Rectangle(5 + (i - 2) * 11, 0, 11, 17));
 
             const float scale = 2;
-            TextureManager.textures["platform_tileset_stage1"] = Content.Load<Texture2D>("Tilesets/platform_tileset_stage1");
-            TextureManager.blocks["stage1_platform_top_left"] =        new TextureInfo("platform_tileset_stage1", new Rectangle(0, 0, 16, 16),   scale);
-            TextureManager.blocks["stage1_platform_top_middle"] =      new TextureInfo("platform_tileset_stage1", new Rectangle(16, 0, 16, 16),  scale);
-            TextureManager.blocks["stage1_platform_top_right"] =       new TextureInfo("platform_tileset_stage1", new Rectangle(32, 0, 16, 16),  scale);
-            TextureManager.blocks["stage1_platform_middle_left"] =     new TextureInfo("platform_tileset_stage1", new Rectangle(0, 16, 16, 16),  scale);
-            TextureManager.blocks["stage1_platform_middle"] =          new TextureInfo("platform_tileset_stage1", new Rectangle(16, 16, 16, 16), scale);
-            TextureManager.blocks["stage1_platform_middle_right"] =    new TextureInfo("platform_tileset_stage1", new Rectangle(32, 16, 16, 16), scale);
-            TextureManager.blocks["stage1_platform_bottom_left"] =     new TextureInfo("platform_tileset_stage1", new Rectangle(0, 32, 16, 16),  scale);
-            TextureManager.blocks["stage1_platform_bottom_middle"] =   new TextureInfo("platform_tileset_stage1", new Rectangle(16, 32, 16, 16), scale);
-            TextureManager.blocks["stage1_platform_bottom_right"] =    new TextureInfo("platform_tileset_stage1", new Rectangle(32, 32, 16, 16), scale);
+            TextureManager.textures["platform_tileset_stage1"] =
+                Content.Load<Texture2D>("Tilesets/platform_tileset_stage1");
+            TextureManager.blocks["stage1_platform_top_left"] = new TextureInfo("platform_tileset_stage1",
+                new Rectangle(0, 0, 16, 16), scale);
+            TextureManager.blocks["stage1_platform_top_middle"] = new TextureInfo("platform_tileset_stage1",
+                new Rectangle(16, 0, 16, 16), scale);
+            TextureManager.blocks["stage1_platform_top_right"] = new TextureInfo("platform_tileset_stage1",
+                new Rectangle(32, 0, 16, 16), scale);
+            TextureManager.blocks["stage1_platform_middle_left"] = new TextureInfo("platform_tileset_stage1",
+                new Rectangle(0, 16, 16, 16), scale);
+            TextureManager.blocks["stage1_platform_middle"] = new TextureInfo("platform_tileset_stage1",
+                new Rectangle(16, 16, 16, 16), scale);
+            TextureManager.blocks["stage1_platform_middle_right"] = new TextureInfo("platform_tileset_stage1",
+                new Rectangle(32, 16, 16, 16), scale);
+            TextureManager.blocks["stage1_platform_bottom_left"] = new TextureInfo("platform_tileset_stage1",
+                new Rectangle(0, 32, 16, 16), scale);
+            TextureManager.blocks["stage1_platform_bottom_middle"] = new TextureInfo("platform_tileset_stage1",
+                new Rectangle(16, 32, 16, 16), scale);
+            TextureManager.blocks["stage1_platform_bottom_right"] = new TextureInfo("platform_tileset_stage1",
+                new Rectangle(32, 32, 16, 16), scale);
 
             TextureManager.textures["Lazer"] = Content.Load<Texture2D>("Tilesets/LazerTileset");
 
@@ -107,11 +118,18 @@ namespace ChanceOfPrecipitation {
             TextureManager.textures["portal"] = Content.Load<Texture2D>("Spritesheets/Portal");
 
             for (var i = 0; i < 4; i++)
-                TextureManager.blocks["portal" + (i + 1)] = new TextureInfo("portal", new Rectangle(0, i * 32, 32, 32), scale / 2) { Frames = 3, Delay= 10 };
+                TextureManager.blocks["portal" + (i + 1)] = new TextureInfo("portal", new Rectangle(0, i * 32, 32, 32),
+                    scale / 2) {Frames = 3, Delay = 10};
 
             TextureManager.textures["player"] = Content.Load<Texture2D>("Spritesheets/Player");
-            TextureManager.blocks["playerIdle"] = new TextureInfo("player", new Rectangle(0, 0, 15, 32)) { Frames = 6, Delay = 10 };
-            TextureManager.blocks["playerWalking"] = new TextureInfo("player", new Rectangle(0, 32, 15, 32)) { Frames = 8, Delay = 2 };
+            TextureManager.blocks["playerIdle"] = new TextureInfo("player", new Rectangle(0, 0, 15, 32)) {
+                Frames = 6,
+                Delay = 10
+            };
+            TextureManager.blocks["playerWalking"] = new TextureInfo("player", new Rectangle(0, 32, 15, 32)) {
+                Frames = 8,
+                Delay = 2
+            };
 
             TextureManager.textures["enemy"] = Content.Load<Texture2D>("Spritesheets/Enemy");
             TextureManager.blocks["enemy"] = new TextureInfo("enemy", new Rectangle(0, 0, 16, 32));
@@ -142,19 +160,21 @@ namespace ChanceOfPrecipitation {
             TextureManager.blocks["HUD"] = new TextureInfo("HUD", new Rectangle(0, 0, 500, 132));
 
             TextureManager.textures["abilities"] = Content.Load<Texture2D>("Spritesheets/Abilities");
-            TextureManager.abilities[typeof(BurstFireAbility)] = new TextureInfo("abilities", new Rectangle(0, 0, 92, 92));
-            TextureManager.abilities[typeof(PenetratingAbility)] = new TextureInfo("abilities", new Rectangle(0, 0, 92, 92));
+            TextureManager.abilities[typeof(BurstFireAbility)] = new TextureInfo("abilities",
+                new Rectangle(0, 0, 92, 92));
+            TextureManager.abilities[typeof(PenetratingAbility)] = new TextureInfo("abilities",
+                new Rectangle(0, 0, 92, 92));
             TextureManager.abilities[typeof(JumpAbility)] = new TextureInfo("abilities", new Rectangle(0, 0, 92, 92));
             TextureManager.abilities[typeof(FastFireAbility)] = new TextureInfo("abilities", new Rectangle(0, 0, 92, 92));
 
             TextureManager.textures["MuzzleFlash"] = Content.Load<Texture2D>("Spritesheets/MuzzleFlash");
 
             for (var i = 0; i < 26; i++)
-                TextureManager.blocks[Convert.ToChar(i + 97).ToString()] = new TextureInfo("letters", new Rectangle(i * 11, 0, 11, 17));
+                TextureManager.blocks[Convert.ToChar(i + 97).ToString()] = new TextureInfo("letters",
+                    new Rectangle(i * 11, 0, 11, 17));
         }
 
-        protected override void UnloadContent() {
-        }
+        protected override void UnloadContent() {}
 
         public void ApplySettings() {
             if (settings == null) return;
@@ -204,12 +224,10 @@ namespace ChanceOfPrecipitation {
 
             GraphicsDevice.SetRenderTarget(null);
 
-            if (state is Playing)
-            {
+            if (state is Playing) {
                 foreach (Player p in Playing.Instance.players) p.hud.DrawCooldown();
             }
 
-            
 
             base.Draw(gameTime);
         }
@@ -217,12 +235,10 @@ namespace ChanceOfPrecipitation {
         public void Quit() {
             Exit();
         }
-
     }
 
     internal interface IGameState {
         void Draw(SpriteBatch sb);
         IGameState Update();
     }
-
 }

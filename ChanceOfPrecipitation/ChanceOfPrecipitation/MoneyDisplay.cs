@@ -2,8 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ChanceOfPrecipitation
-{
+namespace ChanceOfPrecipitation {
     class MoneyDisplay {
         private Vector2 position;
         private List<Character> numbers;
@@ -32,6 +31,5 @@ namespace ChanceOfPrecipitation
         public void Draw(SpriteBatch sb) {
             foreach (Character c in numbers) c.Draw(sb);
         }
-        
     }
 }

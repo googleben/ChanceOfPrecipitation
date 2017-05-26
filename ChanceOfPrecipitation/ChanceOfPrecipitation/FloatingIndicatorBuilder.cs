@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace ChanceOfPrecipitation
-{
+namespace ChanceOfPrecipitation {
     public class FloatingIndicatorBuilder {
         public float Scale { get; set; } = 2f;
         public float UpSpeed { get; set; } = 0.3f;

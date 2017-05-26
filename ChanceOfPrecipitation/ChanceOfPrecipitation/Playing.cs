@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework.Input;
 
 namespace ChanceOfPrecipitation {
     internal class Playing : IGameState {
-
         private static Playing instance;
         public static Random random = new Random();
 
@@ -45,7 +44,7 @@ namespace ChanceOfPrecipitation {
             players.Add(new Player(64, -180, 16, 32));
 
             objects.Add(players[0]);
-            objects.Add(new Block(0, 600,  "stage1_platform_top_left"));
+            objects.Add(new Block(0, 600, "stage1_platform_top_left"));
             objects.Add(new Block(1280 - 16, 600, "stage1_platform_top_right"));
             for (var i = 32; i < 1280 - 32; i += 32) {
                 objects.Add(new Block(i, 600, "stage1_platform_top_middle"));
@@ -56,7 +55,6 @@ namespace ChanceOfPrecipitation {
 
             //LoadStage("level");
             GenStage();
-            
         }
 
         public void Draw(SpriteBatch sb) {
@@ -65,17 +63,15 @@ namespace ChanceOfPrecipitation {
             x.UpdateViewport();
             x.UpdateHealthBar();
             foreach (var o in objects) if (!(o is Player)) o.Draw(sb);
-            foreach (var p in players) if (p.health>0) p.Draw(sb);
+            foreach (var p in players) if (p.health > 0) p.Draw(sb);
         }
 
-        void printQuad(QuadTree q)
-        {
+        void printQuad(QuadTree q) {
             if (q.nodes != null) foreach (var n in q.nodes) printQuad(n);
-            else if (q.dynamics.Count!=0) Console.WriteLine(q.dynamics.Count+" "+q.statics.Count);
+            else if (q.dynamics.Count != 0) Console.WriteLine(q.dynamics.Count + " " + q.statics.Count);
         }
 
         public IGameState Update() {
-
             if (!update) return this;
 
             lastState = state;
@@ -91,16 +87,19 @@ namespace ChanceOfPrecipitation {
 
             for (var i = 0; i < objects.Count; i++) {
                 var o = objects[i];
-                if (o.ToDestroy) { objects.RemoveAt(i--); continue; }
+                if (o.ToDestroy) {
+                    objects.RemoveAt(i--);
+                    continue;
+                }
                 o.Update(objects);
-                if (o.ToDestroy) { if (o is Player) objects.RemoveAt(i--); }
-                else
-                {
+                if (o.ToDestroy) {
+                    if (o is Player) objects.RemoveAt(i--);
+                }
+                else {
                     if (o is ICollidable) collidables.AddLast(o as ICollidable);
                     if (o is ICollider) statics.AddLast(o as ICollider);
                 }
             }
-
 
 
             quad.RunCollision();
@@ -118,11 +117,12 @@ namespace ChanceOfPrecipitation {
         void SpawnEnemy() {
             var spawnAreas = new List<RectangleF>();
             var spawnRestrictions = new List<RectangleF>();
-            foreach (var p in players)
-            {
+            foreach (var p in players) {
                 var bounds = p.Bounds();
-                spawnAreas.Add(new RectangleF(bounds.x - spawnRange.X / 2, bounds.y - spawnRange.Y / 2, spawnRange.X, spawnRange.Y));
-                spawnRestrictions.Add(new RectangleF(bounds.x - noSpawnRange.X / 2, bounds.y - noSpawnRange.Y / 2, noSpawnRange.X, noSpawnRange.Y));
+                spawnAreas.Add(new RectangleF(bounds.x - spawnRange.X / 2, bounds.y - spawnRange.Y / 2, spawnRange.X,
+                    spawnRange.Y));
+                spawnRestrictions.Add(new RectangleF(bounds.x - noSpawnRange.X / 2, bounds.y - noSpawnRange.Y / 2,
+                    noSpawnRange.X, noSpawnRange.Y));
             }
             var enemy = new BasicEnemy(0, 0);
             var height = enemy.Bounds().height;
@@ -134,14 +134,25 @@ namespace ChanceOfPrecipitation {
             var spawns = new List<RectangleF>();
             foreach (var b in blocks) {
                 var bounds = b.bounds;
-                var spawn = new RectangleF(bounds.x, bounds.y-height, width, height);
+                var spawn = new RectangleF(bounds.x, bounds.y - height, width, height);
                 var works = true;
-                foreach (var x in spawnAreas) if (!spawn.Intersects(x)) { works = false; break; }
-                foreach (var x in spawnRestrictions) if (!works || spawn.Intersects(x)) { works = false; break; }
-                if (works)
-                {
+                foreach (var x in spawnAreas)
+                    if (!spawn.Intersects(x)) {
+                        works = false;
+                        break;
+                    }
+                foreach (var x in spawnRestrictions)
+                    if (!works || spawn.Intersects(x)) {
+                        works = false;
+                        break;
+                    }
+                if (works) {
                     var qs = quad.GetPos(spawn);
-                    foreach (var q in qs) if (q.DoesCollide(spawn)) { works = false; break; }
+                    foreach (var q in qs)
+                        if (q.DoesCollide(spawn)) {
+                            works = false;
+                            break;
+                        }
                 }
                 if (!works) continue;
                 spawns.Add(spawn);
@@ -165,8 +176,7 @@ namespace ChanceOfPrecipitation {
 
         PLevel l;
 
-        void GenStage()
-        {
+        void GenStage() {
             update = false;
             objects.Clear();
             l = pgen.GenLevel();
@@ -174,7 +184,8 @@ namespace ChanceOfPrecipitation {
             foreach (var x in b) x.Build(this);
             foreach (var p in players) objects.Add(p);
             var size = l.Bounds();
-            quad = new QuadTree(size.x-1000, size.y-1000, size.width+2000, size.height+2000, objects.OfType<ICollider>().ToList(), null);
+            quad = new QuadTree(size.x - 1000, size.y - 1000, size.width + 2000, size.height + 2000,
+                objects.OfType<ICollider>().ToList(), null);
             objects.OfType<ICollidable>().ToList().ForEach(quad.AddDynamic);
             objects.OnAdd += (e, args) => {
                 if (e is ICollidable) quad.AddDynamic(e as ICollidable);
@@ -184,22 +195,18 @@ namespace ChanceOfPrecipitation {
             GenObjs();
         }
 
-        public void GenObjs()
-        {
+        public void GenObjs() {
             List<Block> possible = objects.OfType<Block>().Where(b => b.type == "stage1_platform_top_middle").ToList();
             int placed = 0;
-            for (int times = 0; times < 20 && placed < 10; times++)
-            {
+            for (int times = 0; times < 20 && placed < 10; times++) {
                 int iter = 0;
-                for (int i = random.Next(possible.Count); iter < possible.Count && placed < 10; i++, iter++)
-                {
+                for (int i = random.Next(possible.Count); iter < possible.Count && placed < 10; i++, iter++) {
                     if (i >= possible.Count) i = 0;
                     Block b = possible[i];
                     RectangleF pos = new RectangleF(b.bounds.x, b.bounds.y - 144, 192, 144);
                     var qs = quad.GetPos(pos);
                     foreach (var q in qs) if (q.DoesCollide(pos)) continue;
-                    for (int j = 1; j<5; j++)
-                    {
+                    for (int j = 1; j < 5; j++) {
                         RectangleF here = new RectangleF(b.bounds.x + (32 * j), b.bounds.y, 32, 32);
                         qs = quad.GetPos(here);
                         foreach (var q in qs) if (!q.DoesCollide(here)) goto bottom;
@@ -209,7 +216,8 @@ namespace ChanceOfPrecipitation {
                     p.Build(this);
                     Console.WriteLine("Shop");
                     break;
-                    bottom:;
+                    bottom:
+                    ;
                 }
             }
         }
@@ -217,6 +225,5 @@ namespace ChanceOfPrecipitation {
         public void NextStage() {
             LoadStage("level");
         }
-
     }
 }

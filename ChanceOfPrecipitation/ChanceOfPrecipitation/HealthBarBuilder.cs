@@ -1,10 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace ChanceOfPrecipitation
-{
-    public class HealthBarBuilder
-    {
-
+namespace ChanceOfPrecipitation {
+    public class HealthBarBuilder {
         public Vector2 Position { get; set; } = new Vector2(100, 100);
         public int Width { get; set; } = 50;
         public int Height { get; set; } = 15;
@@ -16,13 +13,10 @@ namespace ChanceOfPrecipitation
         public Color DamageColor { get; set; } = new Color(255, 0, 0);
 
         private bool isBoss;
+
         public bool IsBoss {
-            get
-            {
-                return isBoss;
-            }
-            set
-            {
+            get { return isBoss; }
+            set {
                 isBoss = true;
                 Position = new Vector2(10, 10);
                 Width = Game1.BufferWidth - 20;
@@ -30,14 +24,10 @@ namespace ChanceOfPrecipitation
         }
 
         private bool isPlayer;
-        public bool IsPlayer
-        {
-            get
-            {
-                return isPlayer;
-            }
-            set
-            {
+
+        public bool IsPlayer {
+            get { return isPlayer; }
+            set {
                 isPlayer = true;
                 Width = 492;
                 Height = 28;
@@ -45,32 +35,25 @@ namespace ChanceOfPrecipitation
             }
         }
 
-        public HealthBarBuilder(Vector2 position, int width, int height)
-        {
+        public HealthBarBuilder(Vector2 position, int width, int height) {
             Position = position;
             Width = width;
             Height = height;
         }
 
-        public HealthBarBuilder(int width, int height)
-        {
+        public HealthBarBuilder(int width, int height) {
             Width = width;
             Height = height;
         }
 
-        public HealthBarBuilder(int maxHealth)
-        {
+        public HealthBarBuilder(int maxHealth) {
             MaxHealth = maxHealth;
         }
 
-        public HealthBarBuilder()
-        {
-        }
+        public HealthBarBuilder() {}
 
-        public HealthBar Build()
-        {
+        public HealthBar Build() {
             return new HealthBar(this);
         }
-
     }
 }

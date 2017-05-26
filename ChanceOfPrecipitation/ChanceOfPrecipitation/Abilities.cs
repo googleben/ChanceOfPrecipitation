@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ChanceOfPrecipitation {
     public abstract class Ability {
-
         internal int cd;
 
         public virtual void Fire(EventList<GameObject> objects) {
@@ -21,8 +20,8 @@ namespace ChanceOfPrecipitation {
     }
 
     #region Enemy Abilities
-    public abstract class EnemyAbility : Ability {
 
+    public abstract class EnemyAbility : Ability {
         public abstract bool ShouldFire(List<Player> players);
     }
 
@@ -39,7 +38,8 @@ namespace ChanceOfPrecipitation {
         }
 
         public override void Fire(EventList<GameObject> objects) => objects.OfType<Player>().ToList().ForEach(p => {
-            if (origin.Facing() == Direction.Left && p.Bounds().Center.X <= origin.Bounds().Center.X || origin.Facing() == Direction.Right && p.Bounds().Center.X >= origin.Bounds().Center.X)
+            if (origin.Facing() == Direction.Left && p.Bounds().Center.X <= origin.Bounds().Center.X ||
+                origin.Facing() == Direction.Right && p.Bounds().Center.X >= origin.Bounds().Center.X)
                 p.Damage(10);
 
             base.Fire(objects);
@@ -50,8 +50,7 @@ namespace ChanceOfPrecipitation {
         }
     }
 
-    public class EnemyLazerAbility : EnemyAbility
-    {
+    public class EnemyLazerAbility : EnemyAbility {
         private readonly ICollidable origin;
         private readonly int range;
         private readonly int life;
@@ -73,11 +72,11 @@ namespace ChanceOfPrecipitation {
 
             players.ForEach(p => {
                 if ((origin.Facing() == Direction.Left && p.Bounds().Center.X < origin.Bounds().Center.X ||
-                origin.Facing() == Direction.Right && p.Bounds().Center.X > origin.Bounds().Center.X) &&
-                Math.Abs(p.Bounds().Center.X - origin.Bounds().Center.X) < 50 &&
-                Math.Abs(p.Bounds().Center.Y - origin.Bounds().Center.Y) < range &&
-                ((origin as Enemy).collision | Collision.Bottom) != 0 &&
-                cd <= 0)
+                     origin.Facing() == Direction.Right && p.Bounds().Center.X > origin.Bounds().Center.X) &&
+                    Math.Abs(p.Bounds().Center.X - origin.Bounds().Center.X) < 50 &&
+                    Math.Abs(p.Bounds().Center.Y - origin.Bounds().Center.Y) < range &&
+                    ((origin as Enemy).collision | Collision.Bottom) != 0 &&
+                    cd <= 0)
                     ans = true;
             });
 
@@ -109,9 +108,9 @@ namespace ChanceOfPrecipitation {
 
             players.ForEach(p => {
                 if ((origin.Facing() == Direction.Left && p.Bounds().Center.X < origin.Bounds().Center.X ||
-                origin.Facing() == Direction.Right && p.Bounds().Center.X > origin.Bounds().Center.X) &&
-                Math.Abs(origin.Bounds().Center.Y - origin.Bounds().Center.Y) < 10 &&
-                cd <= 0)
+                     origin.Facing() == Direction.Right && p.Bounds().Center.X > origin.Bounds().Center.X) &&
+                    Math.Abs(origin.Bounds().Center.Y - origin.Bounds().Center.Y) < 10 &&
+                    cd <= 0)
                     ans = true;
             });
 
@@ -119,15 +118,18 @@ namespace ChanceOfPrecipitation {
         }
 
         public override void Fire(EventList<GameObject> objects) {
-            objects.Add(new Bullet(origin, origin.Facing() == Direction.Left ? origin.Bounds().x - Bullet.Width : origin.Bounds().Right, origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, damage));
+            objects.Add(new Bullet(origin,
+                origin.Facing() == Direction.Left ? origin.Bounds().x - Bullet.Width : origin.Bounds().Right,
+                origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, damage));
             base.Fire(objects);
         }
     }
+
     #endregion
 
     #region Player Abilities
-    public class BulletAbility : Ability {
 
+    public class BulletAbility : Ability {
         private readonly ICollidable origin;
         public int damage = 10;
 
@@ -141,99 +143,80 @@ namespace ChanceOfPrecipitation {
 
         public override void Fire(EventList<GameObject> objects) {
             if (cd == 0) {
-                objects.Add(new Bullet(origin, origin.Facing() == Direction.Left ? origin.Bounds().x - Bullet.Width : origin.Bounds().Right, origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, damage));
+                objects.Add(new Bullet(origin,
+                    origin.Facing() == Direction.Left ? origin.Bounds().x - Bullet.Width : origin.Bounds().Right,
+                    origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, damage));
                 base.Fire(objects);
             }
-            
         }
-
     }
 
-    public class JumpAbility : Ability
-    {
-
+    public class JumpAbility : Ability {
         private readonly ICollidable origin;
 
-        public override int Cooldown()
-        {
+        public override int Cooldown() {
             return 120;
         }
 
-        public JumpAbility(ICollidable origin)
-        {
+        public JumpAbility(ICollidable origin) {
             this.origin = origin;
         }
 
-        public override void Fire(EventList<GameObject> objects)
-        {
-            if (cd == 0)
-            {
+        public override void Fire(EventList<GameObject> objects) {
+            if (cd == 0) {
                 (origin as Player)?.Jump(2);
                 base.Fire(objects);
             }
         }
-
     }
 
-    public class FastFireAbility : Ability
-    {
-
+    public class FastFireAbility : Ability {
         private readonly ICollidable origin;
         public int damage = 10;
 
-        public override int Cooldown()
-        {
+        public override int Cooldown() {
             return 120;
         }
 
-        public FastFireAbility(ICollidable origin)
-        {
+        public FastFireAbility(ICollidable origin) {
             this.origin = origin;
         }
 
-        public override void Fire(EventList<GameObject> objects)
-        {
-            if (cd == 0)
-            {
+        public override void Fire(EventList<GameObject> objects) {
+            if (cd == 0) {
                 objects.Add(new FastFireDummyObject(origin, damage));
                 base.Fire(objects);
             }
-
         }
 
-        private class FastFireDummyObject : GameObject
-        {
+        private class FastFireDummyObject : GameObject {
             private const int Interval = 2;
             private int count;
             private readonly ICollidable origin;
             private readonly int damage;
 
-            public FastFireDummyObject(ICollidable origin, int damage)
-            {
+            public FastFireDummyObject(ICollidable origin, int damage) {
                 this.origin = origin;
                 this.damage = damage;
             }
 
-            public override void Draw(SpriteBatch sb)
-            {
+            public override void Draw(SpriteBatch sb) {
                 //do nothing
             }
 
-            public override void Update(EventList<GameObject> objects)
-            {
-                if (count % Interval == 0)
-                {
-                    objects.Add(new Bullet(origin, origin.Facing() == Direction.Left ? origin.Bounds().x - Bullet.Width : origin.Bounds().Right, origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, damage));
+            public override void Update(EventList<GameObject> objects) {
+                if (count % Interval == 0) {
+                    objects.Add(new Bullet(origin,
+                        origin.Facing() == Direction.Left ? origin.Bounds().x - Bullet.Width : origin.Bounds().Right,
+                        origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, damage));
                 }
                 if (count == Interval * 8) Destroy();
                 count++;
             }
         }
-
     }
 
     public class PenetratingAbility : Ability {
-
         private readonly ICollidable origin;
         public int damage = 50;
 
@@ -259,7 +242,7 @@ namespace ChanceOfPrecipitation {
                     if (qs.Count == 0) done = true;
                     foreach (QuadTree q in qs) {
                         if (q.DoesCollide(r)) done = true;
-                        for (int i = 0; i<q.dynamics.Count; i++) {
+                        for (int i = 0; i < q.dynamics.Count; i++) {
                             var e = q.dynamics[i];
                             if (e is Enemy && !hit.Contains(e) && e.Bounds().Intersects((r))) {
                                 hit.Add(e);
@@ -286,18 +269,20 @@ namespace ChanceOfPrecipitation {
             public override void Draw(SpriteBatch sb) {
                 var left = origin.Facing() == Direction.Left;
                 var b = origin.Bounds();
-                sb.Draw(tex, (Rectangle)(new RectangleF(left ? b.x - tex.Width : b.Right, b.Center.Y, tex.Width, tex.Height)+Playing.Instance.offset), null, Color.White, 0, Vector2.Zero, left ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                sb.Draw(tex,
+                    (Rectangle)
+                    (new RectangleF(left ? b.x - tex.Width : b.Right, b.Center.Y, tex.Width, tex.Height) +
+                     Playing.Instance.offset), null, Color.White, 0, Vector2.Zero,
+                    left ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
             }
 
             public override void Update(EventList<GameObject> objects) {
                 if (life-- == 0) Destroy();
             }
         }
-
     }
 
     public class BurstFireAbility : Ability {
-
         private readonly ICollidable origin;
         public int damage = 10;
 
@@ -314,7 +299,6 @@ namespace ChanceOfPrecipitation {
                 objects.Add(new BurstFireDummyObject(origin, damage));
                 base.Fire(objects);
             }
-
         }
 
         private class BurstFireDummyObject : GameObject {
@@ -333,15 +317,17 @@ namespace ChanceOfPrecipitation {
             }
 
             public override void Update(EventList<GameObject> objects) {
-                if (count%Interval==0) {
-                    objects.Add(new Bullet(origin, origin.Facing() == Direction.Left ? origin.Bounds().x - Bullet.Width : origin.Bounds().Right, origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, damage));
+                if (count % Interval == 0) {
+                    objects.Add(new Bullet(origin,
+                        origin.Facing() == Direction.Left ? origin.Bounds().x - Bullet.Width : origin.Bounds().Right,
+                        origin.Bounds().Center.Y, origin.Facing() == Direction.Left ? -10 : 10, damage));
                 }
                 if (count == Interval * 2) Destroy();
                 count++;
             }
         }
-
     }
+
     #endregion
 
     public class Bullet : GameObject, ICollider, ICollidable {
@@ -365,7 +351,7 @@ namespace ChanceOfPrecipitation {
         }
 
         public override void Draw(SpriteBatch sb) {
-            sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), Color.White);
+            sb.Draw(texture, (Rectangle) (bounds + Playing.Instance.offset), Color.White);
         }
 
         public override void Update(EventList<GameObject> objects) {
@@ -391,12 +377,9 @@ namespace ChanceOfPrecipitation {
             return speed < 0 ? Direction.Left : Direction.Right;
         }
 
-        public void Collide(Collision side, float amount, ICollider origin)
-        {
+        public void Collide(Collision side, float amount, ICollider origin) {
             if (origin != this)
                 Destroy();
         }
     }
-
-
 }

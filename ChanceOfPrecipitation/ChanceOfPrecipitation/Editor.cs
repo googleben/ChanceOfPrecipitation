@@ -13,9 +13,7 @@ using System.Text.RegularExpressions;
 using System.IO;
 
 namespace ChanceOfPrecipitation {
-
     public abstract class EditorTool {
-
         public Rectangle bounds;
         public string sprite;
         public bool enabled = true;
@@ -35,20 +33,17 @@ namespace ChanceOfPrecipitation {
 
         public abstract void OnClick(Point clickPos);
 
-        public virtual void PickedUp() { }
-
+        public virtual void PickedUp() {}
     }
 
     public class ToolGroup : EditorTool {
-
         bool open = false;
 
         List<EditorTool> tools = new List<EditorTool>();
 
-        public ToolGroup(int x, int y, int width, int height, string sprite) : base(x, y, width, height, sprite) { }
+        public ToolGroup(int x, int y, int width, int height, string sprite) : base(x, y, width, height, sprite) {}
 
-        public override void OnClick(Point clickPos) {
-        }
+        public override void OnClick(Point clickPos) {}
 
         public override void PickedUp() {
             open = !open;
@@ -61,49 +56,48 @@ namespace ChanceOfPrecipitation {
             tool.bounds.Y = this.bounds.Y - tools.Count * 32;
             tool.enabled = open;
         }
-
     }
 
     public class BlockTool : EditorTool {
         public BlockTool(int x, int y, int width, int height, string sprite) : base(x, y, width, height, sprite) {}
 
         public override void OnClick(Point clickPos) {
-            Point pos = new Point(clickPos.X - (clickPos.X % 32) + Editor.viewport.X, clickPos.Y - (clickPos.Y % 32) + Editor.viewport.Y);
-            for (int i = Editor.Instance.objects.Count-1; i>=0; i--) {
+            Point pos = new Point(clickPos.X - (clickPos.X % 32) + Editor.viewport.X,
+                clickPos.Y - (clickPos.Y % 32) + Editor.viewport.Y);
+            for (int i = Editor.Instance.objects.Count - 1; i >= 0; i--) {
                 var b = (Rectangle) Editor.Instance.objects[i].bounds;
                 if (b.X == pos.X && b.Y == pos.Y) Editor.Instance.objects.RemoveAt(i);
             }
-            if (sprite=="ropeMid") Editor.Instance.objects.Add(new RopeBlock(pos.X, pos.Y));
+            if (sprite == "ropeMid") Editor.Instance.objects.Add(new RopeBlock(pos.X, pos.Y));
             else Editor.Instance.objects.Add(new EditorBlock(pos.X, pos.Y, sprite));
         }
-
     }
 
     public class EraserTool : EditorTool {
-        public EraserTool(int x, int y, int width, int height) : base(x, y, width, height, "EraserTool") { }
+        public EraserTool(int x, int y, int width, int height) : base(x, y, width, height, "EraserTool") {}
 
         public override void OnClick(Point clickPos) {
-            Point pos = new Point(clickPos.X - (clickPos.X % 32) + Editor.viewport.X, clickPos.Y - (clickPos.Y % 32) + Editor.viewport.Y);
+            Point pos = new Point(clickPos.X - (clickPos.X % 32) + Editor.viewport.X,
+                clickPos.Y - (clickPos.Y % 32) + Editor.viewport.Y);
 
             for (int i = Editor.Instance.objects.Count - 1; i >= 0; i--) {
-                var b = (Rectangle)Editor.Instance.objects[i].bounds;
+                var b = (Rectangle) Editor.Instance.objects[i].bounds;
                 if (b.X == pos.X && b.Y == pos.Y) Editor.Instance.objects.RemoveAt(i);
             }
         }
     }
 
     public class SaveTool : EditorTool {
-        public SaveTool(int x, int y, int width, int height) : base(x, y, width, height, "SaveTool") { }
+        public SaveTool(int x, int y, int width, int height) : base(x, y, width, height, "SaveTool") {}
 
-        public override void OnClick(Point clickPos) {
-            
-        }
+        public override void OnClick(Point clickPos) {}
 
         public override void PickedUp() {
             string file = "";
             foreach (EditorBlock o in Editor.Instance.objects) {
                 if (o.type.Contains("Exit"))
-                    file += "exit " + o.bounds.X + " " + o.bounds.Y + " " + (o.type.Contains("Vert") ? "true" : "false") + "\n";
+                    file += "exit " + o.bounds.X + " " + o.bounds.Y + " " + (o.type.Contains("Vert") ? "true" : "false") +
+                            "\n";
                 else if (o.type.Contains("rope"))
                     file += "rope " + o.bounds.X + " " + o.bounds.Y + " " + (o as RopeBlock).length + "\n";
                 else
@@ -117,15 +111,12 @@ namespace ChanceOfPrecipitation {
 
             Console.WriteLine(file);
         }
-
     }
 
     public class ClearTool : EditorTool {
-        public ClearTool(int x, int y, int width, int height) : base(x, y, width, height, "ClearTool") { }
+        public ClearTool(int x, int y, int width, int height) : base(x, y, width, height, "ClearTool") {}
 
-        public override void OnClick(Point clickPos) {
-
-        }
+        public override void OnClick(Point clickPos) {}
 
         public override void PickedUp() {
             Editor.Instance.objects.Clear();
@@ -133,21 +124,22 @@ namespace ChanceOfPrecipitation {
     }
 
     public class RopeModTool : EditorTool {
-
         bool add;
 
-        public RopeModTool(int x, int y, int width, int height, bool add) : base(x, y, width, height, add ? "Plus" : "Minus") {
+        public RopeModTool(int x, int y, int width, int height, bool add)
+            : base(x, y, width, height, add ? "Plus" : "Minus") {
             this.add = add;
         }
 
         public override void OnClick(Point clickPos) {
             if (Editor.mlastState.LeftButton == ButtonState.Pressed) return;
-            Point pos = new Point(clickPos.X - (clickPos.X % 32) + Editor.viewport.X, clickPos.Y - (clickPos.Y % 32) + Editor.viewport.Y);
+            Point pos = new Point(clickPos.X - (clickPos.X % 32) + Editor.viewport.X,
+                clickPos.Y - (clickPos.Y % 32) + Editor.viewport.Y);
 
             for (int i = Editor.Instance.objects.Count - 1; i >= 0; i--) {
                 var x = Editor.Instance.objects[i];
                 var b = x.bounds;
-                if (b.X == pos.X && b.Y == pos.Y && x is RopeBlock) (x as RopeBlock).length += add ? 1 : -1; 
+                if (b.X == pos.X && b.Y == pos.Y && x is RopeBlock) (x as RopeBlock).length += add ? 1 : -1;
             }
         }
 
@@ -155,7 +147,8 @@ namespace ChanceOfPrecipitation {
             string file = "";
             foreach (EditorBlock o in Editor.Instance.objects) {
                 if (o.type.Contains("Exit"))
-                    file += "exit " + o.bounds.X + " " + o.bounds.Y + " " + (o.type.Contains("Vert") ? "true" : "false") + "\n";
+                    file += "exit " + o.bounds.X + " " + o.bounds.Y + " " + (o.type.Contains("Vert") ? "true" : "false") +
+                            "\n";
                 else if (o.type.Contains("rope"))
                     file += "rope " + o.bounds.X + " " + o.bounds.Y + " 10\n";
                 else
@@ -171,49 +164,48 @@ namespace ChanceOfPrecipitation {
         }
     }
 
-    class EditorBlock : GameObject
-    {
-
+    class EditorBlock : GameObject {
         public Rectangle bounds;
         public string type;
         protected readonly Texture2D texture;
         protected readonly TextureInfo info;
 
-        public EditorBlock(int x, int y, string type)
-        {
+        public EditorBlock(int x, int y, string type) {
             this.type = type;
 
             info = TextureManager.blocks[type];
             texture = TextureManager.textures[info.texName];
-            bounds = new Rectangle(x, y, (int)(info.src.Width * info.scale), (int)(info.src.Height * info.scale));
+            bounds = new Rectangle(x, y, (int) (info.src.Width * info.scale), (int) (info.src.Height * info.scale));
         }
 
-        public override void Draw(SpriteBatch sb)
-        {
-            sb.Draw(texture, new Rectangle(bounds.X - Editor.viewport.X, bounds.Y - Editor.viewport.Y, bounds.Width, bounds.Height), info.src, Color.White);
+        public override void Draw(SpriteBatch sb) {
+            sb.Draw(texture,
+                new Rectangle(bounds.X - Editor.viewport.X, bounds.Y - Editor.viewport.Y, bounds.Width, bounds.Height),
+                info.src, Color.White);
         }
 
         public override void Update(EventList<GameObject> objects) {}
     }
 
     class RopeBlock : EditorBlock {
-
         public int length;
 
-        public RopeBlock(int x, int y) : this(x, y, 1) { }
+        public RopeBlock(int x, int y) : this(x, y, 1) {}
+
         public RopeBlock(int x, int y, int length) : base(x, y, "ropeMid") {
             this.length = length;
         }
 
         public override void Draw(SpriteBatch sb) {
             if (length < 1) length = 1;
-            for (int i = 0; i< length; i++) sb.Draw(texture, new Rectangle(bounds.X - Editor.viewport.X, bounds.Y - Editor.viewport.Y + (i*32), bounds.Width, bounds.Height), info.src, Color.White);
+            for (int i = 0; i < length; i++)
+                sb.Draw(texture,
+                    new Rectangle(bounds.X - Editor.viewport.X, bounds.Y - Editor.viewport.Y + (i * 32), bounds.Width,
+                        bounds.Height), info.src, Color.White);
         }
-
     }
 
     class Editor : IGameState {
-
         const int screenWidth = 1280;
         const int screenHeight = 720;
 
@@ -229,7 +221,14 @@ namespace ChanceOfPrecipitation {
         public List<EditorTool> tools;
 
         private static Editor instance;
-        public static Editor Instance { get { if (instance == null) instance = new Editor(); return instance; } private set { instance = value; } }
+
+        public static Editor Instance {
+            get {
+                if (instance == null) instance = new Editor();
+                return instance;
+            }
+            private set { instance = value; }
+        }
 
         public static bool InstanceExists => instance != null;
 
@@ -250,7 +249,7 @@ namespace ChanceOfPrecipitation {
             tools.Add(savetool);
             ClearTool cleartool = new ClearTool(96, 720 - 32, 32, 32);
             tools.Add(cleartool);
-            
+
             BlockTool block;
             block = new BlockTool(0, 0, 32, 32, "stage1_platform_top_left");
             blocks.Add(block);
@@ -341,7 +340,8 @@ namespace ChanceOfPrecipitation {
             mlastState = mstate;
             mstate = Mouse.GetState();
             if (mstate.LeftButton.HasFlag(ButtonState.Pressed)) {
-                Point pos = new Point((int)(((float)mstate.X / Game1.Instance.settings.screenWidth) * 1280), (int)(((float)mstate.Y / Game1.Instance.settings.screenHeight) * 720));
+                Point pos = new Point((int) (((float) mstate.X / Game1.Instance.settings.screenWidth) * 1280),
+                    (int) (((float) mstate.Y / Game1.Instance.settings.screenHeight) * 720));
                 bool found = false;
                 foreach (EditorTool t in tools) {
                     if (t.enabled && t.bounds.Contains(pos)) {
@@ -353,12 +353,12 @@ namespace ChanceOfPrecipitation {
                 }
                 if (!found && tool != null) tool.OnClick(pos);
             }
-            if (mstate.RightButton.HasFlag(ButtonState.Pressed))
-            {
-                Point clickPos = new Point((int)(((float)mstate.X / Game1.Instance.settings.screenWidth) * 1280), (int)(((float)mstate.Y / Game1.Instance.settings.screenHeight) * 720));
-                Point pos = new Point(clickPos.X - (clickPos.X % 32) + viewport.X, clickPos.Y - (clickPos.Y % 32) + viewport.Y);
-                for (int i = objects.Count - 1; i >= 0; i--)
-                {
+            if (mstate.RightButton.HasFlag(ButtonState.Pressed)) {
+                Point clickPos = new Point((int) (((float) mstate.X / Game1.Instance.settings.screenWidth) * 1280),
+                    (int) (((float) mstate.Y / Game1.Instance.settings.screenHeight) * 720));
+                Point pos = new Point(clickPos.X - (clickPos.X % 32) + viewport.X,
+                    clickPos.Y - (clickPos.Y % 32) + viewport.Y);
+                for (int i = objects.Count - 1; i >= 0; i--) {
                     var b = objects[i].bounds;
                     if (b.X == pos.X && b.Y == pos.Y) objects.RemoveAt(i);
                 }
@@ -374,15 +374,15 @@ namespace ChanceOfPrecipitation {
             var split = Regex.Split(raw, "\\s+");
             var scanner = split.Select<string, Func<Type, object>>((string s) => {
                 return t =>
-                (s as IConvertible).ToType(t, System.Globalization.CultureInfo.InvariantCulture);
+                    (s as IConvertible).ToType(t, System.Globalization.CultureInfo.InvariantCulture);
             }).GetEnumerator();
             while (scanner.MoveNext()) {
-                string type = (string)scanner.Current(typeof(string));
+                string type = (string) scanner.Current(typeof(string));
                 Console.WriteLine(type);
                 scanner.MoveNext();
-                float x = (float)scanner.Current(typeof(float));
+                float x = (float) scanner.Current(typeof(float));
                 scanner.MoveNext();
-                float y = (float)scanner.Current(typeof(float));
+                float y = (float) scanner.Current(typeof(float));
 
                 /*if (type == "shop") {
                     scanner.MoveNext();
@@ -401,21 +401,19 @@ namespace ChanceOfPrecipitation {
                 }*/
                 if (type == "rope") {
                     scanner.MoveNext();
-                    int length = (int)scanner.Current(typeof(int));
-                    objects.Add(new RopeBlock((int)x, (int)y, length));
+                    int length = (int) scanner.Current(typeof(int));
+                    objects.Add(new RopeBlock((int) x, (int) y, length));
                 }
                 else if (type == "exit") {
                     scanner.MoveNext();
-                    bool vertical = (bool)scanner.Current(typeof(bool));
-                    objects.Add(new EditorBlock((int)x, (int)y, vertical ? "VertExit" : "HorExit"));
+                    bool vertical = (bool) scanner.Current(typeof(bool));
+                    objects.Add(new EditorBlock((int) x, (int) y, vertical ? "VertExit" : "HorExit"));
                 }
                 else {
-                    objects.Add(new EditorBlock((int)x, (int)y, type));
+                    objects.Add(new EditorBlock((int) x, (int) y, type));
                 }
-
             }
             scanner.Dispose();
         }
-
     }
 }

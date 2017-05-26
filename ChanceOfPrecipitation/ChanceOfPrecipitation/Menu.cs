@@ -6,7 +6,6 @@ using System.IO;
 
 namespace ChanceOfPrecipitation {
     internal class MenuOption {
-
         public delegate IGameState MakeState();
 
         public MakeState makeState;
@@ -17,7 +16,6 @@ namespace ChanceOfPrecipitation {
             this.makeState = makeState;
             this.text = text;
         }
-
     }
 
     internal abstract class Menu : IGameState {
@@ -45,12 +43,11 @@ namespace ChanceOfPrecipitation {
             var ypos = 20;
             var space = ypos;
             float y = 0;
-            for (var i = 0; i < index; i++)
-            {
+            for (var i = 0; i < index; i++) {
                 var opt = options[i];
                 var m = font.MeasureString(opt.text);
                 y = m.Y;
-                ypos += space + (int)m.Y;
+                ypos += space + (int) m.Y;
             }
             if (ypos > 720 - y) offset = ypos - (720 - y);
             else offset = 0;
@@ -58,8 +55,9 @@ namespace ChanceOfPrecipitation {
             for (var i = 0; i < options.Count; i++) {
                 var opt = options[i];
                 var m = font.MeasureString(opt.text);
-                sb.DrawString(font, opt.text, new Vector2(Game1.BufferWidth / 2 - m.X / 2, ypos-offset), i == index ? Color.White : Color.Gray);
-                ypos += space + (int)m.Y;
+                sb.DrawString(font, opt.text, new Vector2(Game1.BufferWidth / 2 - m.X / 2, ypos - offset),
+                    i == index ? Color.White : Color.Gray);
+                ypos += space + (int) m.Y;
             }
         }
 
@@ -94,18 +92,16 @@ namespace ChanceOfPrecipitation {
         }
 
         public virtual void GenerateOptions() {
-            if (fromMenu == null) options.Add(new MenuOption("Exit", () =>
-            {
-                Game1.Instance.Quit();
-                return this;
-            }));
+            if (fromMenu == null)
+                options.Add(new MenuOption("Exit", () => {
+                    Game1.Instance.Quit();
+                    return this;
+                }));
             else options.Add(new MenuOption("Back", () => fromMenu));
         }
-
     }
 
     internal class MainMenu : Menu {
-
         public MainMenu() : base(null) {}
 
         public new void Draw(SpriteBatch sb) {
@@ -113,7 +109,8 @@ namespace ChanceOfPrecipitation {
         }
 
         public new IGameState Update() {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) Game1.Instance.Quit();
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+                Keyboard.GetState().IsKeyDown(Keys.Escape)) Game1.Instance.Quit();
             return base.Update();
         }
 
@@ -123,53 +120,52 @@ namespace ChanceOfPrecipitation {
             options.Add(new MenuOption("Make", () => new EditorMenu(this)));
             base.GenerateOptions();
         }
-
     }
 
     internal class SettingsMenu : Menu {
-
         public SettingsMenu(Menu fromMenu) : base(fromMenu) {}
 
         public override void GenerateOptions() {
             var settings = Game1.Instance.settings;
             base.GenerateOptions();
-            options.Add(new MenuOption($"Resolution: {Game1.Instance.settings.screenWidth}x{Game1.Instance.settings.screenHeight}", () => {
-                var size = new Point(settings.screenWidth, settings.screenHeight);
-                var index = Game1.resolutions.IndexOf(size);
-                index++;
-                if (index == Game1.resolutions.Count) index = 0;
-                var r = Game1.resolutions[index];
-                Game1.Instance.settings.screenWidth = r.X;
-                Game1.Instance.settings.screenHeight = r.Y;
-                RegenerateOptions();
-                
-                return this;
-            }));
+            options.Add(
+                new MenuOption(
+                    $"Resolution: {Game1.Instance.settings.screenWidth}x{Game1.Instance.settings.screenHeight}", () => {
+                        var size = new Point(settings.screenWidth, settings.screenHeight);
+                        var index = Game1.resolutions.IndexOf(size);
+                        index++;
+                        if (index == Game1.resolutions.Count) index = 0;
+                        var r = Game1.resolutions[index];
+                        Game1.Instance.settings.screenWidth = r.X;
+                        Game1.Instance.settings.screenHeight = r.Y;
+                        RegenerateOptions();
+
+                        return this;
+                    }));
             options.Add(new MenuOption("Fullscreen: " + (settings.fullscreen ? "On" : "Off"), () => {
                 Game1.Instance.settings.fullscreen = !settings.fullscreen;
                 RegenerateOptions();
                 return this;
             }));
-            options.Add(new MenuOption("Apply", () => { Game1.Instance.ApplySettings(); return this; }));
+            options.Add(new MenuOption("Apply", () => {
+                Game1.Instance.ApplySettings();
+                return this;
+            }));
         }
-
     }
 
     internal class EditorMenu : Menu {
-
-        public EditorMenu(Menu fromMenu) : base(fromMenu) { }
+        public EditorMenu(Menu fromMenu) : base(fromMenu) {}
 
         public override void GenerateOptions() {
             base.GenerateOptions();
             options.Add(new MenuOption("Load Level", () => new LoadMenu(this)));
             options.Add(new MenuOption("New Level", () => new NewMenu(this)));
         }
-
     }
 
     internal class LoadMenu : Menu {
-
-        public LoadMenu(Menu fromMenu) : base(fromMenu) { }
+        public LoadMenu(Menu fromMenu) : base(fromMenu) {}
 
         public override void GenerateOptions() {
             base.GenerateOptions();
@@ -181,11 +177,9 @@ namespace ChanceOfPrecipitation {
                 }));
             }
         }
-
     }
 
     internal class NewMenu : Menu {
-
         MenuOption header;
         MenuOption textField;
         MenuOption back;
@@ -193,7 +187,7 @@ namespace ChanceOfPrecipitation {
         int backIndex;
         int enterIndex;
 
-        public NewMenu(Menu fromMenu) : base(fromMenu) { }
+        public NewMenu(Menu fromMenu) : base(fromMenu) {}
 
         public override void GenerateOptions() {
             header = new MenuOption("Enter a file name", () => this);
@@ -202,7 +196,7 @@ namespace ChanceOfPrecipitation {
             options.Add(textField);
             enter = new MenuOption("Create", () => {
                 if (textField.text.Length == 1) return this;
-                Editor.currentFile = "Content/Levels/" + textField.text.Substring(0, textField.text.Length-1);
+                Editor.currentFile = "Content/Levels/" + textField.text.Substring(0, textField.text.Length - 1);
                 Editor.Instance.objects.Clear();
                 return Editor.Instance;
             });
@@ -242,16 +236,21 @@ namespace ChanceOfPrecipitation {
                 if (textField.text.Length > 1)
                     textField.text = textField.text.Substring(0, textField.text.Length - 1) + "._";
             }
-            for (int i = (int)Keys.A; i<=(int)Keys.Z; i++) {
-                if (Keyboard.GetState().IsKeyDown((Keys)i) && !lastState.IsKeyDown((Keys)i)) {
-                    textField.text = textField.text.Substring(0, textField.text.Length - 1)+
-                        (char)(i+(Keyboard.GetState().IsKeyDown(Keys.LeftShift) || Keyboard.GetState().IsKeyDown(Keys.LeftShift) ? 0 : 'a'-'A')) + "_";
+            for (int i = (int) Keys.A; i <= (int) Keys.Z; i++) {
+                if (Keyboard.GetState().IsKeyDown((Keys) i) && !lastState.IsKeyDown((Keys) i)) {
+                    textField.text = textField.text.Substring(0, textField.text.Length - 1) +
+                                     (char)
+                                     (i +
+                                      (Keyboard.GetState().IsKeyDown(Keys.LeftShift) ||
+                                       Keyboard.GetState().IsKeyDown(Keys.LeftShift)
+                                          ? 0
+                                          : 'a' - 'A')) + "_";
                 }
             }
-            for (int i = (int)Keys.D0; i <= (int)Keys.D9; i++) {
-                if (Keyboard.GetState().IsKeyDown((Keys)i) && !lastState.IsKeyDown((Keys)i)) {
+            for (int i = (int) Keys.D0; i <= (int) Keys.D9; i++) {
+                if (Keyboard.GetState().IsKeyDown((Keys) i) && !lastState.IsKeyDown((Keys) i)) {
                     textField.text = textField.text.Substring(0, textField.text.Length - 1) +
-                        (char)(i) + "_";
+                                     (char) (i) + "_";
                 }
             }
 
@@ -259,7 +258,5 @@ namespace ChanceOfPrecipitation {
 
             return this;
         }
-
     }
-    
 }

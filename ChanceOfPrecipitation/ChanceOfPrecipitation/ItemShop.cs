@@ -4,8 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace ChanceOfPrecipitation
-{
+namespace ChanceOfPrecipitation {
     public class ItemShop : GameObject, ICollider {
         public const int SizeMultiplier = 3;
 
@@ -23,7 +22,8 @@ namespace ChanceOfPrecipitation
             itemC = new ItemStand(this, c, x + 48 * SizeMultiplier, y, Playing.random.Next(minCost, maxCost));
 
             var info = TextureManager.blocks["shop"];
-            bounds = new RectangleF(x, y, info.src.Width * info.scale * SizeMultiplier, info.src.Height * info.scale * SizeMultiplier);
+            bounds = new RectangleF(x, y, info.src.Width * info.scale * SizeMultiplier,
+                info.src.Height * info.scale * SizeMultiplier);
         }
 
         public override void Update(EventList<GameObject> objects) {
@@ -87,8 +87,10 @@ namespace ChanceOfPrecipitation
             info = TextureManager.blocks["stand"];
             texture = TextureManager.textures[info.texName];
 
-            bounds = new RectangleF(x, y, info.src.Width * info.scale * ItemShop.SizeMultiplier, info.src.Height * info.scale * ItemShop.SizeMultiplier);
-            itemBounds = new RectangleF(bounds.Center.X - item.info.src.Width / ItemShop.SizeMultiplier * 4 / 3, bounds.Center.Y - bounds.height / 5, item.info.src.Width * ItemScale, item.info.src.Height * ItemScale);
+            bounds = new RectangleF(x, y, info.src.Width * info.scale * ItemShop.SizeMultiplier,
+                info.src.Height * info.scale * ItemShop.SizeMultiplier);
+            itemBounds = new RectangleF(bounds.Center.X - item.info.src.Width / ItemShop.SizeMultiplier * 4 / 3,
+                bounds.Center.Y - bounds.height / 5, item.info.src.Width * ItemScale, item.info.src.Height * ItemScale);
 
             origY = itemBounds.y;
             amplitude = bounds.height / 14.4f;
@@ -98,11 +100,11 @@ namespace ChanceOfPrecipitation
             promptText = new Text("press " + buyKey + " to buy item", Vector2.Zero);
             promptText.SetPos(bounds.Center.X - promptText.width / 2, bounds.y - 10);
 
-            costText = new Text("$" + cost, Vector2.Zero, 0.75f, Color.Gold) { IsVisible = true };
+            costText = new Text("$" + cost, Vector2.Zero, 0.75f, Color.Gold) {IsVisible = true};
             costText.SetPos(bounds.Center.X - costText.width / 2, bounds.Bottom + 5);
 
-            purchaseBuilder = new FloatingIndicatorBuilder() { Color = Color.Gold };
-            errorBuilder = new FloatingIndicatorBuilder() { Scale = 1 };
+            purchaseBuilder = new FloatingIndicatorBuilder() {Color = Color.Gold};
+            errorBuilder = new FloatingIndicatorBuilder() {Scale = 1};
         }
 
         public override void Update(EventList<GameObject> objects) {
@@ -115,13 +117,15 @@ namespace ChanceOfPrecipitation
             promptText.IsVisible = intersectingPlayer && !origin.BoughtItem;
             costText.IsVisible = !origin.BoughtItem;
 
-            if (Playing.Instance.state.IsKeyDown(buyKey) && !Playing.Instance.lastState.IsKeyDown(buyKey) && intersectingPlayer && !origin.BoughtItem) {
+            if (Playing.Instance.state.IsKeyDown(buyKey) && !Playing.Instance.lastState.IsKeyDown(buyKey) &&
+                intersectingPlayer && !origin.BoughtItem) {
                 if (player.HasEnoughMoney(cost)) {
                     player.SpendMoney(cost);
                     player.AddItem(item);
                     origin.BoughtItem = true;
                     objects.Add(purchaseBuilder.Build("-" + cost, player.Bounds().Center));
-                } else {
+                }
+                else {
                     objects.Add(errorBuilder.Build("not enough money", player.Bounds().Center));
                 }
             }
@@ -131,7 +135,8 @@ namespace ChanceOfPrecipitation
 
         public override void Draw(SpriteBatch sb) {
             sb.Draw(texture, (Rectangle) (bounds + Playing.Instance.offset), info.src, Color.White);
-            sb.Draw(item.texture, (Rectangle) (itemBounds + Playing.Instance.offset), item.info.src, Color.White * .5f * multiplier);
+            sb.Draw(item.texture, (Rectangle) (itemBounds + Playing.Instance.offset), item.info.src,
+                Color.White * .5f * multiplier);
             promptText.Draw(sb);
             costText.Draw(sb);
         }
@@ -141,7 +146,6 @@ namespace ChanceOfPrecipitation
                 player = c as Player;
                 intersectingPlayer = true;
             }
-
         }
 
         public RectangleF Bounds() {
@@ -171,7 +175,7 @@ namespace ChanceOfPrecipitation
 
             texture = TextureManager.textures[info.texName];
 
-            indicator = new FloatingIndicatorBuilder() { Color = Color.Gold };
+            indicator = new FloatingIndicatorBuilder() {Color = Color.Gold};
         }
 
         public override void Update(EventList<GameObject> objects) {
@@ -184,13 +188,11 @@ namespace ChanceOfPrecipitation
             if (Math.Abs(velocity.Y) < 0.1f) velocity.Y = 0;
         }
 
-        public override void Draw(SpriteBatch sb)
-        {
+        public override void Draw(SpriteBatch sb) {
             sb.Draw(texture, (Rectangle) (bounds + Playing.Instance.offset), info.src, Color.White);
         }
 
-        public void Collide(ICollidable c)
-        {
+        public void Collide(ICollidable c) {
             if (c is Player && c.Bounds().Intersects(bounds)) {
                 Destroy();
                 ((Player) c).AddMoney(Value);

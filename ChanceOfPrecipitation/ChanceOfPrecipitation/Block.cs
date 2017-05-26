@@ -20,12 +20,10 @@ namespace ChanceOfPrecipitation {
         }
 
         public override void Draw(SpriteBatch sb) {
-            sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), info.src, Color.White);
+            sb.Draw(texture, (Rectangle) (bounds + Playing.Instance.offset), info.src, Color.White);
         }
 
-        public override void Update(EventList<GameObject> objects) {
-            
-        }
+        public override void Update(EventList<GameObject> objects) {}
 
         private const float Tol = 0.2f;
 
@@ -39,20 +37,19 @@ namespace ChanceOfPrecipitation {
             else if (type == "stage1_platform_middle_right") c.Collide(Collision.Right, i.width, this);
             else if (type == "stage1_platform_bottom_middle") c.Collide(Collision.Top, i.height, this);
             else if (i.width < i.height) {
-                c.Collide(i.x > bounds.x+1 ? Collision.Right : Collision.Left, i.width, this);
-            } else {
-                c.Collide(i.y > bounds.y+1 ? Collision.Top : Collision.Bottom, i.height, this);
+                c.Collide(i.x > bounds.x + 1 ? Collision.Right : Collision.Left, i.width, this);
+            }
+            else {
+                c.Collide(i.y > bounds.y + 1 ? Collision.Top : Collision.Bottom, i.height, this);
             }
         }
 
         public RectangleF Bounds() {
             return bounds;
         }
-
     }
 
-    public class Rope : GameObject, ICollider
-    {
+    public class Rope : GameObject, ICollider {
         private int length;
         private float x;
         private float y;
@@ -66,8 +63,7 @@ namespace ChanceOfPrecipitation {
 
             head = new RopeSegment(x, y, "ropeTop", true);
 
-            for (var i = 1; i < length; i++)
-            {
+            for (var i = 1; i < length; i++) {
                 head.next = new RopeSegment(x, y + 32 * i, "ropeMid");
                 head.next.prev = head;
                 head = head.next;
@@ -79,20 +75,17 @@ namespace ChanceOfPrecipitation {
             while (head.prev != null) head = head.prev;
         }
 
-        public override void Update(EventList<GameObject> objects)
-        {
+        public override void Update(EventList<GameObject> objects) {
             for (var curr = head; curr != null; curr = curr.next)
                 curr.Update(objects);
         }
 
-        public override void Draw(SpriteBatch sb)
-        {
+        public override void Draw(SpriteBatch sb) {
             for (var curr = head; curr != null; curr = curr.next)
                 curr.Draw(sb);
         }
 
-        public void Collide(ICollidable c)
-        {
+        public void Collide(ICollidable c) {
             for (var curr = head; curr != null; curr = curr.next)
                 curr.Collide(c);
         }
@@ -119,23 +112,16 @@ namespace ChanceOfPrecipitation {
                 bounds = new RectangleF(x + 14, y + 26, 4, 6);
         }
 
-        public override void Update(EventList<GameObject> objects)
-        {
-            
+        public override void Update(EventList<GameObject> objects) {}
+
+        public override void Draw(SpriteBatch sb) {
+            sb.Draw(texture, (Rectangle) (bounds + Playing.Instance.offset), info.src, Color.White);
         }
 
-        public override void Draw(SpriteBatch sb)
-        {
-            sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), info.src, Color.White);
-        }
-
-        public void Collide(ICollidable c)
-        {
-            if (c is Player)
-            {
+        public void Collide(ICollidable c) {
+            if (c is Player) {
                 var p = c as Player;
-                if (p.Bounds().Intersects(bounds))
-                {
+                if (p.Bounds().Intersects(bounds)) {
                     var state = Playing.Instance.state;
 
                     /*if (state.IsKeyDown(p.jump) && p.rope != null)
@@ -154,7 +140,7 @@ namespace ChanceOfPrecipitation {
                         if (state.IsKeyDown(p.down) || state.IsKeyDown(p.up))
                             p.rope = this;
                     }*/
-                    if (p.rope==null && (state.IsKeyDown(p.down) || state.IsKeyDown(p.up)))
+                    if (p.rope == null && (state.IsKeyDown(p.down) || state.IsKeyDown(p.up)))
                         p.rope = this;
                 }
 
@@ -173,7 +159,8 @@ namespace ChanceOfPrecipitation {
         }
 
         public void UpdatePlayer(Player p) {
-            if (Playing.Instance.state.IsKeyDown(p.jump) && !Playing.Instance.lastState.IsKeyDown(p.jump) && p.rope != null) {
+            if (Playing.Instance.state.IsKeyDown(p.jump) && !Playing.Instance.lastState.IsKeyDown(p.jump) &&
+                p.rope != null) {
                 p.ropeCollide = false;
                 Playing.Instance.quad.RunCollision(x => !(x is Rope));
 
@@ -197,15 +184,13 @@ namespace ChanceOfPrecipitation {
         }
     }
 
-    public class Facade : GameObject
-    {
+    public class Facade : GameObject {
         private readonly Texture2D texture;
         private readonly TextureInfo info;
         public RectangleF bounds;
         public string type;
 
-        public Facade(float x, float y, string type)
-        {
+        public Facade(float x, float y, string type) {
             this.type = type;
 
             info = TextureManager.blocks[type];
@@ -213,13 +198,10 @@ namespace ChanceOfPrecipitation {
             bounds = new RectangleF(x, y, info.src.Width * info.scale, info.src.Height * info.scale);
         }
 
-        public override void Draw(SpriteBatch sb)
-        {
-            sb.Draw(texture, (Rectangle)(bounds + Playing.Instance.offset), info.src, Color.White);
+        public override void Draw(SpriteBatch sb) {
+            sb.Draw(texture, (Rectangle) (bounds + Playing.Instance.offset), info.src, Color.White);
         }
 
         public override void Update(EventList<GameObject> objects) {}
-
     }
-
 }
