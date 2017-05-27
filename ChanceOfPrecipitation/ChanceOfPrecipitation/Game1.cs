@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Xml.Serialization;
 using System.IO;
+using Microsoft.Xna.Framework.Audio;
 
 namespace ChanceOfPrecipitation {
     public class Game1 : Game {
@@ -168,6 +169,8 @@ namespace ChanceOfPrecipitation {
             TextureManager.abilities[typeof(FastFireAbility)] = new TextureInfo("abilities", new Rectangle(0, 0, 92, 92));
 
             TextureManager.textures["MuzzleFlash"] = Content.Load<Texture2D>("Spritesheets/MuzzleFlash");
+
+            TextureManager.textures["background"] = Content.Load<Texture2D>("Spritesheets/background");
 
             for (var i = 0; i < 26; i++)
                 TextureManager.blocks[Convert.ToChar(i + 97).ToString()] = new TextureInfo("letters",

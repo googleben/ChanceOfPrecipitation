@@ -58,7 +58,7 @@ namespace ChanceOfPrecipitation {
         }
 
         public void Draw(SpriteBatch sb) {
-            sb.Draw(TextureManager.textures["Square"], new Rectangle(0, 0, 1280, 720), Color.MidnightBlue);
+            sb.Draw(TextureManager.textures["background"], new Rectangle(0, 0, 1280, 720), Color.White);
             var x = players[0];
             x.UpdateViewport();
             x.UpdateHealthBar();
