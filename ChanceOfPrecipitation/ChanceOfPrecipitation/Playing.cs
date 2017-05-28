@@ -197,7 +197,7 @@ namespace ChanceOfPrecipitation {
                     Block b = possible[i];
                     RectangleF pos = new RectangleF(b.bounds.x, b.bounds.y - 144, 192, 144);
                     var qs = quad.GetPos(pos);
-                    foreach (var q in qs) if (q.DoesCollide(pos)) continue;
+                    foreach (var q in qs) if (q.DoesCollide(pos)) goto bottom;
                     for (int j = 1; j<5; j++)
                     {
                         RectangleF here = new RectangleF(b.bounds.x + (32 * j), b.bounds.y, 32, 32);
