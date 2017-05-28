@@ -6,7 +6,6 @@ using System.Text;
 
 namespace ChanceOfPrecipitation {
     class QuadTree {
-
         public List<ICollidable> dynamics;
         public List<ICollider> statics;
 
@@ -26,7 +25,7 @@ namespace ChanceOfPrecipitation {
             foreach (ICollider c in possibleStatics) {
                 if (c.Bounds().Intersects(bounds)) statics.Add(c);
             }
-            if (statics.Count>MAX_STATICS) {
+            if (statics.Count > MAX_STATICS) {
                 partition();
             }
         }
@@ -38,9 +37,9 @@ namespace ChanceOfPrecipitation {
             var y = bounds.y;
             nodes = new QuadTree[] {
                 new QuadTree(x, y, w, h, statics, this),
-                new QuadTree(x+w, y, w, h, statics, this),
-                new QuadTree(x, y+h, w, h, statics, this),
-                new QuadTree(x+w, y+h, w, h, statics, this)
+                new QuadTree(x + w, y, w, h, statics, this),
+                new QuadTree(x, y + h, w, h, statics, this),
+                new QuadTree(x + w, y + h, w, h, statics, this)
             };
             statics = null;
             dynamics = null;
@@ -48,14 +47,15 @@ namespace ChanceOfPrecipitation {
 
         public void MoveDynamic(ICollidable c) {
             if (bounds.Contains(c.Bounds())) AddDynamic(c);
-            else if (parent!=null) parent.MoveDynamic(c);
+            else if (parent != null) parent.MoveDynamic(c);
         }
 
         public void AddDynamic(ICollidable c) {
             if (c.Bounds().Intersects(bounds)) {
-                if (nodes!=null) {
+                if (nodes != null) {
                     foreach (QuadTree q in nodes) q.AddDynamic(c);
-                } else if (!dynamics.Contains(c)) {
+                }
+                else if (!dynamics.Contains(c)) {
                     dynamics.Add(c);
                     if (c is ICollider) statics.Add(c as ICollider);
                 }
@@ -90,7 +90,7 @@ namespace ChanceOfPrecipitation {
                         MoveDynamic(d);
                     }
                 }
-                for (int i = statics.Count-1; i>=0; i--) {
+                for (int i = statics.Count - 1; i >= 0; i--) {
                     var s = statics[i];
                     if (s is GameObject && (s as GameObject).ToDestroy) {
                         statics.RemoveAt(i);
@@ -103,7 +103,7 @@ namespace ChanceOfPrecipitation {
         public void RunCollision() {
             if (nodes == null)
                 for (int i = 0; i < statics.Count; i++)
-                    for (int j = 0; j < dynamics.Count; j++) statics[i].Collide(dynamics[j]);
+                for (int j = 0; j < dynamics.Count; j++) statics[i].Collide(dynamics[j]);
             else foreach (QuadTree q in nodes) q.RunCollision();
         }
 
@@ -115,26 +115,21 @@ namespace ChanceOfPrecipitation {
             else foreach (QuadTree q in nodes) q.RunCollision(pred);
         }
 
-        public bool DoesCollide(RectangleF r)
-        {
+        public bool DoesCollide(RectangleF r) {
             foreach (var s in statics) if (s.Bounds().Intersects(r)) return true;
             return false;
         }
 
-        public List<QuadTree> GetPos(RectangleF r)
-        {
-            if (r.Intersects(bounds))
-            {
+        public List<QuadTree> GetPos(RectangleF r) {
+            if (r.Intersects(bounds)) {
                 List<QuadTree> ans = new List<QuadTree>();
                 if (nodes == null) ans.Add(this);
-                else
-                {
+                else {
                     foreach (var n in nodes) n.GetPos(r).ForEach(ans.Add);
                 }
                 return ans;
             }
             return new List<QuadTree>();
         }
-
     }
 }

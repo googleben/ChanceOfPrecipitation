@@ -4,8 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace ChanceOfPrecipitation
-{
+namespace ChanceOfPrecipitation {
     public class Player : GameObject, ICollidable, IEntity {
         private RectangleF bounds;
         private Vector2 velocity;
@@ -29,6 +28,7 @@ namespace ChanceOfPrecipitation
         public Ability abilityFour;
 
         public HUD hud;
+        public Text healthText;
 
         private TextureDrawer texture;
 
@@ -70,7 +70,7 @@ namespace ChanceOfPrecipitation
             bounds = new RectangleF(x, y, width, height);
             texture = new TextureDrawer("playerIdle");
 
-            healthBar = new HealthBarBuilder() { IsPlayer = true }.Build();
+            healthBar = new HealthBarBuilder() {IsPlayer = true}.Build();
             healthBar.AlignHorizontally(new Rectangle(0, 0, 1280, 720));
 
             abilityOne = new BurstFireAbility(this);
@@ -78,9 +78,11 @@ namespace ChanceOfPrecipitation
             abilityThree = new JumpAbility(this);
             abilityFour = new FastFireAbility(this);
             hud = new HUD(this);
+            healthText = new Text(health + "/" + MaxHealth, Vector2.Zero, 1f, Color.White, true) {IsVisible = true};
+            healthText.AlignToCenter(healthBar.BorderBounds);
 
-            healBuilder = new FloatingIndicatorBuilder() { Color = Color.Green };
-            damageBuilder = new FloatingIndicatorBuilder() { Color = Color.Red };
+            healBuilder = new FloatingIndicatorBuilder() {Color = Color.Green};
+            damageBuilder = new FloatingIndicatorBuilder() {Color = Color.Red};
             moneyDisplay = new MoneyDisplay(new Vector2(15, 15));
             items = new List<Item>();
 
@@ -122,11 +124,13 @@ namespace ChanceOfPrecipitation
                 facing = Direction.Left;
                 velocity.X = -maxSpeed;
                 ChangeAnimation("playerWalking");
-            } else if (state.IsKeyDown(right)) {
+            }
+            else if (state.IsKeyDown(right)) {
                 facing = Direction.Right;
                 velocity.X = maxSpeed;
                 ChangeAnimation("playerWalking");
-            } else {
+            }
+            else {
                 velocity.X = 0;
                 ChangeAnimation("playerIdle");
             }
@@ -149,9 +153,10 @@ namespace ChanceOfPrecipitation
             UpdatePassiveHealing();
         }
 
-        public void UpdateHealthBar()
-        {
+        public void UpdateHealthBar() {
             healthBar.SetHealth(health);
+            healthText.SetText(health + "/" + MaxHealth);
+            healthText.AlignHorizontally(healthBar.BorderBounds);
         }
 
         public void UpdatePosition(bool onRope) {
@@ -163,77 +168,67 @@ namespace ChanceOfPrecipitation
             bounds.y += velocity.Y;
         }
 
-        public void UpdateAbilities()
-        {
+        public void UpdateAbilities() {
             abilityOne.Update();
             abilityTwo.Update();
             abilityThree.Update();
             abilityFour.Update();
         }
 
-        public void UpdateViewport()
-        {
+        public void UpdateViewport() {
             Playing.Instance.offset.X = 1280 / 2 - bounds.Center.X;
             Playing.Instance.offset.Y = 720 / 2 - bounds.Center.Y;
         }
 
-        public void UpdatePassiveHealing()
-        {
-            if (!shouldHeal)
-            {
+        public void UpdatePassiveHealing() {
+            if (!shouldHeal) {
                 shouldHealTimer--;
 
                 isHealing = false;
 
-                if (shouldHealTimer <= 0)
-                {
+                if (shouldHealTimer <= 0) {
                     shouldHealTimer = ShouldHealTimerReset;
 
                     if (health < MaxHealth) shouldHeal = true;
                 }
             }
-            else
-            {
+            else {
                 isHealing = true;
             }
 
             if (isHealing) healTimer--;
 
-            if (healTimer <= 0)
-            {
+            if (healTimer <= 0) {
                 healTimer = HealTimerReset;
                 Heal(passiveHealingAmount);
             }
 
-            if (health >= MaxHealth)
-            {
+            if (health >= MaxHealth) {
                 shouldHeal = false;
 
-                if (health > MaxHealth)
-                {
+                if (health > MaxHealth) {
                     health = MaxHealth;
                 }
             }
         }
 
-        public void Jump()
-        {
+        public void Jump() {
             velocity.Y = -jumpSpeed;
         }
 
-        public void Jump(float scale)
-        {
+        public void Jump(float scale) {
             velocity.Y = -jumpSpeed * scale;
         }
 
         public override void Draw(SpriteBatch sb) {
-            texture.Draw(sb, (Rectangle)(bounds + Playing.Instance.offset), Facing());
+            texture.Draw(sb, (Rectangle) (bounds + Playing.Instance.offset), Facing());
             foreach (var i in items) i.Draw(sb);
             moneyDisplay.Draw(sb);
             hud.Draw(sb);
             healthBar.Draw(sb);
+            healthText.Draw(sb);
         }
-        
+
         public RectangleF Bounds() {
             return bounds;
         }
@@ -242,20 +237,18 @@ namespace ChanceOfPrecipitation
             return health;
         }
 
-        public void Heal(float amount)
-        {
+        public void Heal(float amount) {
             health += amount;
 
-            Playing.Instance.objects.Add(healBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.y)));
+            Playing.Instance.objects.Add(healBuilder.Build((int) amount, new Vector2(bounds.Center.X, bounds.y)));
         }
 
-        public void Damage(float amount)
-        {
+        public void Damage(float amount) {
             health -= amount;
             shouldHeal = false;
             shouldHealTimer = ShouldHealTimerReset;
 
-            Playing.Instance.objects.Add(damageBuilder.Build((int)amount, new Vector2(bounds.Center.X, bounds.y)));
+            Playing.Instance.objects.Add(damageBuilder.Build((int) amount, new Vector2(bounds.Center.X, bounds.y)));
 
             if (health <= 0) {
                 Destroy();
@@ -276,10 +269,8 @@ namespace ChanceOfPrecipitation
             return money >= amount;
         }
 
-        public void Collide(Collision side, float amount, ICollider origin)
-        {
-            if (rope != null)
-            {
+        public void Collide(Collision side, float amount, ICollider origin) {
+            if (rope != null) {
                 ropeCollide = true;
 
                 return;
@@ -318,6 +309,5 @@ namespace ChanceOfPrecipitation
             items.Add(i);
             i.AddedToPlayer(this, ref itemLoc);
         }
-
     }
 }

@@ -4,10 +4,8 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ChanceOfPrecipitation
-{
+namespace ChanceOfPrecipitation {
     public class Lazer : GameObject, ICollider {
-
         private const float Damage = 2f;
 
         private readonly RectangleF bounds;
@@ -35,7 +33,8 @@ namespace ChanceOfPrecipitation
 
             //Console.WriteLine(origin.Bounds().Center.Y);
 
-            bounds = new RectangleF(left ? origin.Bounds().x : origin.Bounds().x+origin.Bounds().width, origin.Bounds().Center.Y, 1, 5);
+            bounds = new RectangleF(left ? origin.Bounds().x : origin.Bounds().x + origin.Bounds().width,
+                origin.Bounds().Center.Y, 1, 5);
 
             if (left)
                 bounds.x--;
@@ -44,7 +43,6 @@ namespace ChanceOfPrecipitation
                 bounds.width++;
                 if (left) bounds.x--;
             }
-
         }
 
         public override void Update(EventList<GameObject> objects) {
@@ -58,10 +56,14 @@ namespace ChanceOfPrecipitation
             var offset = Playing.Instance.offset;
             if (Facing() == Direction.Right)
                 for (var i = 0; i < bounds.width; i++)
-                    sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int)Bounds().x + i + (int)offset.X, (int)Bounds().y + (int)offset.Y, 1, 5), i == (int)bounds.width - 1 ? lazerEndSource : lazerSegmentSource, Color.White);
+                    sb.Draw(TextureManager.textures["Lazer"],
+                        new Rectangle((int) Bounds().x + i + (int) offset.X, (int) Bounds().y + (int) offset.Y, 1, 5),
+                        i == (int) bounds.width - 1 ? lazerEndSource : lazerSegmentSource, Color.White);
             else
                 for (var i = 0; i < bounds.width; i++)
-                    sb.Draw(TextureManager.textures["Lazer"], new Rectangle((int)Bounds().x + i + (int)offset.X, (int)Bounds().y + (int)offset.Y, 1, 5), i == 0 ? lazerEndSource : lazerSegmentSource, Color.White);
+                    sb.Draw(TextureManager.textures["Lazer"],
+                        new Rectangle((int) Bounds().x + i + (int) offset.X, (int) Bounds().y + (int) offset.Y, 1, 5),
+                        i == 0 ? lazerEndSource : lazerSegmentSource, Color.White);
         }
 
         public RectangleF Bounds() {
@@ -81,6 +83,5 @@ namespace ChanceOfPrecipitation
             base.Destroy();
             if (origin is Enemy) (origin as Enemy).canMove = true;
         }
-
     }
 }

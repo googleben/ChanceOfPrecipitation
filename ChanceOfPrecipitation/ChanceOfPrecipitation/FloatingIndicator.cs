@@ -2,10 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ChanceOfPrecipitation
-{
-    public class FloatingIndicator : GameObject
-    {
+namespace ChanceOfPrecipitation {
+    public class FloatingIndicator : GameObject {
         private Vector2 position;
         private readonly float scale;
         private readonly float upSpeed;
@@ -19,7 +17,8 @@ namespace ChanceOfPrecipitation
 
         private List<Character> Characters;
 
-        public FloatingIndicator(FloatingIndicatorBuilder builder, int number, Vector2 position) : this(builder, number.ToString(), position) { }
+        public FloatingIndicator(FloatingIndicatorBuilder builder, int number, Vector2 position)
+            : this(builder, number.ToString(), position) {}
 
         public FloatingIndicator(FloatingIndicatorBuilder builder, string text, Vector2 position) {
             this.position = new Vector2(position.X, position.Y);
@@ -41,15 +40,13 @@ namespace ChanceOfPrecipitation
             }
             var x = position.X;
 
-            foreach (var n in Characters)
-            {
+            foreach (var n in Characters) {
                 n.SetPos(x, position.Y);
                 x += n.bounds.width + spacing;
             }
         }
 
-        public override void Update(EventList<GameObject> objects)
-        {
+        public override void Update(EventList<GameObject> objects) {
             position.Y -= upSpeed;
             var x = position.X;
 
@@ -62,12 +59,11 @@ namespace ChanceOfPrecipitation
             }
         }
 
-        public override void Draw(SpriteBatch sb)
-        {
+        public override void Draw(SpriteBatch sb) {
             //var nums = number.ToString().ToCharArray();
 
-            
-            foreach (var n in Characters) n.Draw(sb, (float)life / origLife);
+
+            foreach (var n in Characters) n.Draw(sb, (float) life / origLife);
         }
-    }  
+    }
 }

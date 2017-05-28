@@ -16,34 +16,28 @@ namespace ChanceOfPrecipitation {
         #region Properties
 
         /// <summary>Returns the x-coordinate of the left side of the rectangle.</summary>
-        public float Left
-        {
+        public float Left {
             get { return x; }
         }
 
         /// <summary>Returns the y-coordinate of the top of the rectangle.</summary>
-        public float Top
-        {
+        public float Top {
             get { return y; }
         }
 
         /// <summary>Returns the x-coordinate of the right side of the rectangle.</summary>
-        public float Right
-        {
+        public float Right {
             get { return x + width; }
         }
 
         /// <summary>Returns the y-coordinate of the bottom of the rectangle.</summary>
-        public float Bottom
-        {
+        public float Bottom {
             get { return y + height; }
         }
 
         /// <summary>Gets the Point that specifies the center of the rectangle.</summary>
-        public Vector2 Center
-        {
-            get
-            {
+        public Vector2 Center {
+            get {
                 Vector2 v;
                 v.X = x + width / 2;
                 v.Y = y + height / 2;
@@ -54,17 +48,14 @@ namespace ChanceOfPrecipitation {
         /// <summary>
         ///     Gets or sets the upper-left value of the <see cref="RectangleF"/>.
         /// </summary>
-        public Vector2 Location
-        {
-            get
-            {
+        public Vector2 Location {
+            get {
                 Vector2 v;
                 v.X = x;
                 v.Y = y;
                 return v;
             }
-            set
-            {
+            set {
                 x = value.X;
                 y = value.Y;
             }
@@ -73,8 +64,7 @@ namespace ChanceOfPrecipitation {
         /// <summary>
         ///     Gets a value that indicates whether the <see cref="RectangleF"/> is empty.
         /// </summary>
-        public bool IsEmpty
-        {
+        public bool IsEmpty {
             // ReSharper disable CompareOfFloatsByEqualityOperator
             get { return width == 0 && height == 0 && x == 0 && y == 0; }
             // ReSharper restore CompareOfFloatsByEqualityOperator
@@ -279,7 +269,7 @@ namespace ChanceOfPrecipitation {
             var top = value1.y > value2.y ? value1.y : value2.y;
             var right = right1 < right2 ? right1 : right2;
             var bottom = bottom1 < bottom2 ? bottom1 : bottom2;
-            
+
             RectangleF result;
             if (right > left && bottom > top) {
                 result.x = left;
@@ -440,7 +430,7 @@ namespace ChanceOfPrecipitation {
         }
 
         public static explicit operator Rectangle(RectangleF rectangle) {
-            return new Rectangle((int)rectangle.x, (int)rectangle.y, (int)rectangle.width, (int)rectangle.height);
+            return new Rectangle((int) rectangle.x, (int) rectangle.y, (int) rectangle.width, (int) rectangle.height);
         }
 
         #endregion
@@ -470,7 +460,7 @@ namespace ChanceOfPrecipitation {
         ///     <c>false</c>.
         /// </returns>
         public override bool Equals(object obj) {
-            return obj is Rectangle && Equals((Rectangle)obj);
+            return obj is Rectangle && Equals((Rectangle) obj);
         }
 
         /// <summary>Returns a hash code for this instance.</summary>

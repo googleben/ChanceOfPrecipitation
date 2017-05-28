@@ -44,7 +44,8 @@ namespace ChanceOfPrecipitation {
                 }
 
                 currentDelay = delay;
-            } else {
+            }
+            else {
                 currentDelay--;
             }
 

@@ -66,7 +66,8 @@ namespace ChanceOfPrecipitation {
                             Playing.Instance.objects.Add(boss);
                         }
                     }
-                } else {
+                }
+                else {
                     playerHover = false;
                 }
             }
