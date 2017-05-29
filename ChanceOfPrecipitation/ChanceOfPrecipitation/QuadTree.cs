@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,11 @@ namespace ChanceOfPrecipitation {
 
         public RectangleF bounds;
 
-        const int MAX_STATICS = 16;
+        const int MAX_STATICS = 256;
 
         QuadTree parent;
+
+        static Texture2D texture;
 
         public QuadTree(float x, float y, float width, float height, List<ICollider> possibleStatics, QuadTree parent) {
             this.parent = parent;
@@ -26,11 +29,22 @@ namespace ChanceOfPrecipitation {
                 if (c.Bounds().Intersects(bounds)) statics.Add(c);
             }
             if (statics.Count > MAX_STATICS) {
-                partition();
+                Partition();
+            }
+            if (texture == null) {
+                texture = new Texture2D(Game1.Instance.GraphicsDevice, 1024, 1024);
+                List<Color> colors = new List<Color>();
+                for (int i = 0; i < 1024; i++) for (int j = 0; j < 1024; j++) colors.Add(i == 0 || i == 1024 - 1 || j == 0 || j == 1024 - 1 ? Color.Red : Color.Transparent);
+                texture.SetData<Color>(colors.ToArray());
             }
         }
 
-        public void partition() {
+        public void Draw(SpriteBatch sb) {
+            sb.Draw(texture, (Rectangle)(bounds+Playing.Instance.offset), Color.White);
+            if (nodes != null) foreach (var n in nodes) n.Draw(sb);
+        }
+
+        public void Partition() {
             var w = bounds.width / 2;
             var h = bounds.width / 2;
             var x = bounds.x;

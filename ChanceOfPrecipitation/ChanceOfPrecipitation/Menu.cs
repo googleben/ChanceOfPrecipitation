@@ -147,9 +147,16 @@ namespace ChanceOfPrecipitation {
                 RegenerateOptions();
                 return this;
             }));
+#if DEBUG
+            options.Add(new MenuOption("Draw Quadtrees: " + (settings.drawQuads ? "On" : "Off"), () => {
+                Game1.Instance.settings.drawQuads = !settings.drawQuads;
+                RegenerateOptions();
+                return this;
+            }));
+#endif
             options.Add(new MenuOption("Apply", () => {
                 Game1.Instance.ApplySettings();
-                return this;
+                return fromMenu;
             }));
         }
     }

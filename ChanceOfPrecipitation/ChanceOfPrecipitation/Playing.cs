@@ -35,6 +35,8 @@ namespace ChanceOfPrecipitation {
 
         bool update = true;
 
+        bool drawQuad = Game1.Instance.settings.drawQuads;
+
         public Playing() {
             objects = new EventList<GameObject>();
             instance = this;
@@ -55,6 +57,7 @@ namespace ChanceOfPrecipitation {
             x.UpdateHealthBar();
             foreach (var o in objects) if (!(o is Player)) o.Draw(sb);
             foreach (var p in players) if (p.health > 0) p.Draw(sb);
+            if (drawQuad) quad.Draw(sb);
         }
 
         void printQuad(QuadTree q) {
@@ -175,7 +178,8 @@ namespace ChanceOfPrecipitation {
             foreach (var x in b) x.Build(this);
             foreach (var p in players) objects.Add(p);
             var size = l.Bounds();
-            quad = new QuadTree(size.x - 1000, size.y - 1000, size.width + 2000, size.height + 2000,
+            var len = Math.Max(size.width, size.height)+2000;
+            quad = new QuadTree(size.x - (len - size.width) / 2, size.y - (len - size.height) / 2, len, len,
                 objects.OfType<ICollider>().ToList(), null);
             objects.OfType<ICollidable>().ToList().ForEach(quad.AddDynamic);
             objects.OnAdd += (e, args) => {
@@ -200,7 +204,7 @@ namespace ChanceOfPrecipitation {
                     var qs = quad.GetPos(pos);
 
                     foreach (var q in qs) if (q.DoesCollide(pos)) goto bottom;
-                    for (int j = 1; j < 5; j++) {
+                    for (int j = 1; j < 7; j++) {
                         RectangleF here = new RectangleF(b.bounds.x + (32 * j), b.bounds.y, 32, 32);
                         qs = quad.GetPos(here);
                         foreach (var q in qs) if (!q.DoesCollide(here)) goto bottom;
