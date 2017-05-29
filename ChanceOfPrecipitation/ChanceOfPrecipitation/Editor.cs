@@ -100,6 +100,8 @@ namespace ChanceOfPrecipitation {
                             "\n";
                 else if (o.type.Contains("rope"))
                     file += "rope " + o.bounds.X + " " + o.bounds.Y + " " + (o as RopeBlock).length + "\n";
+                else if (o.type.Contains("portal"))
+                    file += "portal" + " " + o.bounds.X + " " + o.bounds.Y + "\n";
                 else
                     file += o.type + " " + o.bounds.X + " " + o.bounds.Y + "\n";
             }
@@ -245,9 +247,9 @@ namespace ChanceOfPrecipitation {
             ToolGroup blocks = new ToolGroup(0, 720 - 32, 32, 32, "stage1_platform_middle");
             tools.Add(blocks);
 
-            SaveTool savetool = new SaveTool(128, 720 - 32, 32, 32);
+            SaveTool savetool = new SaveTool(160, 720 - 32, 32, 32);
             tools.Add(savetool);
-            ClearTool cleartool = new ClearTool(96, 720 - 32, 32, 32);
+            ClearTool cleartool = new ClearTool(128, 720 - 32, 32, 32);
             tools.Add(cleartool);
 
             BlockTool block;
@@ -280,6 +282,9 @@ namespace ChanceOfPrecipitation {
             tools.Add(block);
             block = new BlockTool(14, 0, 4, 32, "ropeMid");
             blocks.Add(block);
+            tools.Add(block);
+
+            block = new BlockTool(96, 720 - 32, 32, 32, "portal1");
             tools.Add(block);
 
             ToolGroup exits = new ToolGroup(32, 720 - 32, 32, 32, "HorExit");
@@ -399,6 +404,9 @@ namespace ChanceOfPrecipitation {
                 else if (type == "portal") {
                     blocks.Add(new PortalPlacementInfo(x, y));
                 }*/
+
+                if (type == "portal1") type = "portal";
+
                 if (type == "rope") {
                     scanner.MoveNext();
                     int length = (int) scanner.Current(typeof(int));
