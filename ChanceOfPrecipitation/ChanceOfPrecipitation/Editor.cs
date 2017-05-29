@@ -405,7 +405,7 @@ namespace ChanceOfPrecipitation {
                     blocks.Add(new PortalPlacementInfo(x, y));
                 }*/
 
-                if (type == "portal1") type = "portal";
+                if (type == "portal") type = "portal1";
 
                 if (type == "rope") {
                     scanner.MoveNext();

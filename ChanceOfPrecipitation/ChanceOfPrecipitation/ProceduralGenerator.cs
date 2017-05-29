@@ -10,6 +10,8 @@ namespace ChanceOfPrecipitation {
     class ProceduralGenerator {
         public static List<PBlock> bases;
         public static List<PBlock> additions;
+        public static List<PBlock> rightCaps;
+        public static List<PBlock> leftCaps;
         Random rand;
         int numBlocks = 50;
 
@@ -17,6 +19,8 @@ namespace ChanceOfPrecipitation {
             rand = new Random();
             bases = new List<PBlock>();
             additions = new List<PBlock>();
+            rightCaps = new List<PBlock>();
+            leftCaps = new List<PBlock>();
 
             //bases.Add(LoadBlock(File.ReadAllText("Content/Levels/base1.txt")));
             //additions.Add(LoadBlock(File.ReadAllText("Content/Levels/addition1.txt")));
@@ -27,6 +31,9 @@ namespace ChanceOfPrecipitation {
                 }
                 if (s.Substring("Content/Levels/".Length).StartsWith("addition")) {
                     additions.Add(LoadBlock(File.ReadAllText(s)));
+                }
+                if (s.Substring("Content/Levels/".Length).StartsWith("right")) {
+                    rightCaps.Add(LoadBlock(File.ReadAllText(s)));
                 }
             } /*bases.Add(new PBlock(
                 new List<Exit>() {
@@ -74,8 +81,9 @@ namespace ChanceOfPrecipitation {
         public PLevel GenLevel() {
             PLevel ans = new PLevel();
             for (int i = 0; i < 5; i++) ans.GenBase();
+            ans.GenRightCap();
             ans.GenWalls();
-            for (int i = 0; rand.Next(i) < numBlocks; i++) ans.GenPiece();
+            for (int i = 0; i<25; i++) ans.GenPiece();
             return ans;
         }
 
@@ -202,6 +210,46 @@ namespace ChanceOfPrecipitation {
             }
             PBlock rightWall = new PBlock(new List<Exit>(), rightPlacement);
             blocks.Last().Add(rightWall);
+        }
+
+        public void GenRightCap() {
+            var ans = new List<PBlock>();
+            var next = ChooseRandom(ProceduralGenerator.rightCaps);
+            PBlock last = blocks.Last().First();
+            Exit e = last.exits.Where(x => !x.vertical).OrderBy(x => x.x).Last();
+            var e2 = next.exits.Where(x => !x.vertical).OrderBy(x => x.x).First();
+            var amount = e.GetOffset(e2);
+            next.Offset(amount);
+            last.exits.Remove(e);
+            next.exits.Remove(e2);
+            var bottom = next.bounds.Bottom;
+            for (int i = (int)next.bounds.x; i < next.bounds.Right; i += 32) {
+                for (int j = 0; j < 20; j++) {
+                    next.placement.Add(new FacadePlacementInfo("stage1_platform_middle", i, (32 * j) + bottom));
+                }
+            }
+            ans.Add(next);
+            blocks.Add(ans);
+        }
+
+        public void GenLeftCap() {
+            var ans = new List<PBlock>();
+            var next = ChooseRandom(ProceduralGenerator.leftCaps);
+            PBlock last = blocks.Last().First();
+            Exit e = last.exits.Where(x => !x.vertical).OrderBy(x => x.x).Last();
+            var e2 = next.exits.Where(x => !x.vertical).OrderBy(x => x.x).First();
+            var amount = e.GetOffset(e2);
+            next.Offset(amount);
+            last.exits.Remove(e);
+            next.exits.Remove(e2);
+            var bottom = next.bounds.Bottom;
+            for (int i = (int)next.bounds.x; i < next.bounds.Right; i += 32) {
+                for (int j = 0; j < 20; j++) {
+                    next.placement.Add(new FacadePlacementInfo("stage1_platform_middle", i, (32 * j) + bottom));
+                }
+            }
+            ans.Add(next);
+            blocks.Add(ans);
         }
 
         public void GenPiece() {

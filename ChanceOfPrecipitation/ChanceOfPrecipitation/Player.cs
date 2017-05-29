@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace ChanceOfPrecipitation {
     public class Player : GameObject, ICollidable, IEntity {
-        private RectangleF bounds;
+        public RectangleF bounds;
         private Vector2 velocity;
         private Collision collision;
 

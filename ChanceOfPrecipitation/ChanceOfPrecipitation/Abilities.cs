@@ -235,13 +235,14 @@ namespace ChanceOfPrecipitation {
                 float x = left ? origin.Bounds().x : origin.Bounds().Right;
                 float y = origin.Bounds().Center.Y;
                 bool done = false;
+                Func<ICollider, bool> notRope = (ICollider s) => !(s is Rope) && !(s is RopeSegment);
                 while (!done) {
                     RectangleF r = new RectangleF(left ? x - 31 : x, y, 31, 5);
                     x += left ? -31 : 31;
                     List<QuadTree> qs = Playing.Instance.quad.GetPos(r);
                     if (qs.Count == 0) done = true;
                     foreach (QuadTree q in qs) {
-                        if (q.DoesCollide(r)) done = true;
+                        if (q.DoesCollide(r, notRope)) done = true;
                         for (int i = 0; i < q.dynamics.Count; i++) {
                             var e = q.dynamics[i];
                             if (e is Enemy && !hit.Contains(e) && e.Bounds().Intersects((r))) {

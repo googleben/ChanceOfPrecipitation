@@ -120,6 +120,11 @@ namespace ChanceOfPrecipitation {
             return false;
         }
 
+        public bool DoesCollide(RectangleF r, Func<ICollider, bool> pred) {
+            foreach (var s in statics.Where(pred)) if (s.Bounds().Intersects(r)) return true;
+            return false;
+        }
+
         public List<QuadTree> GetPos(RectangleF r) {
             if (r.Intersects(bounds)) {
                 List<QuadTree> ans = new List<QuadTree>();
