@@ -14,7 +14,7 @@ namespace ChanceOfPrecipitation {
 
         public RectangleF bounds;
 
-        const int MAX_STATICS = 64;
+        const int MAX_STATICS = 128;
 
         QuadTree parent;
 
