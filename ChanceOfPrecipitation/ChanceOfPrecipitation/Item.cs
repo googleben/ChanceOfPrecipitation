@@ -16,7 +16,7 @@ namespace ChanceOfPrecipitation {
             sb.Draw(texture, (Rectangle) bounds, info.src, Color.White * .75f);
         }
 
-        public abstract void AddedToPlayer(Player p, ref float loc);
+        public abstract void AddedToPlayer(Player p, ref float locX, ref float locY);
 
         public static List<IItemEntity> items;
 
@@ -110,9 +110,10 @@ namespace ChanceOfPrecipitation {
 
         public override void Update(List<GameObject> objects) {}
 
-        public override void AddedToPlayer(Player p, ref float loc) {
-            bounds.x = loc;
-            loc += bounds.width + space;
+        public override void AddedToPlayer(Player p, ref float locX, ref float locY) {
+            bounds.x = locX;
+            bounds.y = locY;
+            locX += bounds.width + space;
             Ability[] abilities = {p.abilityOne, p.abilityTwo, p.abilityThree, p.abilityFour};
             foreach (var a in abilities) {
                 var t = a.GetType();
@@ -129,9 +130,11 @@ namespace ChanceOfPrecipitation {
 
         public override void Update(List<GameObject> objects) {}
 
-        public override void AddedToPlayer(Player p, ref float loc) {
-            bounds.x = loc;
-            loc += bounds.width + space;
+        public override void AddedToPlayer(Player p, ref float locX, ref float locY)
+        {
+            bounds.x = locX;
+            bounds.y = locY;
+            locX += bounds.width + space;
             p.passiveHealingAmount += 5;
         }
     }
@@ -143,9 +146,11 @@ namespace ChanceOfPrecipitation {
 
         public override void Update(List<GameObject> objects) {}
 
-        public override void AddedToPlayer(Player p, ref float loc) {
-            bounds.x = loc;
-            loc += bounds.width + space;
+        public override void AddedToPlayer(Player p, ref float locX, ref float locY)
+        {
+            bounds.x = locX;
+            bounds.y = locY;
+            locX += bounds.width + space;
             Coin.Value += 5;
         }
     }

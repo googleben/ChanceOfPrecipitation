@@ -305,9 +305,17 @@ namespace ChanceOfPrecipitation {
                 texture = new TextureDrawer(name);
         }
 
+        float itemLocY = 620;
+
         public void AddItem(Item i) {
             items.Add(i);
-            i.AddedToPlayer(this, ref itemLoc);
+            i.AddedToPlayer(this, ref itemLoc, ref itemLocY);
+            if (itemLoc < 890 && itemLoc > 390 - 40) itemLoc = 890 + 4;
+            if (itemLoc > 1280 - 40)
+            {
+                itemLoc = 32;
+                itemLocY += 32;
+            }
         }
     }
 }
