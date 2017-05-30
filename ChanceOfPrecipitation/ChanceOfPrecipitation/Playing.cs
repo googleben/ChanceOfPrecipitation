@@ -52,9 +52,12 @@ namespace ChanceOfPrecipitation {
             GenStage();
         }
 
+        Parallax parallax = new Parallax(TextureManager.textures["background"], .1f);
+
         public void Draw(SpriteBatch sb) {
             var b = players[0].bounds;
-            sb.Draw(TextureManager.textures["background"], new Rectangle(0, 0, 1280, 720),  new Rectangle((int)((b.x/worldBounds.width)*2000), (int)((b.y/worldBounds.height)*2000), 1280, 720), Color.White);
+            //sb.Draw(TextureManager.textures["background"], new Rectangle(0, 0, 1280, 720),  new Rectangle((int)((b.x/worldBounds.width)*720), (int)((b.y/worldBounds.height)*720), 1280, 720), Color.White);
+            parallax.Draw(sb, b);
             var x = players[0];
             x.UpdateViewport();
             x.UpdateHealthBar();

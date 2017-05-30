@@ -170,7 +170,7 @@ namespace ChanceOfPrecipitation {
                 next.exits.Remove(e2);
             }
             else {
-                next.Offset(new Exit(0, 0, false).GetOffset(next.exits.First()));
+                next.Offset(new Exit(0, 1, false).GetOffset(next.exits.First()));
             }
             var bottom = next.bounds.Bottom;
             for (int i = (int) next.bounds.x; i < next.bounds.Right; i += 32) {

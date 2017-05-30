@@ -75,6 +75,7 @@
     <Compile Include="Level.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="MoneyDisplay.cs" />
+    <Compile Include="Parallax.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Playing.cs" />
     <Compile Include="Portal.cs" />
