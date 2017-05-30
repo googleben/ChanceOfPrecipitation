@@ -162,12 +162,10 @@ namespace ChanceOfPrecipitation {
             TextureManager.blocks["HUD"] = new TextureInfo("HUD", new Rectangle(0, 0, 500, 132));
 
             TextureManager.textures["abilities"] = Content.Load<Texture2D>("Spritesheets/Abilities");
-            TextureManager.abilities[typeof(BurstFireAbility)] = new TextureInfo("abilities",
-                new Rectangle(0, 0, 92, 92));
-            TextureManager.abilities[typeof(PenetratingAbility)] = new TextureInfo("abilities",
-                new Rectangle(0, 0, 92, 92));
-            TextureManager.abilities[typeof(JumpAbility)] = new TextureInfo("abilities", new Rectangle(0, 0, 92, 92));
-            TextureManager.abilities[typeof(FastFireAbility)] = new TextureInfo("abilities", new Rectangle(0, 0, 92, 92));
+            TextureManager.abilities[typeof(BurstFireAbility)] = new TextureInfo("abilities", new Rectangle(0, 0, 92, 92));
+            TextureManager.abilities[typeof(PenetratingAbility)] = new TextureInfo("abilities", new Rectangle(92, 0, 92, 92));
+            TextureManager.abilities[typeof(JumpAbility)] = new TextureInfo("abilities", new Rectangle(184, 0, 92, 92));
+            TextureManager.abilities[typeof(FastFireAbility)] = new TextureInfo("abilities", new Rectangle(276, 0, 92, 92));
 
             TextureManager.textures["MuzzleFlash"] = Content.Load<Texture2D>("Spritesheets/MuzzleFlash");
 
