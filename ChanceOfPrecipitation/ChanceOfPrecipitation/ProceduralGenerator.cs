@@ -120,7 +120,7 @@ namespace ChanceOfPrecipitation {
                 else if (type == "rope") {
                     scanner.MoveNext();
                     int length = (int) scanner.Current(typeof(int));
-                    blocks.Add(new RopePlacementInfo(x, y, length));
+                    blocks.Add(new RopePlacementInfo(x, y, length-1));
                 }
                 else if (type == "exit") {
                     scanner.MoveNext();

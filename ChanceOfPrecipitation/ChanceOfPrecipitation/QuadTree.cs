@@ -18,7 +18,7 @@ namespace ChanceOfPrecipitation {
 
         QuadTree parent;
 
-        static Texture2D texture;
+        public static Texture2D texture;
 
         public QuadTree(float x, float y, float width, float height, List<ICollider> possibleStatics, QuadTree parent) {
             this.parent = parent;

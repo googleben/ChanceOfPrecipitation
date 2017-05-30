@@ -235,7 +235,7 @@ namespace ChanceOfPrecipitation {
                 float x = left ? origin.Bounds().x : origin.Bounds().Right;
                 float y = origin.Bounds().Center.Y;
                 bool done = false;
-                Func<ICollider, bool> isSolid = (ICollider s) => !(s is Rope) && !(s is RopeSegment) && !(s is ItemShop) && !(s is ItemStand) && !(s is Portal);
+                Func<ICollider, bool> isSolid = (ICollider s) => !(s is Rope) && !(s is RopeSegment) && !(s is ItemShop) && !(s is ItemStand) && !(s is Portal) && (s is Block);
                 while (!done) {
                     RectangleF r = new RectangleF(left ? x - 31 : x, y, 31, 5);
                     x += left ? -31 : 31;

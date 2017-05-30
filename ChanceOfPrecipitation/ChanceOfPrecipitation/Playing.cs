@@ -23,8 +23,8 @@ namespace ChanceOfPrecipitation {
 
         public Vector2 offset = Vector2.Zero;
 
-        public Vector2 spawnRange = new Vector2(1000, 300);
-        public Vector2 noSpawnRange = new Vector2(200, 50);
+        public Vector2 spawnRange = new Vector2(1000, 400);
+        public Vector2 noSpawnRange = new Vector2(300, 100);
         private int ticksToSpawn = 0;
         private int minTicksToSpawn = 360;
         private int ticksToSpawnRange = 120;
@@ -36,6 +36,8 @@ namespace ChanceOfPrecipitation {
         bool update = true;
 
         bool drawQuad = Game1.Instance.settings.drawQuads;
+
+        RectangleF worldBounds;
 
         public Playing() {
             objects = new EventList<GameObject>();
@@ -51,13 +53,20 @@ namespace ChanceOfPrecipitation {
         }
 
         public void Draw(SpriteBatch sb) {
-            sb.Draw(TextureManager.textures["background"], new Rectangle(0, 0, 1280, 720), Color.White);
+            var b = players[0].bounds;
+            sb.Draw(TextureManager.textures["background"], new Rectangle(0, 0, 1280, 720),  new Rectangle((int)((b.x/worldBounds.width)*2000), (int)((b.y/worldBounds.height)*2000), 1280, 720), Color.White);
             var x = players[0];
             x.UpdateViewport();
             x.UpdateHealthBar();
             foreach (var o in objects) if (!(o is Player)) o.Draw(sb);
             foreach (var p in players) if (p.health > 0) p.Draw(sb);
             if (drawQuad) quad.Draw(sb);
+
+            /*//draw spawn ranges
+            sb.Draw(TextureManager.textures["Square"], (Rectangle)(new RectangleF(b.x - spawnRange.X / 2, b.y - spawnRange.Y / 2, spawnRange.X,
+                    spawnRange.Y) + offset), Color.White);
+            sb.Draw(TextureManager.textures["Square"], (Rectangle)(new RectangleF(b.x - noSpawnRange.X / 2, b.y - noSpawnRange.Y / 2,
+                    noSpawnRange.X, noSpawnRange.Y)+offset), Color.Red);*/
         }
 
         void printQuad(QuadTree q) {
@@ -177,7 +186,7 @@ namespace ChanceOfPrecipitation {
             var b = l.Build();
             foreach (var x in b) x.Build(this);
             foreach (var p in players) objects.Add(p);
-            var size = l.Bounds();
+            var size = worldBounds = l.Bounds();
             var len = Math.Max(size.width, size.height)+2000;
             quad = new QuadTree(size.x - (len - size.width) / 2, size.y - (len - size.height) / 2, len, len,
                 objects.OfType<ICollider>().ToList(), null);
