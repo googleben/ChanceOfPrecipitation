@@ -14,11 +14,13 @@ namespace ChanceOfPrecipitation {
 
         public RectangleF bounds;
 
-        const int MAX_STATICS = 256;
+        const int MAX_STATICS = 16;
 
         QuadTree parent;
 
-        public static Texture2D texture;
+        public static Dictionary<int, Texture2D> textures;
+
+        int size;
 
         public QuadTree(float x, float y, float width, float height, List<ICollider> possibleStatics, QuadTree parent) {
             this.parent = parent;
@@ -31,16 +33,19 @@ namespace ChanceOfPrecipitation {
             if (statics.Count > MAX_STATICS) {
                 Partition();
             }
-            if (texture == null) {
-                texture = new Texture2D(Game1.Instance.GraphicsDevice, 1024, 1024);
+            if (textures == null) textures = new Dictionary<int, Texture2D>();
+            size = width > 2048 ? 2048 : (int)width;
+            if (!textures.ContainsKey(size)) {
+                var texture = new Texture2D(Game1.Instance.GraphicsDevice, size, size);
                 List<Color> colors = new List<Color>();
-                for (int i = 0; i < 1024; i++) for (int j = 0; j < 1024; j++) colors.Add(i == 0 || i == 1024 - 1 || j == 0 || j == 1024 - 1 ? Color.Red : Color.Transparent);
+                for (int i = 0; i < size; i++) for (int j = 0; j < size; j++) colors.Add(i == 0 || i == size - 1 || j == 0 || j == size - 1 ? Color.Red : Color.Transparent);
                 texture.SetData<Color>(colors.ToArray());
+                textures[size] = texture;
             }
         }
 
         public void Draw(SpriteBatch sb) {
-            sb.Draw(texture, (Rectangle)(bounds+Playing.Instance.offset), Color.White);
+            sb.Draw(textures[size], (Rectangle)(bounds+Playing.Instance.offset), Color.White);
             if (nodes != null) foreach (var n in nodes) n.Draw(sb);
         }
 

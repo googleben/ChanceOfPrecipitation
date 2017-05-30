@@ -79,3 +79,11 @@ stage1_platform_middle_right 608 256
 exit 320 224 false
 exit 704 224 false
 exit 480 -32 true
+invisibleBlock 512 128
+invisibleBlock 512 160
+invisibleBlock 512 192
+invisibleBlock 512 224
+invisibleBlock 544 224
+invisibleBlock 544 192
+invisibleBlock 544 160
+invisibleBlock 544 128
