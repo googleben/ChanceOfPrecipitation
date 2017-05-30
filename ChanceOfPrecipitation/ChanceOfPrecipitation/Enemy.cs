@@ -183,7 +183,7 @@ namespace ChanceOfPrecipitation {
         // .1 = 10%
         // 1 = 100%
         float ChanceToDropItem() {
-            return 1;
+            return .1f;
         }
 
         public int Value() {

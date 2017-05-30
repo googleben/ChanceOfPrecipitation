@@ -33,7 +33,7 @@ namespace ChanceOfPrecipitation {
         }
 
         public override void Build(Playing instance) {
-            instance.objects.Add(new Block(position.X, position.Y, type));
+            instance.objects.Add(type=="invisibleBlock" ? new InvisibleBlock(position.X, position.Y) : new Block(position.X, position.Y, type));
         }
 
         public override RectangleF Bounds() {

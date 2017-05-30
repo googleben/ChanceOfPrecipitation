@@ -113,9 +113,11 @@ namespace ChanceOfPrecipitation {
         public override void AddedToPlayer(Player p, ref float loc) {
             bounds.x = loc;
             loc += bounds.width + space;
-            Ability[] abilities = {p.abilityOne};
+            Ability[] abilities = {p.abilityOne, p.abilityTwo, p.abilityThree, p.abilityFour};
             foreach (var a in abilities) {
-                if (a is BurstFireAbility) ((BurstFireAbility) a).damage += 10;
+                var t = a.GetType();
+                var field = t.GetField("damage");
+                if (field != null) field.SetValue(a, (int)field.GetValue(a) + 10);
             }
         }
     }

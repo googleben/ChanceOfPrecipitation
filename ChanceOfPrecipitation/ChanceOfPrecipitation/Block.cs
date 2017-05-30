@@ -49,6 +49,16 @@ namespace ChanceOfPrecipitation {
         }
     }
 
+    public class InvisibleBlock : Block {
+
+        public InvisibleBlock(float x, float y) : base(x, y, "invisibleBlock") { }
+
+        public override void Draw(SpriteBatch sb) {
+            //do nothing
+        }
+
+    }
+
     public class Rope : GameObject, ICollider {
         private int length;
         private float x;

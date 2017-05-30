@@ -46,6 +46,7 @@ namespace ChanceOfPrecipitation {
                 if (!resolutions.Contains<Point>(r) && d.AspectRatio == 16f / 9f) resolutions.Add(r);
             }
             resolutions.Sort((a, b) => a.X - b.X);
+            
         }
 
         protected override void LoadContent() {
@@ -171,6 +172,9 @@ namespace ChanceOfPrecipitation {
             TextureManager.textures["MuzzleFlash"] = Content.Load<Texture2D>("Spritesheets/MuzzleFlash");
 
             TextureManager.textures["background"] = Content.Load<Texture2D>("Spritesheets/background");
+
+            TextureManager.textures["invisibleBlock"] = Content.Load<Texture2D>("Tools/InvisibleBlock");
+            TextureManager.blocks["invisibleBlock"] = new TextureInfo("invisibleBlock", new Rectangle(0, 0, 32, 32));
 
             for (var i = 0; i < 26; i++)
                 TextureManager.blocks[Convert.ToChar(i + 97).ToString()] = new TextureInfo("letters",

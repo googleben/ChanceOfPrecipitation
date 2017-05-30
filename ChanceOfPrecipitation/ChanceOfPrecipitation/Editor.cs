@@ -280,7 +280,7 @@ namespace ChanceOfPrecipitation {
             block = new BlockTool(0, 0, 32, 32, "stage1_platform_bottom_right");
             blocks.Add(block);
             tools.Add(block);
-            block = new BlockTool(14, 0, 4, 32, "ropeMid");
+            block = new BlockTool(0, 0, 32, 32, "invisibleBlock");
             blocks.Add(block);
             tools.Add(block);
 
