@@ -25,7 +25,7 @@ namespace ChanceOfPrecipitation {
 
         public Vector2 spawnRange = new Vector2(1000, 400);
         public Vector2 noSpawnRange = new Vector2(300, 100);
-        private int ticksToSpawn = 0;
+        private int ticksToSpawn = 360;
         private int minTicksToSpawn = 360;
         private int ticksToSpawnRange = 120;
 
